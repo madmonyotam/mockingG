@@ -1,14 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const pino = require('express-pino-logger')();
 
 const generator = require('./generator/generator');
 
 const app = express(); 
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(pino);
-
 
 app.get('/api/greeting', function (req, res) {
   const name = req.query.name || 'World';

@@ -3,17 +3,22 @@ const fs = require('fs');
 class Schemes {
     constructor(){
         this.schemes = {};
+    }
 
-       
+    setApp(app){
+        this.app = app;
+        app.use('/mocking_G/write',(req, res)=>{
 
-        fs.writeFile("./schemes/myScheme.json", JSON.stringify({name:'123'}), function(err) {
+            fs.writeFile("./schemes/myScheme.json", JSON.stringify({name:'1ss'}), function(err) {
 
             if(err) {
                 return console.log(err);
             }
         
-            console.log("The file was saved!");
+            res.send('The file was saved!');
         }); 
+
+        })
     }
 
     getScheme(library,category){

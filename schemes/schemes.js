@@ -1,6 +1,19 @@
+const fs = require('fs');
+
 class Schemes {
     constructor(){
         this.schemes = {};
+
+       
+
+        fs.writeFile("./schemes/myScheme.json", JSON.stringify({name:'123'}), function(err) {
+
+            if(err) {
+                return console.log(err);
+            }
+        
+            console.log("The file was saved!");
+        }); 
     }
 
     getScheme(library,category){

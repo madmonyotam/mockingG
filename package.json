@@ -1,0 +1,17 @@
+{
+  "name": "mocking_g_server",
+  "version": "0.1.5",
+  "private": false,
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}

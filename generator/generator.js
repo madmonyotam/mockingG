@@ -1,13 +1,16 @@
 const schemesClass = require('../schemes/schemes');
 const typesClass = require('../types/types');
+
 const nameTypes = require('../types/nameTypes');
 const fixedTypes = require('../types/fixedTypes');
+const webTypes = require('../types/webTypes');
 
 const types = new typesClass();
 const schemes = new schemesClass();
 
 types.addTypes(nameTypes); 
 types.addTypes(fixedTypes); 
+types.addTypes(webTypes); 
 const allTypes = types.getTypes(); 
 
 const generateFromType = (el) => {

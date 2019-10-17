@@ -1,6 +1,6 @@
 {
   "name": "mocking_g_server",
-  "version": "0.1.5",
+  "version": "0.1.1",
   "private": false,
   "scripts": {
     "test": "jest"

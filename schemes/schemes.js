@@ -9,7 +9,7 @@ class Schemes {
         this.app = app;
         app.use('/mocking_G/write',(req, res)=>{
 
-            fs.writeFile("./schemes/myScheme.json", JSON.stringify({name:'1ss'}), function(err) {
+            fs.writeFile("./schemes/myScheme.json", JSON.stringify({name:'222'}), function(err) {
 
             if(err) {
                 return console.log(err);

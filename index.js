@@ -22,4 +22,5 @@ app.get("/mocking_G", function(req, res) {
 app.listen(port);
 
 gen.schemes.setApp(app);
+gen.types.setApp(app);
 module.exports = gen;

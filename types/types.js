@@ -3,6 +3,17 @@ class Types {
         this.types = {};
     }
 
+    setApp(app){
+        this.app = app;
+        app.use('/mocking_G/getTypes',(req, res)=>{
+            res.send(this.getTypes());
+        })
+
+        app.use('/mocking_G/getTypesByGroup',(req, res)=>{
+            res.send(this.getTypesByGroup(req.query.groupName));
+        })
+    }
+
     getTypes(){
        return this.types; 
     }

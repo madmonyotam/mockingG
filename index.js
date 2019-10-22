@@ -1,27 +1,25 @@
-const gen = require('./generator/generator');
-const express = require('express')
-const app = express()
-const { exec } = require('child_process');
-const renderClient = require('./renderClient');
- 
-app.get('/mocking_G', function (req, res) {
-  // res.send('Hello World')
-  const payload = (0, renderClient.renderClient)({});
-  sendResponse(res, 'text/html', payload);
-})
- 
-app.listen(5588);
+const gen = require("./generator/generator");
+const express = require("express");
+const favicon = require("express-favicon");
+const path = require("path");
+const port = process.env.PORT || 5588;
+const app = express();
+
+
+app.use(favicon(__dirname + "build/favicon.ico"));
+// the __dirname is the current directory from where the script is running
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/ping", function(req, res) {
+  return res.send("pong");
+});
+
+app.get("/mocking_G", function(req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+app.listen(port);
 
 gen.schemes.setApp(app);
-
-
-function sendResponse(response, type, data) {
-  const chunk = Buffer.from(data, 'utf8');
-  response.setHeader('Content-Type', type + '; charset=utf-8');
-  response.setHeader('Content-Length', String(chunk.length));
-  response.end(chunk);
-}
-
-
-
 module.exports = gen;

@@ -1,10 +1,12 @@
 const gen = require("./generator/generator");
 const express = require("express");
 const favicon = require("express-favicon");
+var cors = require('cors')
 const path = require("path");
 const port = process.env.PORT || 5588;
 const app = express();
 
+app.use(cors());
 
 app.use(favicon(__dirname + "/build/favicon.ico"));
 // the __dirname is the current directory from where the script is running

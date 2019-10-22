@@ -47,5 +47,17 @@ describe('generate function', () => {
         expect(data[10].gender).toEqual('male'); 
     });
 
+    it('should generate array by scheme', () => { 
+
+        gen.schemes.addScheme('second','test',{name:{type:'firstName',size:10}, gender:{type:'fixedValue',value:'male'}});
+
+        const schemes = gen.schemes.getScheme('second','test');
+        const data = gen.generate(schemes,2);
+
+        expect(data.length).toEqual(2); 
+        expect(Object.keys(data[0])).toEqual(['name','gender']); 
+        expect(data[1].name.length).toEqual(10); 
+    });
+
 
 });

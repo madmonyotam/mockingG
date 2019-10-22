@@ -1,5 +1,5 @@
 const typesClass = require('./types'); 
-const nameTypes = require('./nameTypes'); 
+const nameTypes = require('./collection/nameTypes'); 
 
 
 describe('types getter tests', () => {

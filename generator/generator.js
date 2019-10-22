@@ -1,9 +1,9 @@
 const schemesClass = require('../schemes/schemes');
 const typesClass = require('../types/types');
 
-const nameTypes = require('../types/nameTypes');
-const fixedTypes = require('../types/fixedTypes');
-const webTypes = require('../types/webTypes');
+const nameTypes = require('../types/collection/nameTypes');
+const fixedTypes = require('../types/collection/fixedTypes');
+const webTypes = require('../types/collection/webTypes');
 
 const types = new typesClass();
 const schemes = new schemesClass();
@@ -15,7 +15,17 @@ const allTypes = types.getTypes();
 
 const generateFromType = (el) => {
   if (!allTypes[el.type]) throw Error("type does not exist in types");
-  return allTypes[el.type].generate(el);
+  const generateFunc = allTypes[el.type].generate;
+
+  if(el.size){
+    let array = [];
+    for (let i = 0; i < el.size; i++) {
+      array.push(generateFunc(el));    
+    }
+    return array;
+  }
+
+  return generateFunc(el);
 };
 
 const modelator = scheme => {
@@ -25,7 +35,7 @@ const modelator = scheme => {
     const el = scheme[field];
     newData[field] = generateFromType(el);
   }
-
+  
   return newData;
 };
 

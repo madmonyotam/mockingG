@@ -1,18 +1,25 @@
 import React from "react";
-import "./App.css";
-const axios = require("axios");
+import { get } from "./plugins/requests";
+import {useRoot} from 'baobab-react/hooks';
 
-axios
-  .get("http://localhost:5588/mocking_G/getTypes")
-  .then(function(response) {
-    console.log(response.data);
-  });
+import Main from "./Views/Main";
 
-function App() {
+// get('/getTypes').then((res)=>{
+//   console.log(res.data)
+// });
+
+// get('/getScheme',{library:'first',category:'test'}).then((res)=>{
+//   console.log(res.data)
+// });
+
+function App({tree}) {
+
+  const Root = useRoot(tree);
+
   return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
+    <Root>
+      <Main/>
+    </Root>
   );
 }
 

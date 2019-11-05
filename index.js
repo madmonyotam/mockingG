@@ -22,6 +22,7 @@ app.get("/mocking_G", function(req, res) {
 });
 
 app.listen(port);
+console.log(`running on port ${port}`);
 
 gen.schemes.setApp(app);
 gen.types.setApp(app);

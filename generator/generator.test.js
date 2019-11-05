@@ -37,9 +37,9 @@ describe('generate function', () => {
 
     it('should generate by scheme', () => { 
 
-        gen.schemes.addScheme('first','test',{name:{type:'firstName'}, gender:{type:'fixedValue',value:'male'}});
+        gen.schemes.addScheme('myFirst','test',{name:{type:'firstName'}, gender:{type:'fixedValue',value:'male'}});
 
-        const schemes = gen.schemes.getScheme('first','test');
+        const schemes = gen.schemes.getScheme('myFirst','test');
         const data = gen.generate(schemes,30);
 
         expect(data.length).toEqual(30); 

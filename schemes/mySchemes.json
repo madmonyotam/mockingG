@@ -4,5 +4,11 @@
             "name": "firstName",
             "age": "number"
         }
+    },
+    "second":{
+        "mest": {
+            "name": "firstName",
+            "age": "number"
+        }
     }
 }

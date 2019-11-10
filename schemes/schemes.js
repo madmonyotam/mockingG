@@ -23,6 +23,16 @@ class Schemes {
             res.send(this.getAllLibraries());
         })
 
+        app.get('/mocking_G/getCategoriesFromLibrary',(req, res)=>{
+            const { query } = req;
+            const { library } = query;
+            if(!library){
+                res.status(400).send('missing library in query');
+            }
+
+            res.send(this.getCategoriesFromLibrary(library));
+        })
+
         app.get('/mocking_G/getScheme',(req, res)=>{
             const { query } = req;
             const { library, category } = query;

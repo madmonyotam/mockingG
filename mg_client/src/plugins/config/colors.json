@@ -1,0 +1,23 @@
+{
+    "colors": {
+        "black": "#000000",
+        "white": "#ffffff",
+        "blue01": "#39536f",
+        "gray01": "#ababab",
+        "cream01": "#fffdd0"
+    },
+    "backgrounds": {
+        "primary": "colors.blue01"
+    },
+    "texts":{
+        "primary": "colors.cream01"
+    },
+    "bottomNavBar": {
+        "active": "colors.blue01",
+        "inactive": "colors.gray01"
+    },
+    "header": {
+        "bg": "backgrounds.primary",
+        "fg": "texts.primary"
+    }
+}

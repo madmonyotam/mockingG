@@ -1,0 +1,43 @@
+{
+    "icons": {
+        "share": {
+            "type": "ionicon",
+            "name": "ios-share-alt"
+        },
+        "camera": {
+            "type": "ionicon",
+            "name": "md-camera"
+        },
+        "microphone": {
+            "type": "ionicon",
+            "name": "md-microphone"
+        },
+        "home": {
+            "type": "ionicon",
+            "name": "ios-home"
+        },
+        "paper": {
+            "type": "ionicon",
+            "name": "ios-paper"
+        },
+        "search": {
+            "type": "ionicon",
+            "name": "ios-search"
+        },
+        "add_circle": {
+            "type": "ionicon",
+            "name": "md-add-circle"
+        }
+    },
+    "addView": {
+        "share": "icons.share",
+        "camera": "icons.camera",
+        "microphone": "icons.microphone"
+    },
+    "bottomNavBar": {
+        "home": "icons.home",
+        "news": "icons.paper",
+        "search": "icons.search",
+        "add": "icons.add_circle"
+    }
+}

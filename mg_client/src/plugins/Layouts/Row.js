@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from "prop-types";
+import { color } from "../access";
 
 const Row = styled.div`   
   min-height: 50px;
@@ -10,13 +11,13 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  cursor:  ${(props) => (props.menuItem ? 'pointer' : 'inherit')};
+  cursor:  ${(props) => (props.menuItem && 'pointer')};
   box-shadow: 0px 1px 4px 0px ${props => props.shadowColor ||  'rgb(93, 107, 140)'};
   :hover {
-    background: ${(props) => (props.menuItem ? '#6693b8' : 'inherit')};
+    background: ${(props) => (props.menuItem && color('backgrounds.hover'))};
   }
   :active {
-    background: ${(props) => (props.menuItem ? '#4e79b9' : 'inherit')};
+    background: ${(props) => (props.menuItem && color('backgrounds.active'))};
   }
 `
 

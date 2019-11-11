@@ -3,20 +3,21 @@
         "black": "#000000",
         "white": "#ffffff",
         "blue01": "#39536f",
-        "gray01": "#ababab",
-        "cream01": "#fffdd0"
+        "blue02": "#496a8cfc",
+        "blue03": "#5980a9fc",
+        "gray01": "#ababab"
     },
     "backgrounds": {
-        "primary": "colors.blue01"
+        "primary": "colors.blue01",
+        "secondary": "colors.white",
+        "active": "colors.blue02",
+        "hover": "colors.blue03"
     },
     "texts":{
-        "primary": "colors.cream01"
+        "primary": "colors.white",
+        "secondary": "colors.black"
     },
-    "bottomNavBar": {
-        "active": "colors.blue01",
-        "inactive": "colors.gray01"
-    },
-    "header": {
+    "searchBar": {
         "bg": "backgrounds.primary",
         "fg": "texts.primary"
     }

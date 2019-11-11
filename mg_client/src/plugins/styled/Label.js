@@ -8,6 +8,7 @@ const Label = styled.div`
   width: ${props => props.width || 'fit-content'};
   color: ${props => props.color || 'inherit'};
   font-size: ${props => props.fontSize || 'inherit'};
+  font-weight:  ${props => props.weight || '400'};
 `
 
 export default Label;

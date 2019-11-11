@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useBranch } from "baobab-react/hooks";
 
+import * as access from "../plugins/access";
+
 import Column from "../plugins/Layouts/Column";
 import Row from "../plugins/Layouts/Row";
 import Label from "../plugins/styled/Label";
 
+import SearchBar from "../components/SearchBar";
+
 import * as libsActions from "../tree/actions/libs";
+import * as catsActions from "../tree/actions/cats";
 import { get } from "../plugins/requests";
 
 function LeftPanel() {
   const { libs, dispatch } = useBranch({ libs: ["libs"] });
-  const [navContext, setNavContext] = useState("libs");
+  const { cats } = useBranch({ cats: ["cats"] });
+  const { focus } = useBranch({ focus: ["focus"] });
+
+  const [nested, setNested] = useState(false);
 
   useEffect(() => {
     get("/getAllLibraries").then(res => {
@@ -18,27 +26,51 @@ function LeftPanel() {
     });
   }, []);
 
-  const NavBar = () => {
-    return <Row>nav Bar</Row>;
+  const getCategoriesFromLibrary = lib => {
+    get("/getCategoriesFromLibrary", { library: lib }).then(res => {
+      dispatch(catsActions.setCats, res.data);
+      dispatch(libsActions.setLibToFocus, lib);
+      
+      setNested(true);
+    });
   };
 
-  const getCategoriesFromLibrary = (lib)=>{
-      get("/getCategoriesFromLibrary",{library:lib}).then(res => {
-        console.log(res.data)
-      });
+  const handleOnRowClick = (label)=>{
+    if(!focus.lib){
+      getCategoriesFromLibrary(label);
+      return;
+    }
+
+    dispatch(catsActions.setCatToFocus, label);
   }
 
   const RenderList = () => {
-    return libs.map(lib => (
-      <Row key={lib} menuItem={true} onClick={()=>{ getCategoriesFromLibrary(lib) }}>
-        <Label>{lib}</Label>
+    let listOf = !focus.lib ? libs : cats;
+
+    return listOf.map(label => (
+      <Row
+        key={label}
+        menuItem={true}
+        onClick={() => { handleOnRowClick(label) }}
+      >
+        <Label>{label}</Label>
       </Row>
     ));
   };
 
+  const handleBack = () => {
+    dispatch(libsActions.setLibToFocus, null);
+    setNested(false);
+  }
+
+  const getLabel = () => {
+    if(focus.lib) return focus.lib;
+    return access.translate('libraries');
+  }
+
   return (
     <Column flex={0.15}>
-      <NavBar />
+      <SearchBar label={getLabel()} nested={nested} onBack={handleBack} />
       <RenderList />
     </Column>
   );

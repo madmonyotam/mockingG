@@ -58,3 +58,7 @@ export const icon = (path, getType = false) => {
     return code[typeOrName];
 };
 
+export const translate = (value) => {
+    return value;
+}
+

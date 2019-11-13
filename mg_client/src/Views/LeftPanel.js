@@ -4,10 +4,9 @@ import { useBranch } from "baobab-react/hooks";
 import * as access from "../plugins/access";
 
 import Column from "../plugins/Layouts/Column";
-import Row from "../plugins/Layouts/Row";
-import Label from "../plugins/styled/Label";
 
 import SearchBar from "../components/SearchBar";
+import ListItem from "../components/ListItem";
 
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
@@ -28,45 +27,54 @@ function LeftPanel() {
 
   const getCategoriesFromLibrary = lib => {
     get("/getCategoriesFromLibrary", { library: lib }).then(res => {
+
       dispatch(catsActions.setCats, res.data);
-      dispatch(libsActions.setLibToFocus, lib);
-      
       setNested(true);
+      setTimeout(() => { dispatch(libsActions.setLibToFocus, lib); });
+
     });
   };
 
-  const handleOnRowClick = (label)=>{
-    if(!focus.lib){
-      getCategoriesFromLibrary(label);
-      return;
-    }
+  const handleClickOnLib = label => {
+    getCategoriesFromLibrary(label);
+  };
 
+  const handleClickOnCat = label => {
     dispatch(catsActions.setCatToFocus, label);
-  }
+  };
 
   const RenderList = () => {
-    let listOf = !focus.lib ? libs : cats;
+    let listOf = !focus.lib ? "libs" : "cats";
 
-    return listOf.map(label => (
-      <Row
-        key={label}
-        menuItem={true}
-        onClick={() => { handleOnRowClick(label) }}
-      >
-        <Label>{label}</Label>
-      </Row>
-    ));
+    switch (listOf) {
+      case "libs":
+        return libs.map(label => (
+          <ListItem
+            key={label}
+            label={label}
+            handleOnRowClick={handleClickOnLib}
+          />
+        ));
+      case "cats":
+        return cats.map(label => (
+          <ListItem
+            key={label}
+            label={label}
+            handleOnRowClick={handleClickOnCat}
+          />
+        ));
+    }
   };
 
   const handleBack = () => {
     dispatch(libsActions.setLibToFocus, null);
     setNested(false);
-  }
+  };
 
   const getLabel = () => {
-    if(focus.lib) return focus.lib;
-    return access.translate('libraries');
-  }
+    if (focus.lib) return focus.lib;
+    return access.translate("libraries");
+  };
 
   return (
     <Column flex={0.15}>

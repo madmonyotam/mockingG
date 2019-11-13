@@ -7,8 +7,8 @@ function get(collection, path) {
     
     let value = collection;
     
-    if (typeof path ===  'string') {
-        path = path.split(/[\.,\/]/);
+    if (typeof path === 'string') {
+        path = path.split(/[.,]/);
     }
     
     for (let i = 0; i < path.length; i++) {

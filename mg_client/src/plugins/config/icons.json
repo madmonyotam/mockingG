@@ -3,9 +3,21 @@
         "back": {
             "type": null,
             "name": "keyboard_arrow_left"
+        },
+        "remove": {
+            "type": null,
+            "name": "delete_outline"
+        },
+        "edit": {
+            "type": null,
+            "name": "edit"
         }
     },
     "searchBar": {
         "back": "icons.back"
+    },
+    "listItem": {
+        "remove": "icons.remove",
+        "edit": "icons.edit"
     }
 }

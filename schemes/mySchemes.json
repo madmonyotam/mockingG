@@ -10,5 +10,11 @@
             "name": "firstName",
             "age": "number"
         }
+    },
+    "gav-nadav":{
+        "boo": {
+            "name": "firstName",
+            "age": "number"
+        }
     }
 }

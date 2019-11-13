@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import PropTypes from "prop-types";
 import { color } from "../access";
 
-const Row = styled.div`   
+const Row = styled.div`  
+  position: relative; 
   min-height: 50px;
   height: ${props => props.height || '50px'};
   width: ${props => props.width || '100%'};
@@ -15,9 +16,11 @@ const Row = styled.div`
   box-shadow: 0px 1px 4px 0px ${props => props.shadowColor ||  'rgb(93, 107, 140)'};
   :hover {
     background: ${(props) => (props.menuItem && color('backgrounds.hover'))};
+    color: ${(props) => (props.menuItem && color('texts.primary'))};
   }
   :active {
     background: ${(props) => (props.menuItem && color('backgrounds.active'))};
+    color: ${(props) => (props.menuItem && color('texts.primary'))};
   }
 `
 

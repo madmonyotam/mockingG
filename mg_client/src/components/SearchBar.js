@@ -11,13 +11,12 @@ const useStyles = makeStyles(theme => ({
   btn: {
     marginLeft: 10,
     marginTop: 2,
-    color: 'white'
+    color: access.color("searchBar.fg")
   }
 }));
 
 function SearchBar({ label, nested, onBack }) {
   const classes = useStyles();
-  
   
   const renderBack = ()=>{
     if(!nested) return;

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 const Mask = styled.div`
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: ${props => props.top || 0};
+  bottom: ${props => props.bottom || 0};
+  left: ${props => props.left || 0};
+  right: ${props => props.right || 0};
   opacity: ${props => props.opacity};
   background: ${props => props.mask};
 `;

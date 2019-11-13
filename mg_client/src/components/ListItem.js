@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import * as access from "../plugins/access";
 
 import Row from "../plugins/Layouts/Row";
-import Label from "../plugins/styled/Label";
+import Label from "../plugins/tools/Label";
 import { SpaceAround } from "../plugins/Layouts/Spaces";
 
 const Srow = styled(Row)`
@@ -21,17 +21,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ListItem({ label, handleOnRowClick, handleRemove, handleEdit }) {
+function ListItem({ label, handleRowClick, handleRemove, handleEdit }) {
   const classes = useStyles();
 
   const handleRemoveClick = (e)=>{
     e.stopPropagation();
-
+    handleRemove(label);
   }
 
   const handleEditClick = (e)=>{
     e.stopPropagation();
-
+    handleEdit(label);
   }
 
   const renderRemove = () => {
@@ -64,7 +64,7 @@ function ListItem({ label, handleOnRowClick, handleRemove, handleEdit }) {
       key={label}
       menuItem={true}
       onClick={() => {
-        handleOnRowClick(label);
+        handleRowClick(label);
       }}
     >
       <Label>{label}</Label>

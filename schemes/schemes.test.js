@@ -24,4 +24,35 @@ describe('types getter tests', () => {
         expect(libKeys).toContain('second'); 
     });
 
+    it('should get categories keys', () => {    
+        const catKeys = schemes.getCategoriesFromLibrary('myFirst');
+        expect(catKeys).toContain('test'); 
+        expect(catKeys).toContain('test2'); 
+    });
+
+    it('should remove this library', () => {    
+        schemes.removeLibrary('second');
+        expect(Object.keys(schemes.schemes)).not.toContain('second'); 
+    });
+
+    it('should remove this category', () => {    
+        schemes.removeScheme('myFirst','test2');
+        const categories = schemes.getCategoriesFromLibrary('myFirst');
+        expect(Object.keys(categories)).not.toContain('test2'); 
+    });
+
+    it('should add library', () => {    
+        schemes.addLibrary('newLib');
+        const libKeys = schemes.getAllLibraries();
+        expect(libKeys).toContain('newLib'); 
+    });
+
+    it('should add category', () => {    
+        schemes.addCategory('newLib','newCat');
+        const libKeys = schemes.getCategoriesFromLibrary('newLib');
+        expect(libKeys).toContain('newCat'); 
+    });
+
+    
+
 });

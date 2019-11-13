@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 
-import Mask from "../plugins/styled/Mask";
+import Mask from "../plugins/tools/Mask";
 import LeftPanel from "./LeftPanel";
 
 function Main() {

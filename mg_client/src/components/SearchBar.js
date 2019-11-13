@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as access from "../plugins/access";
 
 import Row from "../plugins/Layouts/Row";
-import Label from "../plugins/styled/Label";
+import Label from "../plugins/tools/Label";
 
 const useStyles = makeStyles(theme => ({
   btn: {

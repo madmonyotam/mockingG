@@ -11,6 +11,10 @@
         "edit": {
             "type": null,
             "name": "edit"
+        },
+        "add": {
+            "type": null,
+            "name": "add"
         }
     },
     "searchBar": {
@@ -19,5 +23,8 @@
     "listItem": {
         "remove": "icons.remove",
         "edit": "icons.edit"
+    },
+    "leftPanel": {
+       "add": "icons.add"
     }
 }

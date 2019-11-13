@@ -7,6 +7,7 @@ import Column from "../plugins/Layouts/Column";
 
 import SearchBar from "../components/SearchBar";
 import ListItem from "../components/ListItem";
+import AddRow from "../components/AddRow";
 
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
@@ -43,6 +44,22 @@ function LeftPanel() {
     dispatch(catsActions.setCatToFocus, label);
   };
 
+  const handleRemoveLib = label => {
+    dispatch(libsActions.removeLib, label);
+  }
+
+  const handleRemoveCat = label => {
+    dispatch(catsActions.removeCategory, label);
+  }
+
+  const handleEditLib = label => {
+
+  }
+
+  const handleEditCat = label => {
+    
+  }
+
   const RenderList = () => {
     let listOf = !focus.lib ? "libs" : "cats";
 
@@ -52,7 +69,9 @@ function LeftPanel() {
           <ListItem
             key={label}
             label={label}
-            handleOnRowClick={handleClickOnLib}
+            handleRowClick={handleClickOnLib}
+            handleRemove={handleRemoveLib}
+            handleEdit={handleEditLib}
           />
         ));
       case "cats":
@@ -60,11 +79,24 @@ function LeftPanel() {
           <ListItem
             key={label}
             label={label}
-            handleOnRowClick={handleClickOnCat}
+            handleRowClick={handleClickOnCat}
+            handleRemove={handleRemoveCat}
+            handleEdit={handleEditCat}
           />
         ));
     }
   };
+
+  const RenderAddRow = () => {
+    let addTo = !focus.lib ? "libs" : "cats";
+
+    switch (addTo) {
+      case "libs":
+          return <AddRow label={access.translate("Add Library")}/>
+      case "cats":
+          return <AddRow label={access.translate("Add Category")}/>
+    }
+  }
 
   const handleBack = () => {
     dispatch(libsActions.setLibToFocus, null);
@@ -79,6 +111,7 @@ function LeftPanel() {
   return (
     <Column flex={0.15}>
       <SearchBar label={getLabel()} nested={nested} onBack={handleBack} />
+      <RenderAddRow/>
       <RenderList />
     </Column>
   );

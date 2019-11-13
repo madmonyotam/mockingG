@@ -1,110 +1,149 @@
-const fs = require('fs');
-const mySchemes = require('./mySchemes.json');
+const fs = require("fs");
+const mySchemes = require("./mySchemes.json");
 
 class Schemes {
-    constructor(){
-        this.schemes = mySchemes;
+  constructor() {
+    this.schemes = mySchemes;
+  }
+
+  setApp(app) {
+    this.app = app;
+    app.use("/mocking_G/write", (req, res) => {
+      this.writeSchemesToFile(err => {
+        if (err) {
+          res.status(400).send("check your data");
+        }
+
+        res.send("The file was saved!");
+      });
+    });
+
+    app.get("/mocking_G/getAllLibraries", (req, res) => {
+      res.send(this.getAllLibraries());
+    });
+
+    app.get("/mocking_G/getCategoriesFromLibrary", (req, res) => {
+      const { query } = req;
+      const { library } = query;
+      if (!library) {
+        res.status(400).send("missing library in query");
+      }
+
+      res.send(this.getCategoriesFromLibrary(library));
+    });
+
+    app.get("/mocking_G/getScheme", (req, res) => {
+      const { query } = req;
+      const { library, category } = query;
+      if (!library || !category) {
+        res.status(400).send("missing library or category in query");
+      }
+
+      res.send(this.getScheme(library, category));
+    });
+
+    app.get("/mocking_G/removeLibrary", (req, res) => {
+      const { query } = req;
+      const { library } = query;
+
+      if (!library) {
+        res.status(400).send("missing library name");
+      }
+
+      this.removeLibrary(library);
+      res.send(this.getAllLibraries());
+    });
+
+    app.get("/mocking_G/removeCategory", (req, res) => {
+      const { query } = req;
+      const { library, category } = query;
+
+      if (!library || !category) {
+        res.status(400).send("missing library or category name");
+      }
+
+      this.removeScheme(library, category);
+      res.send(this.getCategoriesFromLibrary(library));
+    });
+  }
+
+  writeSchemesToFile(cb = () => {}) {
+    fs.writeFile(
+      "./schemes/mySchemes.json",
+      JSON.stringify(this.schemes),
+      function(err) {
+        cb(err);
+      }
+    );
+  }
+
+  getScheme(library, category) {
+    if (!this.schemes[library]) return undefined;
+    return this.schemes[library][category];
+  }
+
+  getAllLibraries() {
+    return Object.keys(this.schemes);
+  }
+
+  getCategoriesFromLibrary(library) {
+    if (!this.schemes[library]) return undefined;
+    return Object.keys(this.schemes[library]);
+  }
+
+  addScheme(library, category, scheme) {
+    if (!this.schemes[library]) this.schemes[library] = {};
+
+    if (this.schemes[library][category]) throw Error("scheme all ready exist");
+    this.schemes[library][category] = scheme;
+  }
+
+  addToScheme(library, category, field) {
+    if (!this.schemes[library]) throw Error("library does not exist");
+    if (!this.schemes[library][category])
+      throw Error(`category does not exist on library ${library}`);
+
+    this.schemes[library][category] = {
+      ...this.schemes[library][category],
+      field
+    };
+  }
+
+  removeFromScheme(library, category, field) {
+    if (!this.schemes[library]) throw Error("library does not exist");
+    if (!this.schemes[library][category])
+      throw Error(`category does not exist on library ${library}`);
+
+    delete this.schemes[library][category][field];
+  }
+
+  replaceScheme(scheme) {
+    this.schemes[library][category] = scheme;
+  }
+
+  removeScheme(library, category) {
+    delete this.schemes[library][category];
+  }
+
+  addCategory(library, category) {
+    if (!this.schemes[library]) throw Error("library does not exist");
+    this.schemes[library][category] = {};
+  }
+
+  removeLibrary(library) {
+    delete this.schemes[library];
+  }
+
+  addLibrary(name) {
+    if (this.schemes[name]) {
+      throw Error(` library ${library} all ready exist`);
     }
+    this.schemes[name] = {};
+  }
 
-    setApp(app){
-        this.app = app;
-        app.use('/mocking_G/write',(req, res)=>{
+  editCategory(library, oldName, newName) {}
 
-            fs.writeFile("./schemes/mySchemes.json", JSON.stringify({name:'222'}), function(err) {
-
-            if(err) { return console.log(err); }
-        
-            res.send('The file was saved!');
-        }); 
-
-        })
-
-        app.get('/mocking_G/getAllLibraries',(req, res)=>{
-            res.send(this.getAllLibraries());
-        })
-
-        app.get('/mocking_G/getCategoriesFromLibrary',(req, res)=>{
-            const { query } = req;
-            const { library } = query;
-            if(!library){
-                res.status(400).send('missing library in query');
-            }
-
-            res.send(this.getCategoriesFromLibrary(library));
-        })
-
-        app.get('/mocking_G/getScheme',(req, res)=>{
-            const { query } = req;
-            const { library, category } = query;
-            if(!library || !category){
-                res.status(400).send('missing library or category in query');
-            }
-
-            res.send(this.getScheme(library,category));
-        })
-
-        // app.get('/mocking_G/getCategoriesFromLibrary',(req, res)=>{
-        //     res.send(this.getCategoriesFromLibrary(req.library));
-        // })
-
-        // app.get('/mocking_G/getAllLibraries',(req, res)=>{
-        //     res.send(this.getAllLibraries());
-        // })
-
-        // app.get('/mocking_G/getAllLibraries',(req, res)=>{
-        //     res.send(this.getAllLibraries());
-        // })
-    }
-
-    getScheme(library,category){
-        if(!this.schemes[library]) return undefined;
-        return this.schemes[library][category];
-    }
-    
-    getAllLibraries(){
-        return Object.keys(this.schemes);
-    }
-
-    getCategoriesFromLibrary(library){
-        if(!this.schemes[library]) return undefined;
-        return Object.keys(this.schemes[library]);
-    }
-
-    addScheme(library,category,scheme){
-        if(!this.schemes[library]) this.schemes[library] = {};
-
-        if(this.schemes[library][category]) throw Error('scheme all ready exist');
-        this.schemes[library][category] = scheme;
-    }
-
-    addToScheme(library,category,field){
-        if(!this.schemes[library]) throw Error('library does not exist');
-        if(!this.schemes[library][category]) throw Error(`category does not exist on library ${library}`);
-
-        this.schemes[library][category] = {...this.schemes[library][category], field} 
-    }
-
-    removeFromScheme(library,category,field){
-        if(!this.schemes[library]) throw Error('library does not exist');
-        if(!this.schemes[library][category]) throw Error(`category does not exist on library ${library}`);
-
-        delete this.schemes[library][category][field];
-    }
-
-    replaceScheme(){
-        this.schemes[library][category] = scheme;
-    }
-
-
-    removeScheme(library,category){
-        delete this.schemes[library][category];
-    }
-
-
-    removeLibrary(library){
-        delete this.schemes[library];
-    }
-
+  editLibrary(oldName, newName) {}
 }
 
 module.exports = Schemes;

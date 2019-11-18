@@ -5,6 +5,7 @@
         "blue01": "#39536f",
         "blue02": "#496a8c",
         "blue03": "#5980a9",
+        "blueLight01": "#bfd6ef",
         "grey01": "#808080"
     },
     "materialUI": {
@@ -13,17 +14,23 @@
     },
     "backgrounds": {
         "primary": "colors.blue01",
-        "secondary": "colors.white",
+        "secondary": "colors.blueLight01",
         "active": "colors.blue02",
         "hover": "colors.blue03"
     },
     "texts":{
         "primary": "colors.white",
-        "secondary": "colors.black",
+        "secondary": "colors.blue01",
         "placeholder": "colors.grey01"
     },
     "searchBar": {
         "bg": "backgrounds.primary",
         "fg": "texts.primary"
+    },
+    "canvases": {
+        "bg":  "backgrounds.secondary",
+        "fg":  "texts.secondary",
+        "packBgStart": "backgrounds.primary",
+        "packBgEnd": "backgrounds.hover"
     }
 }

@@ -6,7 +6,8 @@ const tree = new Baobab({
   focus: {
     lib: null,
     cat: null
-  }
+  },
+  selected: null
 });
 
 window.tree = tree;

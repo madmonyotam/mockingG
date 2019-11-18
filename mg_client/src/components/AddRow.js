@@ -1,72 +1,81 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Icon, TextField } from "@material-ui/core";
+import { Icon, IconButton, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import * as access from "../plugins/access";
 
 import Row from "../plugins/Layouts/Row";
-import Label from "../plugins/tools/Label";
 
-import * as libsActions from "../tree/actions/libs";
-import * as catsActions from "../tree/actions/cats";
+let open = false;
 
 const useStyles = makeStyles(theme => ({
   btn: {
-    color: access.color("texts.placeholder"),
-    paddingLeft: 15,
+    color: access.color("texts.secondary"),
+    padding: 5,
     fontSize: 20
   }
 }));
 
 function AddRow({ label, handleAdd }) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
-  const openAdd = () => {
-    setOpen(true);
+  useEffect(() => {
+    open = false;
+  }, []);
+
+  const handleOnKeyPrass = e => {
+    if (!value) return;
+    switch (e.key) {
+      case "Escape":
+        setValue("");
+        break;
+      case "Enter":
+        add();
+        break;
+      default:
+        break;
+    }
   };
 
-  const renderPlaceholder = () => {
-    if (open) return null;
+  const add = () => {
+    handleAdd(value);
+    setValue("");
+  };
+
+  const renderAddBtn = () => {
+    if (!value) return null;
 
     return (
-      <Fragment>
+      <IconButton size="small" onClick={add}>
         <Icon className={classes.btn}>{access.icon("leftPanel.add")}</Icon>
-        <Label color={access.color("texts.placeholder")}>{label}</Label>
-      </Fragment>
+      </IconButton>
     );
   };
 
   const renderInput = () => {
-    // if (!open) return null;
-
     const handleChange = e => {
-      console.log(e.target.value);
-      setValue(e.target.value);
+      if (!open) open = true;
+      setValue(e.target.value.trimStart());
     };
-
-    const inputLabelProps={
-        color: 'secondary'
-    }
 
     return (
       <TextField
-        InputLabelProps={inputLabelProps}
+        autoFocus={open}
         fullWidth={true}
         value={value}
         onChange={handleChange}
         label={label}
-        variant={'filled'}
+        variant={"filled"}
       />
     );
   };
 
   return (
-    <Row style={{ cursor: "pointer" }} onClick={openAdd}>
-      {/* {renderPlaceholder()} */}
+    <Row style={{ cursor: "pointer" }} onKeyUp={handleOnKeyPrass}>
       {renderInput()}
+      {renderAddBtn()}
     </Row>
   );
 }

@@ -1,0 +1,23 @@
+.node {
+    pointer-events: all;
+}
+
+.text {
+    paint-order: stroke;
+    stroke: #cedae6;
+    stroke-width: 0.6px;
+    stroke-linecap: round;
+    stroke-linejoin: bevel;
+    font-weight: 600;
+    fill: "#1c4067";
+}
+
+.light-text {
+    paint-order: stroke;
+    stroke: #000000;
+    stroke-width: 0.6px;
+    stroke-linecap: round;
+    stroke-linejoin: bevel;
+    font-weight: 300;
+    fill: white;
+}

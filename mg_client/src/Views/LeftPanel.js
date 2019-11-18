@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useBranch } from "baobab-react/hooks";
 
 import * as access from "../plugins/access";
+import * as packUtils from "../plugins/canvases/utils/packUtils";
 
 import Column from "../plugins/Layouts/Column";
 
@@ -18,8 +19,6 @@ function LeftPanel() {
   const { cats } = useBranch({ cats: ["cats"] });
   const { focus } = useBranch({ focus: ["focus"] });
 
-  const [nested, setNested] = useState(false);
-
   useEffect(() => {
     get("/getAllLibraries").then(res => {
       dispatch(libsActions.setLibs, res.data);
@@ -28,40 +27,37 @@ function LeftPanel() {
 
   const getCategoriesFromLibrary = lib => {
     get("/getCategoriesFromLibrary", { library: lib }).then(res => {
-
       dispatch(catsActions.setCats, res.data);
-      setNested(true);
-      setTimeout(() => { dispatch(libsActions.setLibToFocus, lib); });
-
+      setTimeout(() => {
+        dispatch(libsActions.setLibToFocus, lib);
+      });
     });
   };
 
-  const handleClickOnLib = label => {
-    getCategoriesFromLibrary(label);
-  };
-
-  const handleClickOnCat = label => {
-    dispatch(catsActions.setCatToFocus, label);
-  };
-
-  const handleRemoveLib = label => {
-    dispatch(libsActions.removeLib, label);
-  }
-
-  const handleRemoveCat = label => {
-    dispatch(catsActions.removeCategory, label);
-  }
-
-  const handleEditLib = label => {
-
-  }
-
-  const handleEditCat = label => {
-    
-  }
-
   const RenderList = () => {
     let listOf = !focus.lib ? "libs" : "cats";
+
+    const handleClickOnLib = label => {
+      getCategoriesFromLibrary(label);
+      packUtils.onLibrarySelected(label);
+    };
+
+    const handleClickOnCat = label => {
+      dispatch(catsActions.setCatToFocus, label);
+      dispatch(catsActions.setSelected, label);
+    };
+
+    const handleRemoveLib = label => {
+      dispatch(libsActions.removeLib, label);
+    };
+
+    const handleRemoveCat = label => {
+      dispatch(catsActions.removeCategory, label);
+    };
+
+    const handleEditLib = label => {};
+
+    const handleEditCat = label => {};
 
     switch (listOf) {
       case "libs":
@@ -78,29 +74,54 @@ function LeftPanel() {
         return cats.map(label => (
           <ListItem
             key={label}
+            parent={focus.lib}
             label={label}
             handleRowClick={handleClickOnCat}
             handleRemove={handleRemoveCat}
             handleEdit={handleEditCat}
           />
         ));
+      default:
+        return;
     }
   };
 
   const RenderAddRow = () => {
     let addTo = !focus.lib ? "libs" : "cats";
 
+    const handleAddLib = value => {
+      value = value.trim();
+      dispatch(libsActions.addLib, value);
+    };
+
+    const handleAddCat = value => {
+      value = value.trim();
+      dispatch(catsActions.addCategory, value);
+    };
+
     switch (addTo) {
       case "libs":
-          return <AddRow label={access.translate("Add Library")}/>
+        return (
+          <AddRow
+            label={access.translate("Add Library")}
+            handleAdd={handleAddLib}
+          />
+        );
       case "cats":
-          return <AddRow label={access.translate("Add Category")}/>
+        return (
+          <AddRow
+            label={access.translate("Add Category")}
+            handleAdd={handleAddCat}
+          />
+        );
+      default:
+        return;
     }
-  }
+  };
 
   const handleBack = () => {
+    packUtils.onBack();
     dispatch(libsActions.setLibToFocus, null);
-    setNested(false);
   };
 
   const getLabel = () => {
@@ -110,8 +131,8 @@ function LeftPanel() {
 
   return (
     <Column flex={0.15}>
-      <SearchBar label={getLabel()} nested={nested} onBack={handleBack} />
-      <RenderAddRow/>
+      <SearchBar label={getLabel()} nested={focus.lib} onBack={handleBack} />
+      <RenderAddRow />
       <RenderList />
     </Column>
   );

@@ -1,1 +1,1026 @@
-{"first":{"test":{"name":"firstName","age":"number"},"test3":{"name":"firstName","age":"number"},"test5":{"name":"firstName","age":"number"}},"first3":{"test":{"name":"firstName","age":"number"}},"first5":{"test":{"name":"firstName","age":"number"}},"first6":{"test":{"name":"firstName","age":"number"}},"first8":{"test":{"name":"firstName","age":"number"}}}
+{
+  "discoveryEntities": {
+    "ioc": {
+      "iocItemName": {
+        "type": "company"
+      },
+      "iocItemType": {
+        "type": "fixedValue",
+        "value": "Malware"
+      },
+      "iocIndicatorType": {
+        "type": "fixedValue",
+        "value": "Domain"
+      },
+      "iocIndicatorValue": {
+        "type": "domain"
+      },
+      "publishDate": {
+        "type": "datePast"
+      },
+      "content": {
+        "type": "paragraph"
+      },
+      "collectionReasons": {
+        "type": "categoryList",
+        "value": "dashboard:collectionReasons",
+        "count": 2
+      },
+      "contentSnippet": {
+        "type": "paragraph"
+      },
+      "dataSource": {
+        "type": "fixedValue",
+        "value": "ioc"
+      },
+      "type": {
+        "type": "fixedValue",
+        "value": "ioc"
+      },
+      "dates": {
+        "type": "category",
+        "value": "dashboard:dates"
+      },
+      "entityColor": {
+        "type": "color"
+      },
+      "id": {
+        "type": "id"
+      },
+      "idExternal": {
+        "type": "id"
+      },
+      "idOriginal": {
+        "type": "id"
+      },
+      "incidentIDs": {
+        "type": "arrayEmpty"
+      },
+      "incidentInfo": {
+        "type": "arrayEmpty"
+      },
+      "indicator": {
+        "type": "arrayEmpty"
+      },
+      "insight": {
+        "type": "category",
+        "value": "dashboard:feedsInsight"
+      },
+      "isHidden": {
+        "type": "boolean"
+      },
+      "isRead": {
+        "type": "boolean"
+      },
+      "localId": {
+        "type": "id"
+      },
+      "mitigations": {
+        "type": "categoryList",
+        "value": "dashboard:feedsMitigations",
+        "count": 8
+      },
+      "score": {
+        "type": "number",
+        "value": 10
+      },
+      "source": {
+        "type": "fixedValue",
+        "value": "ioc"
+      },
+      "sourceDisplay": {
+        "type": "fixedValue",
+        "value": "luminar"
+      },
+      "title": {
+        "type": "paragraph"
+      },
+      "typeDisplay": {
+        "type": "fixedValue",
+        "value": "IOC"
+      },
+      "threatLevel": {
+        "type": "arrayElement",
+        "value": ["0", "1", "2", "3", "4", "5"]
+      }
+    },
+    "cyberFeed": {
+      "cyberFeedAnalystComment": {
+        "type": "paragraph"
+      },
+      "content": {
+        "type": "paragraph"
+      },
+      "collectionReasons": {
+        "type": "categoryList",
+        "value": "dashboard:collectionReasons",
+        "count": 2
+      },
+      "contentSnippet": {
+        "type": "paragraph"
+      },
+      "dataSource": {
+        "type": "fixedValue",
+        "value": "cyberfeed"
+      },
+      "type": {
+        "type": "fixedValue",
+        "value": "cyberfeed"
+      },
+      "dates": {
+        "type": "category",
+        "value": "dashboard:dates"
+      },
+      "entityColor": {
+        "type": "color"
+      },
+      "id": {
+        "type": "id"
+      },
+      "idExternal": {
+        "type": "id"
+      },
+      "idOriginal": {
+        "type": "id"
+      },
+      "incidentIDs": {
+        "type": "arrayEmpty"
+      },
+      "incidentInfo": {
+        "type": "arrayEmpty"
+      },
+      "indicator": {
+        "type": "arrayEmpty"
+      },
+      "insight": {
+        "type": "category",
+        "value": "dashboard:feedsInsight"
+      },
+      "isHidden": {
+        "type": "boolean"
+      },
+      "isRead": {
+        "type": "boolean"
+      },
+      "localId": {
+        "type": "id"
+      },
+      "mitigations": {
+        "type": "categoryList",
+        "value": "dashboard:feedsMitigations",
+        "count": 8
+      },
+      "score": {
+        "type": "number",
+        "value": 10
+      },
+      "source": {
+        "type": "fixedValue",
+        "value": "cyberfeed"
+      },
+      "sourceDisplay": {
+        "type": "fixedValue",
+        "value": "luminar"
+      },
+      "cyberFeedTags": {
+        "type": "fixedValue",
+        "value": ["cyber", "security", "dark web"]
+      },
+      "title": {
+        "type": "paragraph"
+      },
+      "typeDisplay": {
+        "type": "fixedValue",
+        "value": "Daily Cyber Feed"
+      },
+      "threatLevel": {
+        "type": "arrayElement",
+        "value": ["0", "1", "2", "3", "4", "5"]
+      }
+    }
+  },
+  "docViewer": {
+    "NLP": {
+      "ips": {
+        "type": "categoryList",
+        "count": {
+          "type": "numberMax",
+          "value": 10
+        },
+        "value": "docViewer:IPs"
+      },
+      "domains": {
+        "type": "categoryList",
+        "count": {
+          "type": "numberMax",
+          "value": 10
+        },
+        "value": "docViewer:domains"
+      },
+      "threatActors": {
+        "type": "categoryList",
+        "count": {
+          "type": "numberMax",
+          "value": 10
+        },
+        "value": "docViewer:threatActors"
+      },
+      "emails": {
+        "type": "categoryList",
+        "count": {
+          "type": "numberMax",
+          "value": 10
+        },
+        "value": "docViewer:emails"
+      }
+    },
+    "IPs": {
+      "label": {
+        "type": "fixedValue",
+        "value": "IPS"
+      },
+      "value": {
+        "type": "fixedValue",
+        "value": "ips"
+      },
+      "data": {
+        "type": "categoryList",
+        "count": 15,
+        "value": "docViewer:ipValue"
+      },
+      "count": {
+        "type": "numberMax",
+        "value": 50
+      }
+    },
+    "domains": {
+      "label": {
+        "type": "fixedValue",
+        "value": "Domains"
+      },
+      "value": {
+        "type": "fixedValue",
+        "value": "domains"
+      },
+      "data": {
+        "type": "categoryList",
+        "count": 3,
+        "value": "docViewer:domainValue"
+      },
+      "count": {
+        "type": "numberMax",
+        "value": 50
+      }
+    },
+    "threatActors": {
+      "label": {
+        "type": "fixedValue",
+        "value": "Threat Actors"
+      },
+      "value": {
+        "type": "fixedValue",
+        "value": "threatActors"
+      },
+      "data": {
+        "type": "categoryList",
+        "count": 5,
+        "value": "docViewer:threatActorValue"
+      },
+      "count": {
+        "type": "numberMax",
+        "value": 50
+      }
+    },
+    "emails": {
+      "label": {
+        "type": "fixedValue",
+        "value": "Emails"
+      },
+      "value": {
+        "type": "fixedValue",
+        "value": "emails"
+      },
+      "data": {
+        "type": "categoryList",
+        "count": 5,
+        "value": "docViewer:emailValue"
+      },
+      "count": {
+        "type": "numberMax",
+        "value": 50
+      }
+    }
+  },
+  "dashboard": {
+    "getMitigations": {
+      "date": {
+        "type": "dateRange",
+        "value": {
+          "from": "2014-01-24",
+          "to": "2019-01-24"
+        }
+      },
+      "label": {
+        "type": "arrayElement",
+        "value": ["open", "closed"]
+      },
+      "threatLevel": {
+        "type": "arrayElement",
+        "value": ["0", "1", "2", "3", "4", "5"]
+      }
+    },
+    "getThreatIntegrationHub": {
+      "feeds": {
+        "type": "categoryList",
+        "count": 18,
+        "value": "feeds"
+      }
+    },
+    "collectionReasons": {
+      "categoryType": {
+        "type": "word"
+      },
+      "mpId": {
+        "type": "number"
+      },
+      "mpName": {
+        "type": "word"
+      },
+      "section": {
+        "type": "word"
+      },
+      "term": {
+        "type": "word"
+      }
+    },
+    "feedsMitigations": {
+      "description": {
+        "type": "paragraph"
+      },
+      "dueDate": {
+        "type": "datePast"
+      },
+      "lastUpdateTime": {
+        "type": "datePast"
+      },
+      "status": {
+        "type": "arrayElement",
+        "value": ["open", "closed"]
+      },
+      "updatedBy": {
+        "type": "userName"
+      },
+      "category": {
+        "type": "word"
+      },
+      "code": {
+        "type": "word"
+      },
+      "createdBy": {
+        "type": "userName"
+      },
+      "creationTime": {
+        "type": "datePast"
+      }
+    },
+    "feedsThreatActors": {
+      "actorType": {
+        "type": "fixedValue",
+        "value": ["Nation-State", "Cyber-Criminal/Cyber-Terrorist/Activist.."]
+      },
+      "affiliatedCountry": {
+        "type": "country"
+      },
+      "aliases": {
+        "type": "fixedValue",
+        "value": ["ABCDE 1", "ABCDE 2"]
+      },
+      "description": {
+        "type": "paragraph"
+      },
+      "name": {
+        "type": "word"
+      },
+      "source": {
+        "type": "fixedValue",
+        "value": "luminar"
+      }
+    },
+    "feeds": {
+      "collectionDate": {
+        "type": "datePast"
+      },
+      "collectionReasons": {
+        "type": "categoryList",
+        "count": 3,
+        "value": "collectionReasons"
+      },
+      "paragraph": {
+        "type": "paragraph"
+      },
+      "contentSnippet": {
+        "type": "paragraph"
+      },
+      "datasource": {
+        "type": "fixedValue",
+        "value": "luminar"
+      },
+      "id": {
+        "type": "id"
+      },
+      "incidentIds": {
+        "type": "fixedValue",
+        "value": []
+      },
+      "indicatorMonitoringPlanTerms": {
+        "type": "fixedValue",
+        "value": ["yair.shie@luminar.com", "luminar.com", "1.2.3.4"]
+      },
+      "insight": {
+        "type": "fixedValue",
+        "value": {
+          "paragraph": "<p>hjnnhjn</p>",
+          "lastUpdateTime": "2018-12-20T13:29:29.485+0000",
+          "updatedBy": "ziv"
+        }
+      },
+      "isHidden": {
+        "type": "boolean"
+      },
+      "isRead": {
+        "type": "boolean"
+      },
+      "mitigations": {
+        "type": "categoryList",
+        "count": 4,
+        "value": "feedsMitigations"
+      },
+      "publishDate": {
+        "type": "datePast"
+      },
+      "threatActors": {
+        "type": "categoryList",
+        "count": 4,
+        "value": "feedsThreatActors"
+      },
+      "threatLevel": {
+        "type": "arrayElement",
+        "value": ["0", "1", "2", "3", "4", "5"]
+      },
+      "title": {
+        "type": "sentence"
+      },
+      "type": {
+        "type": "fixedValue",
+        "value": "ctireport"
+      },
+      "entityType": {
+        "type": "fixedValue",
+        "value": "ctireport"
+      }
+    }
+  },
+  "incident": {
+    "getIncidentsList": {
+      "createdBy": {
+        "type": "userName"
+      },
+      "creationTime": {
+        "type": "datePast"
+      },
+      "datasource": {
+        "type": "fixedValue",
+        "value": "user"
+      },
+      "feedCount": {
+        "type": "numberMax",
+        "value": 99
+      },
+      "id": {
+        "type": "id"
+      },
+      "incidentAnalystComments": {
+        "type": "categoryList",
+        "value": "getAnalystComments",
+        "count": 3
+      },
+      "incidentAssignedUserIds": {
+        "type": "nameFirst"
+      },
+      "incidentIconId": {
+        "type": "fixedValue",
+        "value": "incidents.car:red"
+      },
+      "incidentName": {
+        "type": "word"
+      },
+      "incidentState": {
+        "type": "arrayElement",
+        "value": ["open", "closed"]
+      },
+      "isEditable": {
+        "type": "fixedValue",
+        "value": true
+      },
+      "isPinned": {
+        "type": "boolean"
+      },
+      "lastUpdateBy": {
+        "type": "nameFirst"
+      },
+      "lastUpdateTime": {
+        "type": "datePast"
+      },
+      "lastUpdatedBy": {
+        "type": "nameFirst"
+      },
+      "mitigationStatus": {
+        "type": "arrayElement",
+        "value": ["open", "closed"]
+      },
+      "mitigations": {
+        "type": "categoryList",
+        "value": "getIncidentMitigations",
+        "count": 3
+      },
+      "publishDate": {
+        "type": "datePast"
+      },
+      "scoringLastScoreTime": {
+        "type": "datePast"
+      },
+      "scoringLastScoreTimeLong": {
+        "type": "number"
+      },
+      "scoringThreatLevelScore": {
+        "type": "numberBetween",
+        "value": "min: 0, max: 5"
+      },
+      "scoringThreatScore": {
+        "type": "numberBetween",
+        "value": "min: 0, max: 5"
+      },
+      "tenantId": {
+        "type": "id"
+      },
+      "threatLevel": {
+        "type": "numberBetween",
+        "value": "min: 0, max: 5"
+      },
+      "type": {
+        "type": "fixedValue",
+        "value": "incident"
+      },
+      "typeGroup": {
+        "type": "fixedValue",
+        "value": "incident"
+      }
+    },
+    "getIncidentMitigations": {
+      "status": {
+        "type": "arrayElement",
+        "value": ["open", "closed"]
+      },
+      "description": {
+        "type": "paragraph"
+      },
+      "dueDate": {
+        "type": "date"
+      },
+      "updatedBy": {
+        "type": "nameFull"
+      },
+      "lastUpdateTime": {
+        "type": "datePast"
+      }
+    },
+    "getAnalystComments": {
+      "paragraph": {
+        "type": "paragraph"
+      },
+      "createdBy": {
+        "type": "nameFull"
+      },
+      "creationTime": {
+        "type": "datePast"
+      },
+      "id": {
+        "type": "id"
+      },
+      "lastUpdateTime": {
+        "type": "datePast"
+      },
+      "updatedBy": {
+        "type": "nameFull"
+      }
+    }
+  },
+  "alerts": {
+    "ruleCategories": {
+      "include": {
+        "type": "boolean"
+      },
+      "categories": {
+        "type": "arraySubArray",
+        "value": [
+          "Category-Ontologies",
+          "Category-EmailConventions",
+          "Category-AffiliatedOrganizations",
+          "Category-OrganizationNames",
+          "Category-Keywords",
+          "Category-Certificate",
+          "Category-ITCSIA",
+          "Category-OTIA"
+        ]
+      }
+    },
+    "rulesDataSource": {
+      "include": {
+        "type": "boolean"
+      },
+      "sources": {
+        "type": "arraySubArray",
+        "value": [
+          "darkweb",
+          "shodan",
+          "luminar",
+          "leakedrecord",
+          "domain",
+          "cyberfeed",
+          "rss"
+        ]
+      }
+    },
+    "rules": {
+      "categories": {
+        "type": "category",
+        "value": "ruleCategories"
+      },
+      "dataSources": {
+        "type": "category",
+        "value": "rulesDataSource"
+      },
+      "author": {
+        "type": "fixedValue",
+        "value": ""
+      },
+      "queryString": {
+        "type": "word",
+        "value": 1
+      }
+    },
+    "actionLine": {
+      "alert": {
+        "type": "boolean"
+      },
+      "email": {
+        "type": "boolean"
+      }
+    },
+    "serverData": {
+      "creationDate": {
+        "type": "datePast",
+        "value": ""
+      },
+      "lastUpdate": {
+        "type": "datePast",
+        "value": ""
+      },
+      "createdBy": {
+        "type": "nameFull"
+      },
+      "updatedBy": {
+        "type": "nameFull"
+      },
+      "historyCount": {
+        "type": "number"
+      },
+      "currentCount": {
+        "type": "number"
+      },
+      "prevGap": {
+        "type": "numberMax",
+        "value": 20
+      },
+      "gap": {
+        "type": "numberBetween",
+        "value": "min: 0, max: 20"
+      },
+      "lastPull": {
+        "type": "datePast",
+        "value": ""
+      }
+    }
+  },
+  "login": {
+    "logIn": {
+      "AuthorizationToken": {
+        "type": "id"
+      },
+      "passExpired": {
+        "type": "fixedValue",
+        "value": false
+      },
+      "user": {
+        "type": "category",
+        "value": "logIn:userValue"
+      }
+    },
+    "userValue": {
+      "id": {
+        "type": "id"
+      },
+      "company": {
+        "type": "company"
+      },
+      "email": {
+        "type": "email"
+      },
+      "username": {
+        "type": "fixedValue",
+        "value": "offlineUser"
+      },
+      "firstName": {
+        "type": "fixedValue",
+        "value": "Mode"
+      },
+      "lastName": {
+        "type": "fixedValue",
+        "value": "Offline"
+      },
+      "userProfileUid": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "workspaceId": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "avatar": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "uploadedAvatar": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "groups": {
+        "type": "fixedValue",
+        "value": ["administrators"]
+      },
+      "currentPassword": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "newPassword": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "passwordMetadataDTO": {
+        "type": "fixedValue",
+        "value": {
+          "id": null,
+          "type": null,
+          "name": null,
+          "created": null,
+          "createdBy": null,
+          "lastModified": null,
+          "lastModifiedBy": null,
+          "passwordUpdateDate": null,
+          "numOfIncorrectPassLogin": null,
+          "userName": null,
+          "blocked": null
+        }
+      },
+      "tenantId": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "role": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "unit": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "entityType": {
+        "type": "fixedValue",
+        "value": "user"
+      },
+      "loggedIn": {
+        "type": "fixedValue",
+        "value": true
+      },
+      "blocked": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "administrator": {
+        "type": "fixedValue",
+        "value": true
+      },
+      "passwordUpdateDate": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "numOfIncorrectPassLogin": {
+        "type": "fixedValue",
+        "value": null
+      },
+      "isAdministrator": {
+        "type": "fixedValue",
+        "value": true
+      },
+      "principalId": {
+        "type": "userName"
+      }
+    }
+  },
+  "tenants": {
+    "tenant": {
+      "nuxeoId": {
+        "type": "id"
+      },
+      "id": {
+        "type": "id"
+      },
+      "title": {
+        "type": "nameFull"
+      },
+      "description": {
+        "type": "sentence",
+        "value": "10"
+      },
+      "monitoringPlans": {
+        "type": "categoryList",
+        "value": "monitoringPlans",
+        "count": "4"
+      },
+      "license": {
+        "type": "category",
+        "value": "license"
+      }
+    },
+    "monitoringPlans": {
+      "title": {
+        "type": "nameFirst"
+      },
+      "organization": {
+        "type": "company"
+      },
+      "description": {
+        "type": "sentence",
+        "value": "10"
+      },
+      "active": {
+        "type": "boolean"
+      },
+      "sectors": {
+        "type": "arrayEmpty"
+      },
+      "sections": {
+        "type": "categoryList",
+        "value": "sections",
+        "count": "2"
+      },
+      "nuxeoId": {
+        "type": "id"
+      }
+    },
+    "sections": {
+      "nuxeoId": {
+        "type": "id"
+      },
+      "title": {
+        "type": "nameFirst"
+      },
+      "description": {
+        "type": "sentence",
+        "value": "10"
+      },
+      "order": {
+        "type": "numberBetween",
+        "value": {
+          "min": "1",
+          "max": "10"
+        }
+      },
+      "categories": {
+        "type": "categoryList",
+        "value": "categories",
+        "count": "3"
+      }
+    },
+    "categories": {
+      "nuxeoId": {
+        "type": "id"
+      },
+      "type": {
+        "type": "arrayElement",
+        "value": [
+          "Category-Keywords",
+          "Category-OTIA",
+          "Category-ITCSIA",
+          "Category-Certificate",
+          "Category-OrganizationNames",
+          "Category-Ontologies",
+          "Category-AffiliatedOrganizations",
+          "Category-ThirdPartyServices",
+          "Category-EmailConventions",
+          "Category-Executives",
+          "Category-IP_Ranges",
+          "Category-Domains",
+          "Category-LeadIT",
+          "Category-LeadFinance",
+          "Category-LeadHR",
+          "Category-BINs"
+        ]
+      },
+      "order": {
+        "type": "numberBetween",
+        "value": {
+          "min": "1",
+          "max": "10"
+        }
+      },
+      "active": {
+        "type": "boolean"
+      }
+    },
+    "license": {
+      "nuxeoId": {
+        "type": "id"
+      },
+      "description": {
+        "type": "sentence",
+        "value": "10"
+      },
+      "expirationDate": {
+        "type": "dateFuture"
+      },
+      "categories": {
+        "type": "categoryList",
+        "value": "licenseCat",
+        "count": "5"
+      },
+      "datasources": {
+        "type": "categoryList",
+        "value": "datasources",
+        "count": "3"
+      }
+    },
+    "datasources": {
+      "name": {
+        "type": "arrayElement",
+        "value": [
+          "rss",
+          "shodan",
+          "cyberfeed",
+          "domain",
+          "ioc",
+          "leakedrecord",
+          "sensecyreport",
+          "ctireport",
+          "luminar",
+          "darkweb"
+        ]
+      },
+      "dayFrequency": {
+        "type": "numberMax",
+        "value": "12"
+      },
+      "hourFrequency": {
+        "type": "numberMax",
+        "value": "6"
+      }
+    },
+    "licenseCat": {
+      "numTerms": {
+        "type": "numberMax",
+        "value": 20
+      },
+      "type": {
+        "type": "arrayElement",
+        "value": [
+          "Category-Keywords",
+          "Category-OTIA",
+          "Category-ITCSIA",
+          "Category-Certificate",
+          "Category-OrganizationNames",
+          "Category-Ontologies",
+          "Category-AffiliatedOrganizations",
+          "Category-ThirdPartyServices",
+          "Category-EmailConventions",
+          "Category-Executives",
+          "Category-IP_Ranges",
+          "Category-Domains",
+          "Category-LeadIT",
+          "Category-LeadFinance",
+          "Category-LeadHR",
+          "Category-BINs"
+        ]
+      }
+    }
+  }
+}

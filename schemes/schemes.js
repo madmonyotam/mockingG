@@ -18,6 +18,10 @@ class Schemes {
       });
     });
 
+    app.get("/mocking_G/getAll", (req, res) => {
+      res.send(this.schemes);
+    });
+
     app.get("/mocking_G/getAllLibraries", (req, res) => {
       res.send(this.getAllLibraries());
     });
@@ -42,6 +46,26 @@ class Schemes {
       res.send(this.getScheme(library, category));
     });
 
+    app.get("/mocking_G/addLibrary", (req, res) => {
+      const { query } = req;
+      const { library } = query;
+
+      if (!library) {
+        res.status(400).send("missing library name");
+      }
+
+      try {
+        this.addLibrary(library);
+        res.send(this.getAllLibraries());
+      } catch (error) {
+        res.status(400)
+        .json({
+          message: `library ${library} all ready exist`
+      });
+      }
+      
+    });
+
     app.get("/mocking_G/removeLibrary", (req, res) => {
       const { query } = req;
       const { library } = query;
@@ -52,6 +76,26 @@ class Schemes {
 
       this.removeLibrary(library);
       res.send(this.getAllLibraries());
+    });
+
+    app.get("/mocking_G/addCategory", (req, res) => {
+      const { query } = req;
+      const { library, category } = query;
+
+      if (!library || !category) {
+        res.status(400).send("missing library or category name");
+      }
+
+      try {
+        this.addCategory(library,category);
+        res.send(this.getCategoriesFromLibrary(library));
+      } catch (error) {
+        res.status(400)
+        .json({
+          message: `category ${category} all ready exist`
+      });
+      }
+      
     });
 
     app.get("/mocking_G/removeCategory", (req, res) => {
@@ -70,7 +114,7 @@ class Schemes {
   writeSchemesToFile(cb = () => {}) {
     fs.writeFile(
       "./schemes/mySchemes.json",
-      JSON.stringify(this.schemes),
+      JSON.stringify(this.schemes, null, 2),
       function(err) {
         cb(err);
       }
@@ -127,6 +171,7 @@ class Schemes {
 
   addCategory(library, category) {
     if (!this.schemes[library]) throw Error("library does not exist");
+    if (this.schemes[library][category]) throw Error(`category ${category} all ready exist`);
     this.schemes[library][category] = {};
   }
 
@@ -136,7 +181,7 @@ class Schemes {
 
   addLibrary(name) {
     if (this.schemes[name]) {
-      throw Error(` library ${library} all ready exist`);
+      throw Error(`library ${library} all ready exist`);
     }
     this.schemes[name] = {};
   }

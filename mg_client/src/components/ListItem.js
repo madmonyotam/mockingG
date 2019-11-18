@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useBranch } from "baobab-react/hooks";
+
 import { Icon, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -11,6 +13,8 @@ import { SpaceAround } from "../plugins/Layouts/Spaces";
 
 const Srow = styled(Row)`
   justify-content: space-between;
+  background: ${props => props.selected ? access.color('backgrounds.primary') : 'inherit'};
+  color: ${props => props.selected ? access.color('texts.primary') : 'inherit'};
 `;
 
 const useStyles = makeStyles(theme => ({
@@ -21,8 +25,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ListItem({ label, handleRowClick, handleRemove, handleEdit }) {
+function ListItem({ label, handleRowClick, handleRemove, handleEdit, parent }) {
   const classes = useStyles();
+  const { selected } = useBranch({ selected: ["selected"] });
 
   const handleRemoveClick = (e)=>{
     e.stopPropagation();
@@ -43,8 +48,9 @@ function ListItem({ label, handleRowClick, handleRemove, handleEdit }) {
   };
 
   const rendeEdit = () => {
+    //TODO: edit
     return (
-      <IconButton size="small" onClick={handleEditClick}>
+      <IconButton style={{cursor:'not-allowed'}} size="small" onClick={handleEditClick}>
         <Icon className={classes.btn}>{access.icon("listItem.edit")}</Icon>
       </IconButton>
     );
@@ -59,10 +65,13 @@ function ListItem({ label, handleRowClick, handleRemove, handleEdit }) {
     );
   };
 
+  const isSelected = selected === `${parent}:${label}`;
+
   return (
     <Srow
       key={label}
       menuItem={true}
+      selected={isSelected}
       onClick={() => {
         handleRowClick(label);
       }}

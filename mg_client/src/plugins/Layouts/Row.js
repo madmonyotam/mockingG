@@ -8,6 +8,7 @@ const Row = styled.div`
   height: ${props => props.height || '50px'};
   width: ${props => props.width || '100%'};
   background: ${props => props.background || 'inherit'};
+  color: ${props => props.color || color('texts.secondary')};
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

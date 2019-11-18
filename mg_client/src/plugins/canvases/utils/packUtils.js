@@ -10,6 +10,7 @@ const padding = 20;
 let canvas, width, height;
 let getCategories;
 let selectCategory;
+let mainGroup;
 let packDomain = 0;
 let maxDepth = 2;
 let minDepth = 1;
@@ -51,8 +52,8 @@ const childrenScope = d => {
   return isEmpty(d.data.children) || d.depth === maxDepth;
 };
 
-const createNodes = (group, nodes) => {
-  const node = paintNodes(group, nodes);
+const createNodes = (nodes) => {
+  const node = paintNodes(nodes);
   const circle = paintCircle(node);
   const text = paintText(node);
   move(canvas, circle, access.color("canvases.bg"));
@@ -123,14 +124,14 @@ const removeNodes = () => {
     .remove();
 };
 
-const paintNodes = (group, nodes) => {
-  const node = group
+const paintNodes = (nodes) => {
+  const node = mainGroup
     .selectAll(".node")
     .data(nodes, d => d)
     .enter()
     .append("g")
     .attr("class", `node`)
-    .attr("transform", d => `translate(${d.x},${d.y})`);
+    .attr("transform", d => `translate(${d.x},${d.y})`)
 
   return node;
 };
@@ -228,6 +229,7 @@ export const setCanvas = (c, w, h) => {
   width = w;
   height = h;
 
+  mainGroup = canvas.append("g").attr("class", "pack");
   //addGlowFilter();
 };
 
@@ -265,7 +267,6 @@ export const createPack = (data, isMainData) => {
   if (isMainData) mainData = data;
 
   packDomain = data.value;
-  const group = canvas.append("g").attr("class", "pack");
 
   const packLayout = d3
     .pack()
@@ -276,5 +277,5 @@ export const createPack = (data, isMainData) => {
   packLayout(treeRoot);
 
   const nodes = treeRoot.descendants();
-  createNodes(group, nodes);
+  createNodes(nodes);
 };

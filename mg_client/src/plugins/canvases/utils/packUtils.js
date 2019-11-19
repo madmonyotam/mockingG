@@ -29,10 +29,8 @@ const init = () => {
 };
 
 const addGlowFilter = () => {
-  //Container for the gradients
   var defs = canvas.append("defs");
 
-  //Filter for the outside glow
   var filter = defs.append("filter").attr("id", "glow");
   filter
     .append("feGaussianBlur")
@@ -44,124 +42,136 @@ const addGlowFilter = () => {
   feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 };
 
-const outOfScope = d => {
-  return d.depth < minDepth || d.depth > maxDepth;
-};
-
 const childrenScope = d => {
   return isEmpty(d.data.children) || d.depth === maxDepth;
 };
 
-const createNodes = (nodes) => {
-  const node = paintNodes(nodes);
-  const circle = paintCircle(node);
-  const text = paintText(node);
-  move(canvas, circle, access.color("canvases.bg"));
-  move(canvas, text, access.color("canvases.fg"));
-  animateIn(circle, text);
-  handleNodeClick(node);
+const createNodes = nodes => {
+  paintCircle(nodes);
+  paintText(nodes);
+  const circles = mainGroup.selectAll("circle");
+  const texts = mainGroup.selectAll("text");
+
+  move(canvas, circles, access.color("canvases.bg"));
+  move(canvas, texts, access.color("canvases.fg"));
+
+  handleNodeClick(circles, texts);
 };
 
-const handleNodeClick = node => {
-  node.on("mouseup", n => {
+const handleNodeClick = (circle, text) => {
+  const clickAction = n => {
     if (n.depth === 3) n = n.parent;
     if (n.depth === 2) n = n.parent;
 
     if (!isEmpty(n.data.children)) {
-      removeNodes();
-      setTimeout(() => {
-        if (myDepth === 0) {
-          getCategories(n.data.name);
-          myDepth++;
-        } else if (myDepth === 1) {
-          selectCategory(n.data.name);
-          myDepth++;
-        }
 
-        createPack(n.data);
-      }, 1000);
+      if (myDepth === 0) {
+        getCategories(n.data.name);
+        myDepth++;
+      } else if (myDepth === 1) {
+        selectCategory(n.data.name);
+        myDepth++;
+      }
+
+      createPack(n.data);
     }
+  };
+  circle.on("mouseup", n => {
+    clickAction(n);
+  });
+
+  text.on("mouseup", n => {
+    clickAction(n);
   });
 };
 
-const animateIn = (circle, text) => {
-  circle
-    .transition()
-    .duration(2000)
-    .attr("r", d => (outOfScope(d) ? 0 : d.r));
+const paintCircle = nodes => {
+  const enterCircles = c => {
+    c.enter()
+      .append("circle")
+      .attr("r", 0)
+      .attr("transform", d => `translate(${d.x},${d.y})`)
+      .transition()
+      .duration(2000)
+      .attr("fill", d => colorScale(d.data.value))
+      .attr("fill-opacity", 0.5)
+      .attr("transform", d => `translate(${d.x},${d.y})`)
+      .attr("r", d => d.r);
+  };
 
-  text
-    .transition()
-    .duration(2000)
-    .attr("font-size", d => getFontSize(d));
-};
+  const exitCircles = c => {
+    c.exit()
+      .transition()
+      .duration(2000)
+      .attr("r", 0)
+      .transition()
+      .remove();
+  };
 
-const removeNodes = () => {
-  const node = canvas.selectAll(".node");
-  const circle = canvas.selectAll("circle");
-  const text = canvas.selectAll("text");
+  const updateCircles = c => {
+    c.transition()
+      .duration(2000)
+      .attr("fill", d => colorScale(d.data.value))
+      .attr("transform", d => `translate(${d.x},${d.y})`)
+      .attr("r", d => d.r);
+  };
 
-  circle
-    .transition()
-    .duration(1000)
-    .attr("r", 20)
-    .transition()
-    .duration(2000)
-    .attr("r", 4);
-
-  text
-    .transition()
-    .duration(1000)
-    .attr("font-size", 0);
-
-  node
-    .transition()
-    .duration(1000)
-    .attr("transform", d => `translate(${d.x},${height - 20})`)
-    .transition()
-    .duration(2000)
-    .attr("transform", d => `translate(${width},${height - 2})`)
-    .remove();
-};
-
-const paintNodes = (nodes) => {
-  const node = mainGroup
-    .selectAll(".node")
-    .data(nodes, d => d)
-    .enter()
-    .append("g")
-    .attr("class", `node`)
-    .attr("transform", d => `translate(${d.x},${d.y})`)
-
-  return node;
-};
-
-const paintCircle = node => {
-  var colorScale = d3
+  const colorScale = d3
     .scaleLinear()
     .domain([0, packDomain])
     .range(colorScaleRange);
 
-  const circle = node
-    .append("circle")
-    .attr("fill", d => (outOfScope(d) ? "none" : colorScale(d.data.value)))
-    .attr("fill-opacity", 0.5)
-    .attr("r", 0);
+  const circles = mainGroup.selectAll("circle").data(nodes);
 
-  return circle;
+  enterCircles(circles);
+  exitCircles(circles);
+  updateCircles(circles);
 };
 
-const paintText = node => {
-  const text = node
-    .append("text")
-    .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
+const paintText = nodes => {
+  const enterTexts = t => {
+    t.enter()
+      .append("text")
+      .attr("transform", d => `translate(${d.x},${d.y})`)
+      .attr("y", d => (childrenScope(d) ? 0 : -(d.r + 5)))
+      .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
+      .attr("text-anchor", "middle")
+      .attr("font-size", "0")
+      .text(d => adaptText(d))
+      .transition()
+      .duration(2000)
+      .attr("font-size", d => getFontSize(d));
+  };
+
+  const exitTexts = t => {
+    t.exit()
+      .transition()
+      .duration(2000)
+      .attr("font-size", 0)
+      .transition()
+      .remove();
+  };
+
+  const updateTexts = t => {
+    t.transition()
+    .duration(1000)
+    .attr("font-size", 0)
+    .transition()
+    .duration(10)
+    .attr("transform", d => `translate(${d.x},${d.y})`)
+    .transition()
+    .duration(1000)
+    .text(d => adaptText(d))
     .attr("y", d => (childrenScope(d) ? 0 : -(d.r + 5)))
-    .attr("text-anchor", "middle")
-    .attr("font-size", "0")
+    .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
+    .attr("font-size", d => getFontSize(d))
+  }
 
-    .text(d => (outOfScope(d) ? "" : adaptText(d)));
+  const texts = mainGroup.selectAll("text").data(nodes);
 
-  return text;
+  enterTexts(texts);
+  exitTexts(texts);
+  updateTexts(texts);
 };
 
 const getFontSize = d => {
@@ -192,7 +202,6 @@ const adaptText = d => {
 };
 
 export const onLibrarySelected = lib => {
-  removeNodes();
   myDepth++;
   const library = find(mainData.children, c => {
     return c.name === lib;
@@ -202,7 +211,6 @@ export const onLibrarySelected = lib => {
 
 //TODO: - implement to list
 export const onCategorySelected = (lib, cat) => {
-  removeNodes();
   myDepth++;
   const library = find(mainData.children, c => {
     return c.name === lib;
@@ -211,7 +219,6 @@ export const onCategorySelected = (lib, cat) => {
 };
 
 export const onBack = () => {
-  removeNodes();
   init();
   createPack(mainData);
 };
@@ -230,7 +237,6 @@ export const setCanvas = (c, w, h) => {
   height = h;
 
   mainGroup = canvas.append("g").attr("class", "pack");
-  //addGlowFilter();
 };
 
 export const normalizeData = (data, newData) => {
@@ -276,6 +282,10 @@ export const createPack = (data, isMainData) => {
   const treeRoot = d3.hierarchy(data);
   packLayout(treeRoot);
 
-  const nodes = treeRoot.descendants();
+  let nodes = treeRoot.descendants();
+
+  nodes = nodes.filter(n => {
+    return n.depth > 0 && n.depth < 3;
+  });
   createNodes(nodes);
 };

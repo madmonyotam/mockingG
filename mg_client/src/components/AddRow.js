@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import * as access from "../plugins/access";
 
 import Row from "../plugins/Layouts/Row";
+import Absolute from "../plugins/Layouts/Absolute";
 
 let open = false;
 
@@ -48,9 +49,13 @@ function AddRow({ label, handleAdd }) {
     if (!value) return null;
 
     return (
-      <IconButton size="small" onClick={add}>
-        <Icon className={classes.btn}>{access.icon("leftPanel.add")}</Icon>
-      </IconButton>
+      <Absolute left={"unset"}>
+        <Row>
+          <IconButton size="small" onClick={add}>
+            <Icon className={classes.btn}>{access.icon("leftPanel.add")}</Icon>
+          </IconButton>
+        </Row>
+      </Absolute>
     );
   };
 

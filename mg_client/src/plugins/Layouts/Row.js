@@ -5,16 +5,16 @@ import { color } from "../access";
 const Row = styled.div`  
   position: relative; 
   min-height: 50px;
-  height: ${props => props.height || '50px'};
-  width: ${props => props.width || '100%'};
-  background: ${props => props.background || 'inherit'};
-  color: ${props => props.color || color('texts.secondary')};
+  height: ${props => props.height};
+  width: ${props => props.width};
+  background: ${props => props.background};
+  color: ${props => props.color};
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   cursor:  ${(props) => (props.menuItem && 'pointer')};
-  box-shadow: 0px 1px 4px 0px ${props => props.shadowColor ||  'rgb(93, 107, 140)'};
+  box-shadow: 0px 1px 4px 0px ${props => props.shadowColor};
   :hover {
     background: ${(props) => (props.menuItem && color('backgrounds.hover'))};
     color: ${(props) => (props.menuItem && color('texts.primary'))};
@@ -24,6 +24,14 @@ const Row = styled.div`
     color: ${(props) => (props.menuItem && color('texts.primary'))};
   }
 `
+
+Row.defaultProps = {
+  width: '100%',
+  height: '50px',
+  background: 'inherit',
+  color: color('texts.secondary'),
+  shadowColor: 'rgb(93, 107, 140)',
+  }
 
 Row.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

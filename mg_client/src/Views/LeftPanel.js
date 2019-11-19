@@ -50,10 +50,12 @@ function LeftPanel() {
 
     const handleRemoveLib = label => {
       dispatch(libsActions.removeLib, label);
+      packUtils.onRemoveLibrary(label);
     };
 
     const handleRemoveCat = label => {
       dispatch(catsActions.removeCategory, label);
+      packUtils.onRemoveCategory(focus.lib,label);
     };
 
     const handleEditLib = label => {};
@@ -93,11 +95,13 @@ function LeftPanel() {
     const handleAddLib = value => {
       value = value.trim();
       dispatch(libsActions.addLib, value);
+      packUtils.onAddLibrary(value);
     };
 
     const handleAddCat = value => {
       value = value.trim();
       dispatch(catsActions.addCategory, value);
+      packUtils.onAddCategory(focus.lib,value);
     };
 
     switch (addTo) {

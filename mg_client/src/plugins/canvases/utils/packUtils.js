@@ -1,19 +1,19 @@
 import * as d3 from "d3";
-import { isEmpty, find } from "lodash";
+import { isEmpty, find, findIndex } from "lodash";
 import * as access from "../../access";
 
 import { move } from "./canvasActions";
 import { string } from "prop-types";
 
-const padding = 20;
+const padding = 30;
+const margin = 35;
 
 let canvas, width, height;
 let getCategories;
 let selectCategory;
+let clickIsBlock = false;
 let mainGroup;
 let packDomain = 0;
-let maxDepth = 2;
-let minDepth = 1;
 let myDepth = 0;
 let mainData = null;
 let colorScaleRange = [
@@ -23,8 +23,6 @@ let colorScaleRange = [
 
 const init = () => {
   packDomain = 0;
-  maxDepth = 2;
-  minDepth = 1;
   myDepth = 0;
 };
 
@@ -42,10 +40,6 @@ const addGlowFilter = () => {
   feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 };
 
-const childrenScope = d => {
-  return isEmpty(d.data.children) || d.depth === maxDepth;
-};
-
 const createNodes = nodes => {
   paintCircle(nodes);
   paintText(nodes);
@@ -59,23 +53,32 @@ const createNodes = nodes => {
 };
 
 const handleNodeClick = (circle, text) => {
+
+  const blockButton = ()=>{
+    clickIsBlock = true;
+    setTimeout(() => {
+      clickIsBlock = false
+    }, 2000)
+  }
+
   const clickAction = n => {
-    if (n.depth === 3) n = n.parent;
+    if(clickIsBlock) return;
+    if (n.depth === 0) return;
     if (n.depth === 2) n = n.parent;
-
-    if (!isEmpty(n.data.children)) {
-
-      if (myDepth === 0) {
-        getCategories(n.data.name);
-        myDepth++;
-      } else if (myDepth === 1) {
-        selectCategory(n.data.name);
-        myDepth++;
-      }
-
-      createPack(n.data);
+    
+    if (myDepth === 0) {
+      getCategories(n.data.name);
+      blockButton();
+      myDepth++;
+    } else if (myDepth === 1) {
+      selectCategory(n.data.name);
+      blockButton();
+      myDepth++;
     }
+
+    createPack(n.data);
   };
+
   circle.on("mouseup", n => {
     clickAction(n);
   });
@@ -83,19 +86,21 @@ const handleNodeClick = (circle, text) => {
   text.on("mouseup", n => {
     clickAction(n);
   });
+
 };
 
 const paintCircle = nodes => {
+
   const enterCircles = c => {
     c.enter()
       .append("circle")
       .attr("r", 0)
-      .attr("transform", d => `translate(${d.x},${d.y})`)
+      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
       .transition()
       .duration(2000)
       .attr("fill", d => colorScale(d.data.value))
       .attr("fill-opacity", 0.5)
-      .attr("transform", d => `translate(${d.x},${d.y})`)
+      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
       .attr("r", d => d.r);
   };
 
@@ -112,7 +117,7 @@ const paintCircle = nodes => {
     c.transition()
       .duration(2000)
       .attr("fill", d => colorScale(d.data.value))
-      .attr("transform", d => `translate(${d.x},${d.y})`)
+      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
       .attr("r", d => d.r);
   };
 
@@ -129,11 +134,47 @@ const paintCircle = nodes => {
 };
 
 const paintText = nodes => {
+  const childrenScope = d => {
+    return isEmpty(d.data.children) || d.depth === 2;
+  };
+
+  const adaptText = d => {
+    let text = d.data.name;
+    let radius = d.r;
+    let cutIn = 16;
+
+    if (childrenScope(d)) {
+      cutIn = radius < 50 ? 14 : cutIn;
+      cutIn = radius < 40 ? 12 : cutIn;
+      cutIn = radius < 35 ? 9 : cutIn;
+      cutIn = radius < 30 ? 7 : cutIn;
+      cutIn = radius < 20 ? 3 : cutIn;
+
+      if (text.length <= cutIn) return text;
+      return text.substring(0, cutIn) + "...";
+    }
+
+    return text;
+  };
+
+  const getFontSize = d => {
+    let size = Math.floor(d.r / 3);
+
+    size = size < 8 ? 8 : size;
+    size = size > 14 ? 14 : size;
+    return size;
+  };
+
+  const getTextPosition = d => {
+    if(d.depth === 0 && !isEmpty(d.data.children)) return -(d.r + 10)
+    return childrenScope(d) ? 0 : -(d.r + 5)
+  }
+
   const enterTexts = t => {
     t.enter()
       .append("text")
-      .attr("transform", d => `translate(${d.x},${d.y})`)
-      .attr("y", d => (childrenScope(d) ? 0 : -(d.r + 5)))
+      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
+      .attr("y", getTextPosition)
       .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
       .attr("text-anchor", "middle")
       .attr("font-size", "0")
@@ -154,18 +195,18 @@ const paintText = nodes => {
 
   const updateTexts = t => {
     t.transition()
-    .duration(1000)
-    .attr("font-size", 0)
-    .transition()
-    .duration(10)
-    .attr("transform", d => `translate(${d.x},${d.y})`)
-    .transition()
-    .duration(1000)
-    .text(d => adaptText(d))
-    .attr("y", d => (childrenScope(d) ? 0 : -(d.r + 5)))
-    .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
-    .attr("font-size", d => getFontSize(d))
-  }
+      .duration(1000)
+      .attr("font-size", 0)
+      .transition()
+      .duration(10)
+      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
+      .transition()
+      .duration(1000)
+      .text(d => adaptText(d))
+      .attr("y", getTextPosition)
+      .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
+      .attr("font-size", d => getFontSize(d));
+  };
 
   const texts = mainGroup.selectAll("text").data(nodes);
 
@@ -174,51 +215,78 @@ const paintText = nodes => {
   updateTexts(texts);
 };
 
-const getFontSize = d => {
-  let size = Math.floor(d.r / 3);
+const findLibrary = (lib) => {
+  const library = find(mainData.children, c => {
+    return c.name === lib;
+  });
 
-  size = size < 8 ? 8 : size;
-  size = size > 14 ? 14 : size;
-  return size;
-};
+  return library;
+}
 
-const adaptText = d => {
-  let text = d.data.name;
-  let radius = d.r;
-  let cutIn = 16;
+const findCategory = (lib,cat) => {
+  const category = find(lib.children, l => {
+    return l.name === cat;
+  });
 
-  if (childrenScope(d)) {
-    cutIn = radius < 50 ? 14 : cutIn;
-    cutIn = radius < 40 ? 12 : cutIn;
-    cutIn = radius < 35 ? 9 : cutIn;
-    cutIn = radius < 30 ? 7 : cutIn;
-    cutIn = radius < 20 ? 3 : cutIn;
-
-    if (text.length <= cutIn) return text;
-    return text.substring(0, cutIn) + "...";
-  }
-
-  return text;
-};
+  return category;
+}
 
 export const onLibrarySelected = lib => {
-  myDepth=1;
+  myDepth = 1;
   const library = find(mainData.children, c => {
     return c.name === lib;
   });
   createPack(library);
 };
 
-export const onCategorySelected = (lib, cat) => {
-  myDepth=2;
-  const library = find(mainData.children, c => {
+export const onRemoveLibrary = lib => {
+
+  mainData.children = mainData.children.filter(l => {
+    return l.name !== lib;
+  });
+
+  createPack(mainData);
+};
+
+export const onRemoveCategory = (lib, cat) => {
+  const index = findIndex(mainData.children, c => {
     return c.name === lib;
   });
+  
+  mainData.children[index].children = mainData.children[index].children.filter(l => {
+    return l.name !== cat;
+  });
+  
+  const library = mainData.children[index];
+  createPack(library);
+};
 
-  const category = find(library.children, l => {
-    return l.name === cat;
+export const onAddLibrary = newLib => {
+  mainData.children.push({
+    name: newLib,
+    value: 1,
+    children: []
   });
 
+  createPack(mainData);
+};
+
+export const onAddCategory = (lib, newCat) => {
+  const library = findLibrary(lib);
+
+  library.children.push({
+    name: newCat,
+    value: 1,
+    children: []
+  });
+
+  createPack(library);
+};
+
+export const onCategorySelected = (lib, cat) => {
+  myDepth = 2;
+  const library = findLibrary(lib);
+  const category = findCategory(library, cat);
   createPack(category);
 };
 
@@ -246,7 +314,7 @@ export const setCanvas = (c, w, h) => {
 export const normalizeData = (data, newData) => {
   if (!newData)
     newData = {
-      name: "root",
+      name: "all",
       value: 0,
       children: []
     };
@@ -280,7 +348,7 @@ export const createPack = (data, isMainData) => {
 
   const packLayout = d3
     .pack()
-    .size([width, height])
+    .size([width, height - margin])
     .padding(padding);
 
   const treeRoot = d3.hierarchy(data);
@@ -289,7 +357,8 @@ export const createPack = (data, isMainData) => {
   let nodes = treeRoot.descendants();
 
   nodes = nodes.filter(n => {
-    return n.depth > 0 && n.depth < 3;
+    return n.depth < 3;
+    // return n.depth > 0 && n.depth < 3;
   });
   createNodes(nodes);
 };

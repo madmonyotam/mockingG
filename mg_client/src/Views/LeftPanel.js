@@ -45,6 +45,7 @@ function LeftPanel() {
     const handleClickOnCat = label => {
       dispatch(catsActions.setCatToFocus, label);
       dispatch(catsActions.setSelected, label);
+      packUtils.onCategorySelected(focus.lib,label);
     };
 
     const handleRemoveLib = label => {

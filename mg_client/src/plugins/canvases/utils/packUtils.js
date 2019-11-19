@@ -202,20 +202,24 @@ const adaptText = d => {
 };
 
 export const onLibrarySelected = lib => {
-  myDepth++;
+  myDepth=1;
   const library = find(mainData.children, c => {
     return c.name === lib;
   });
   createPack(library);
 };
 
-//TODO: - implement to list
 export const onCategorySelected = (lib, cat) => {
-  myDepth++;
+  myDepth=2;
   const library = find(mainData.children, c => {
     return c.name === lib;
   });
-  createPack(library);
+
+  const category = find(library.children, l => {
+    return l.name === cat;
+  });
+
+  createPack(category);
 };
 
 export const onBack = () => {

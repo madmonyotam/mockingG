@@ -1,6 +1,6 @@
 {
   "name": "mocking_g",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "private": false,
   "scripts": {
     "test": "jest"

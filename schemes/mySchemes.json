@@ -1022,5 +1022,16 @@
         ]
       }
     }
+  },
+  "test": {
+    "person": {
+      "name": {
+        "type": "fullName"
+      },
+      "age": {
+        "type": "numberMax",
+        "value": "100"
+      }
+    }
   }
 }

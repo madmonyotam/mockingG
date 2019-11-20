@@ -6,7 +6,8 @@ import { move } from "./canvasActions";
 import { string } from "prop-types";
 
 const padding = 30;
-const margin = 35;
+const margin = 45;
+const marginBottom = 10;
 
 let canvas, width, height;
 let getCategories;
@@ -39,6 +40,10 @@ const addGlowFilter = () => {
   feMerge.append("feMergeNode").attr("in", "coloredBlur");
   feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 };
+
+const getTranslate = (d) => {
+  return( `translate(${d.x},${d.y + margin - marginBottom})` )
+}
 
 const createNodes = nodes => {
   paintCircle(nodes);
@@ -95,12 +100,12 @@ const paintCircle = nodes => {
     c.enter()
       .append("circle")
       .attr("r", 0)
-      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
+      .attr("transform", getTranslate)
       .transition()
       .duration(2000)
       .attr("fill", d => colorScale(d.data.value))
       .attr("fill-opacity", 0.5)
-      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
+      .attr("transform", getTranslate)
       .attr("r", d => d.r);
   };
 
@@ -117,7 +122,7 @@ const paintCircle = nodes => {
     c.transition()
       .duration(2000)
       .attr("fill", d => colorScale(d.data.value))
-      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
+      .attr("transform", getTranslate)
       .attr("r", d => d.r);
   };
 
@@ -126,7 +131,7 @@ const paintCircle = nodes => {
     .domain([0, packDomain])
     .range(colorScaleRange);
 
-  const circles = mainGroup.selectAll("circle").data(nodes);
+  const circles = mainGroup.selectAll("circle").data(nodes, d => d.data.id);
 
   enterCircles(circles);
   exitCircles(circles);
@@ -173,7 +178,7 @@ const paintText = nodes => {
   const enterTexts = t => {
     t.enter()
       .append("text")
-      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
+      .attr("transform", getTranslate)
       .attr("y", getTextPosition)
       .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
       .attr("text-anchor", "middle")
@@ -199,7 +204,7 @@ const paintText = nodes => {
       .attr("font-size", 0)
       .transition()
       .duration(10)
-      .attr("transform", d => `translate(${d.x},${d.y + margin})`)
+      .attr("transform", getTranslate)
       .transition()
       .duration(1000)
       .text(d => adaptText(d))
@@ -208,7 +213,7 @@ const paintText = nodes => {
       .attr("font-size", d => getFontSize(d));
   };
 
-  const texts = mainGroup.selectAll("text").data(nodes);
+  const texts = mainGroup.selectAll("text").data(nodes, d => d.data.id);
 
   enterTexts(texts);
   exitTexts(texts);
@@ -240,7 +245,6 @@ export const onLibrarySelected = lib => {
 };
 
 export const onRemoveLibrary = lib => {
-
   mainData.children = mainData.children.filter(l => {
     return l.name !== lib;
   });
@@ -316,7 +320,8 @@ export const normalizeData = (data, newData) => {
     newData = {
       name: "all",
       value: 0,
-      children: []
+      children: [],
+      id: 'id'
     };
 
   if (typeof data == "string") {
@@ -329,7 +334,8 @@ export const normalizeData = (data, newData) => {
     const d = {
       name: key,
       value: 1,
-      children: []
+      children: [],
+      id: `${newData.id}-${key}`
     };
 
     const countBack = normalizeData(data[key], d);

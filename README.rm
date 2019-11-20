@@ -2,7 +2,7 @@ mocking G is an advence tool for creating mock data to server and client.
 
 ##install
 
-npm i mocking_G
+npm i mocking_g
 then go to port 5588/mocking_g for ui.
 
 please check the library after 1.2.2020.

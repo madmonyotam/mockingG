@@ -1,9 +1,9 @@
 import * as d3 from "d3";
+import { v4 } from 'node-uuid';
 import { isEmpty, find, findIndex } from "lodash";
 import * as access from "../../access";
 
 import { move } from "./canvasActions";
-import { string } from "prop-types";
 
 const padding = 30;
 const margin = 45;
@@ -101,10 +101,10 @@ const paintCircle = nodes => {
       .append("circle")
       .attr("r", 0)
       .attr("transform", getTranslate)
+      .attr("fill-opacity", 0.5)
       .transition()
       .duration(2000)
       .attr("fill", d => colorScale(d.data.value))
-      .attr("fill-opacity", 0.5)
       .attr("transform", getTranslate)
       .attr("r", d => d.r);
   };
@@ -120,8 +120,8 @@ const paintCircle = nodes => {
 
   const updateCircles = c => {
     c.transition()
-      .duration(2000)
-      .attr("fill", d => colorScale(d.data.value))
+    .duration(2000)
+    .attr("fill", d => colorScale(d.data.value))
       .attr("transform", getTranslate)
       .attr("r", d => d.r);
   };
@@ -269,7 +269,8 @@ export const onAddLibrary = newLib => {
   mainData.children.push({
     name: newLib,
     value: 1,
-    children: []
+    children: [],
+    id: v4()
   });
 
   createPack(mainData);
@@ -281,7 +282,8 @@ export const onAddCategory = (lib, newCat) => {
   library.children.push({
     name: newCat,
     value: 1,
-    children: []
+    children: [],
+    id: v4()
   });
 
   createPack(library);
@@ -324,8 +326,9 @@ export const normalizeData = (data, newData) => {
       id: 'id'
     };
 
-  if (typeof data == "string") {
+  if (typeof data == "string" || typeof data == "number") {
     newData.value = 1;
+    newData.name = `${newData.name}: ${data}`;
     delete newData.children;
     return newData;
   }

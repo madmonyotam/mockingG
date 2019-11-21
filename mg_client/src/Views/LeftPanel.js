@@ -12,12 +12,14 @@ import AddRow from "../components/AddRow";
 
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
+import { setKey } from "../tree/actions//general";
 import { get } from "../plugins/requests";
 
 function LeftPanel() {
   const { libs, dispatch } = useBranch({ libs: ["libs"] });
   const { cats } = useBranch({ cats: ["cats"] });
   const { focus } = useBranch({ focus: ["focus"] });
+  const { viewKey } = useBranch({ viewKey: ["viewKey"] });
 
   useEffect(() => {
     get("/getAllLibraries").then(res => {
@@ -45,7 +47,7 @@ function LeftPanel() {
     const handleClickOnCat = label => {
       dispatch(catsActions.setCatToFocus, label);
       dispatch(catsActions.setSelected, label);
-      packUtils.onCategorySelected(focus.lib,label);
+      dispatch(setKey,{newKey:'showScheme', schemeName:label});
     };
 
     const handleRemoveLib = label => {
@@ -134,8 +136,11 @@ function LeftPanel() {
     return access.translate("libraries");
   };
 
+  const zIndex = access.dim('zIndexViews.leftPanel');
+  const flex = access.dim('flexViews.leftPanel');
+
   return (
-    <Column flex={0.15}>
+    <Column flex={flex} zIndex={zIndex} >
       <SearchBar label={getLabel()} nested={focus.lib} onBack={handleBack} />
       <RenderAddRow />
       <RenderList />

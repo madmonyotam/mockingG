@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { color } from "../access";
 
 const Row = styled.div`  
+  z-index: ${props => props.zIndex};
   position: relative; 
+  overflow: hidden;
   min-height: 50px;
   height: ${props => props.height};
   width: ${props => props.width};
@@ -26,6 +28,7 @@ const Row = styled.div`
 `
 
 Row.defaultProps = {
+  zIndex: 1,
   width: '100%',
   height: '50px',
   background: 'inherit',

@@ -1,6 +1,7 @@
 
 import colors from "../config/colors";
 import icons from "../config/icons";
+import dimensions from "../config/dimensions";
 
 function get(collection, path) {
     if(!path) return collection;
@@ -21,6 +22,11 @@ function get(collection, path) {
     
     return value; 
 };
+
+export const dim = (path) => {
+    let dimension = get(dimensions,path);
+    return dimension;
+}
 
 export const color = (path) => {
     let code = get(colors,path);

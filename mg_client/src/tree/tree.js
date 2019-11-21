@@ -7,7 +7,8 @@ const tree = new Baobab({
     lib: null,
     cat: null
   },
-  selected: null
+  selected: null,
+  viewKey: 'initKey'
 });
 
 window.tree = tree;

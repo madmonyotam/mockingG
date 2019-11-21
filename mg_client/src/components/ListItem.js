@@ -48,7 +48,8 @@ function ListItem({ label, handleRowClick, handleRemove, handleEdit, parent }) {
   };
 
   const rendeEdit = () => {
-    //TODO: edit
+    return null
+    //TODO: edit + SpaceAround width={"80px"}
     return (
       <IconButton style={{cursor:'not-allowed'}} size="small" onClick={handleEditClick}>
         <Icon className={classes.btn}>{access.icon("listItem.edit")}</Icon>
@@ -58,7 +59,7 @@ function ListItem({ label, handleRowClick, handleRemove, handleEdit, parent }) {
 
   const renderButtons = () => {
     return (
-      <SpaceAround width={"80px"}>
+      <SpaceAround width={"50px"}>
         {rendeEdit()}
         {renderRemove()}
       </SpaceAround>

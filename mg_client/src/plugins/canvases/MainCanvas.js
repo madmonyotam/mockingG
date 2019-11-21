@@ -9,12 +9,26 @@ import { move } from "./utils/canvasActions";
 import * as packUtils from "./utils/packUtils";
 import * as libsActions from "../../tree/actions/libs";
 import * as catsActions from "../../tree/actions/cats";
+import { setKey } from "../../tree/actions//general";
 
 import "./style.css";
+import zIndex from "@material-ui/core/styles/zIndex";
 
 function MainCanvas() {
-  const { back, dispatch } = useBranch({ back: ["back"] });
+  const { selected, dispatch } = useBranch({ selected: ["selected"] });
+
+
   let data = {};
+
+  const getFlex = () => {
+    const schemePanelSize = access.dim('flexViews.schemePanel');
+    const leftPanelSize = access.dim('flexViews.leftPanel');
+    const size = leftPanelSize + schemePanelSize;
+
+
+    if(selected) return 1-size;
+    return 1-leftPanelSize;
+  }
 
   const getCategoriesFromLibrary = lib => {
     get("/getCategoriesFromLibrary", { library: lib }).then(res => {
@@ -28,6 +42,7 @@ function MainCanvas() {
   const handleClickOnCat = label => {
     dispatch(catsActions.setCatToFocus, label);
     dispatch(catsActions.setSelected, label);
+    dispatch(setKey,{newKey:'showScheme', schemeName:label});
   };
 
   const getAllLibs = (canvas, width, height) => {
@@ -68,7 +83,9 @@ function MainCanvas() {
     return <Start canvasReady={onCanvasReady} margin={margin} />;
   };
 
-  return <div style={{ flex: 1, cursor: "none" }}>{renderStart()}</div>;
+  const zIndex = access.dim('zIndexViews.schemePanel');
+
+  return <div style={{ flex: getFlex(), cursor: "none", zIndex:zIndex }}>{renderStart()}</div>;
 }
 
 export default MainCanvas;

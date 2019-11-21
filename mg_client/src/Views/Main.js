@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { useBranch } from "baobab-react/hooks";
 
 import Mask from "../plugins/tools/Mask";
@@ -13,8 +13,8 @@ function Main() {
   return (
       <Mask opacity={1} style={{display:'flex'}}>
             <LeftPanel/>
-            <SchemePanel/>
             <MainCanvas key={viewKey}/>
+            <SchemePanel/>
       </Mask>
   );
 }

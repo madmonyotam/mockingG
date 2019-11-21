@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import { v4 } from 'node-uuid';
-import { isEmpty, find, findIndex } from "lodash";
+import { v4 } from "node-uuid";
+import { isEmpty, find } from "lodash";
 import * as access from "../../access";
 
 import { move } from "./canvasActions";
@@ -12,38 +12,33 @@ const marginBottom = 10;
 let canvas, width, height;
 let getCategories;
 let selectCategory;
+let selectItem;
 let clickIsBlock = false;
 let mainGroup;
 let packDomain = 0;
-let myDepth = 0;
 let mainData = null;
 let colorScaleRange = [
   access.color("canvases.packBgStart"),
   access.color("canvases.packBgEnd")
 ];
 
-const init = () => {
-  packDomain = 0;
-  myDepth = 0;
+// const addGlowFilter = () => {
+//   var defs = canvas.append("defs");
+
+//   var filter = defs.append("filter").attr("id", "glow");
+//   filter
+//     .append("feGaussianBlur")
+//     .attr("stdDeviation", "3.5")
+//     .attr("result", "coloredBlur");
+
+//   var feMerge = filter.append("feMerge");
+//   feMerge.append("feMergeNode").attr("in", "coloredBlur");
+//   feMerge.append("feMergeNode").attr("in", "SourceGraphic");
+// };
+
+const getTranslate = d => {
+  return `translate(${d.x},${d.y + margin - marginBottom})`;
 };
-
-const addGlowFilter = () => {
-  var defs = canvas.append("defs");
-
-  var filter = defs.append("filter").attr("id", "glow");
-  filter
-    .append("feGaussianBlur")
-    .attr("stdDeviation", "3.5")
-    .attr("result", "coloredBlur");
-
-  var feMerge = filter.append("feMerge");
-  feMerge.append("feMergeNode").attr("in", "coloredBlur");
-  feMerge.append("feMergeNode").attr("in", "SourceGraphic");
-};
-
-const getTranslate = (d) => {
-  return( `translate(${d.x},${d.y + margin - marginBottom})` )
-}
 
 const createNodes = nodes => {
   paintCircle(nodes);
@@ -58,44 +53,47 @@ const createNodes = nodes => {
 };
 
 const handleNodeClick = (circle, text) => {
-
-  const blockButton = ()=>{
+  const blockButton = () => {
     clickIsBlock = true;
     setTimeout(() => {
-      clickIsBlock = false
-    }, 2000)
-  }
+      clickIsBlock = false;
+    }, 2000);
+  };
 
   const clickAction = n => {
-    if(clickIsBlock) return;
+    if (clickIsBlock) return;
     if (n.depth === 0) return;
     if (n.depth === 2) n = n.parent;
-    
-    if (myDepth === 0) {
-      getCategories(n.data.name);
-      blockButton();
-      myDepth++;
-    } else if (myDepth === 1) {
-      selectCategory(n.data.name);
-      blockButton();
-      myDepth++;
+
+    switch (n.data.level) {
+      case 1:
+        getCategories(n.data.name);
+        break;
+      case 2:
+        selectCategory(n.data.name);
+        break;
+      case 3:
+        selectItem(n.data.name);
+        break;
+
+      default:
+        break;
     }
 
     createPack(n.data);
+    blockButton();
   };
 
-  circle.on("mouseup", n => {
+  circle.on("click", n => {
     clickAction(n);
   });
 
-  text.on("mouseup", n => {
+  text.on("click", n => {
     clickAction(n);
   });
-
 };
 
 const paintCircle = nodes => {
-
   const enterCircles = c => {
     c.enter()
       .append("circle")
@@ -120,8 +118,8 @@ const paintCircle = nodes => {
 
   const updateCircles = c => {
     c.transition()
-    .duration(2000)
-    .attr("fill", d => colorScale(d.data.value))
+      .duration(2000)
+      .attr("fill", d => colorScale(d.data.value))
       .attr("transform", getTranslate)
       .attr("r", d => d.r);
   };
@@ -171,9 +169,9 @@ const paintText = nodes => {
   };
 
   const getTextPosition = d => {
-    if(d.depth === 0 && !isEmpty(d.data.children)) return -(d.r + 10)
-    return childrenScope(d) ? 0 : -(d.r + 5)
-  }
+    if (d.depth === 0 && !isEmpty(d.data.children)) return -(d.r + 10);
+    return childrenScope(d) ? 0 : -(d.r + 5);
+  };
 
   const enterTexts = t => {
     t.enter()
@@ -220,28 +218,46 @@ const paintText = nodes => {
   updateTexts(texts);
 };
 
-const findLibrary = (lib) => {
+const findLibrary = lib => {
   const library = find(mainData.children, c => {
     return c.name === lib;
   });
 
   return library;
-}
+};
 
-const findCategory = (lib,cat) => {
+const findCategory = (lib, cat) => {
   const category = find(lib.children, l => {
     return l.name === cat;
   });
 
   return category;
-}
+};
+
+const findItem = (category, item) => {
+  const it = find(category.children, l => {
+    return l.name === item;
+  });
+
+  return it;
+};
 
 export const onLibrarySelected = lib => {
-  myDepth = 1;
-  const library = find(mainData.children, c => {
-    return c.name === lib;
-  });
+  const library = findLibrary(lib);
   createPack(library);
+};
+
+export const onCategorySelected = (lib, cat) => {
+  const library = findLibrary(lib);
+  const category = findCategory(library, cat);
+  createPack(category);
+};
+
+export const onItemSelected = (lib, cat, it) => {
+  const library = findLibrary(lib);
+  const category = findCategory(library, cat);
+  const item = findItem(category, it);
+  createPack(item);
 };
 
 export const onRemoveLibrary = lib => {
@@ -253,16 +269,17 @@ export const onRemoveLibrary = lib => {
 };
 
 export const onRemoveCategory = (lib, cat) => {
-  const index = findIndex(mainData.children, c => {
-    return c.name === lib;
-  });
-  
-  mainData.children[index].children = mainData.children[index].children.filter(l => {
-    return l.name !== cat;
-  });
-  
-  const library = mainData.children[index];
+  const library = findLibrary(lib);
+  library.children = library.children.filter(l=>  l.name !== cat);
   createPack(library);
+};
+
+export const onRemoveItem = (lib, cat, it) => {
+  const library = findLibrary(lib);
+  const category = findCategory(library,cat);
+
+  category.children = category.children.filter(l=>  l.name !== it);
+  createPack(category);
 };
 
 export const onAddLibrary = newLib => {
@@ -270,7 +287,8 @@ export const onAddLibrary = newLib => {
     name: newLib,
     value: 1,
     children: [],
-    id: v4()
+    id: v4(),
+    level: 1
   });
 
   createPack(mainData);
@@ -283,21 +301,19 @@ export const onAddCategory = (lib, newCat) => {
     name: newCat,
     value: 1,
     children: [],
-    id: v4()
+    id: v4(),
+    level: 2
   });
 
   createPack(library);
 };
 
-export const onCategorySelected = (lib, cat) => {
-  myDepth = 2;
-  const library = findLibrary(lib);
-  const category = findCategory(library, cat);
-  createPack(category);
-};
+export const onBack = (lib) => {
+  if(lib){
+    const library = findLibrary(lib);
+    return createPack(library);
+  }
 
-export const onBack = () => {
-  init();
   createPack(mainData);
 };
 
@@ -307,6 +323,10 @@ export const setSelectLib = getCategoriesFromLibrary => {
 
 export const setSelectCat = handleClickOnCat => {
   selectCategory = handleClickOnCat;
+};
+
+export const setSelectItem = handleClickOnItem => {
+  selectItem = handleClickOnItem;
 };
 
 export const setCanvas = (c, w, h) => {
@@ -323,7 +343,8 @@ export const normalizeData = (data, newData) => {
       name: "all",
       value: 0,
       children: [],
-      id: 'id'
+      id: "id",
+      level: 0
     };
 
   if (typeof data == "string" || typeof data == "number") {
@@ -338,7 +359,8 @@ export const normalizeData = (data, newData) => {
       name: key,
       value: 1,
       children: [],
-      id: `${newData.id}-${key}`
+      id: `${newData.id}-${key}`,
+      level: newData.level + 1
     };
 
     const countBack = normalizeData(data[key], d);

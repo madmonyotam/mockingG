@@ -6,6 +6,7 @@
         "blue02": "#496a8c",
         "blue03": "#5980a9",
         "blueLight01": "#bfd6ef",
+        "darkBlue01": "#344456",
         "grey01": "#808080"
     },
     "materialUI": {
@@ -16,7 +17,8 @@
         "primary": "colors.blue01",
         "secondary": "colors.blueLight01",
         "active": "colors.blue02",
-        "hover": "colors.blue03"
+        "hover": "colors.blue03",
+        "code": "colors.darkBlue01"
     },
     "texts":{
         "primary": "colors.white",
@@ -26,6 +28,9 @@
     "searchBar": {
         "bg": "backgrounds.primary",
         "fg": "texts.primary"
+    },
+    "schemePanel": {
+        "bg": "backgrounds.code"
     },
     "canvases": {
         "bg":  "backgrounds.secondary",

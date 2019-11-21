@@ -49,7 +49,7 @@ function AddRow({ label, handleAdd }) {
     if (!value) return null;
 
     return (
-      <Absolute left={"unset"}>
+      <Absolute left={null}>
         <Row>
           <IconButton size="small" onClick={add}>
             <Icon className={classes.btn}>{access.icon("leftPanel.add")}</Icon>

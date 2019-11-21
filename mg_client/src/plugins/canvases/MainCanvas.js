@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import * as d3 from "d3";
+import React from "react";
 import Start from "../tools/Start";
 import { useBranch } from "baobab-react/hooks";
 import * as access from "../access";
@@ -9,26 +8,24 @@ import { move } from "./utils/canvasActions";
 import * as packUtils from "./utils/packUtils";
 import * as libsActions from "../../tree/actions/libs";
 import * as catsActions from "../../tree/actions/cats";
+import * as itemsActions from "../../tree/actions/items";
 import { setKey } from "../../tree/actions//general";
 
 import "./style.css";
-import zIndex from "@material-ui/core/styles/zIndex";
 
 function MainCanvas() {
-  const { selected, dispatch } = useBranch({ selected: ["selected"] });
-
+  const { viewKey, dispatch } = useBranch({ viewKey: ["viewKey"] });
 
   let data = {};
 
   const getFlex = () => {
-    const schemePanelSize = access.dim('flexViews.schemePanel');
-    const leftPanelSize = access.dim('flexViews.leftPanel');
+    const schemePanelSize = access.dim("flexViews.schemePanel");
+    const leftPanelSize = access.dim("flexViews.leftPanel");
     const size = leftPanelSize + schemePanelSize;
 
-
-    if(selected) return 1-size;
-    return 1-leftPanelSize;
-  }
+    if (viewKey !== "initKey") return 1 - size;
+    return 1 - leftPanelSize;
+  };
 
   const getCategoriesFromLibrary = lib => {
     get("/getCategoriesFromLibrary", { library: lib }).then(res => {
@@ -39,22 +36,26 @@ function MainCanvas() {
     });
   };
 
-  const handleClickOnCat = label => {
-    dispatch(catsActions.setCatToFocus, label);
-    dispatch(catsActions.setSelected, label);
-    dispatch(setKey,{newKey:'showScheme', schemeName:label});
+  const getItemsFromCategory = cat => {
+    dispatch(catsActions.getItemsFromCategory, cat);
+    dispatch(catsActions.setKey, { newKey: "showScheme", schemeName: cat });
+  };
+
+  const handleClickOnItem = label => {
+    dispatch(itemsActions.setItemToFocus, label);
+    dispatch(itemsActions.setSelected, label);
   };
 
   const getAllLibs = (canvas, width, height) => {
     get("/getAll").then(res => {
-
       data = packUtils.normalizeData(res.data);
       packUtils.setCanvas(canvas, width, height);
       packUtils.createPack(data, true);
       packUtils.setSelectLib(getCategoriesFromLibrary);
-      packUtils.setSelectCat(handleClickOnCat);
+      packUtils.setSelectCat(getItemsFromCategory);
+      packUtils.setSelectItem(handleClickOnItem);
     });
-  }
+  };
 
   const createFrame = (canvas, width, height) => {
     const frame = canvas
@@ -83,9 +84,13 @@ function MainCanvas() {
     return <Start canvasReady={onCanvasReady} margin={margin} />;
   };
 
-  const zIndex = access.dim('zIndexViews.schemePanel');
+  const zIndex = access.dim("zIndexViews.schemePanel");
 
-  return <div style={{ flex: getFlex(), cursor: "none", zIndex:zIndex }}>{renderStart()}</div>;
+  return (
+    <div style={{ flex: getFlex(), cursor: "none", zIndex: zIndex }}>
+      {renderStart()}
+    </div>
+  );
 }
 
 export default MainCanvas;

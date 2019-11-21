@@ -1,7 +1,7 @@
 {
     "flexViews": {
-        "leftPanel": 0.25,
-        "schemePanel": 0.35
+        "leftPanel": 0.20,
+        "schemePanel": 0.30
     },
     "zIndexViews":{
         "leftPanel": 3,

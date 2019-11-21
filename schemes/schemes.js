@@ -46,6 +46,17 @@ class Schemes {
       res.send(this.getScheme(library, category));
     });
 
+    app.get("/mocking_G/removeFromScheme", (req, res) => {
+      const { query } = req;
+      const { library, category, field } = query;
+      if (!library || !category) {
+        res.status(400).send("missing library or category in query");
+      }
+
+      this.removeFromScheme(library, category, field);
+      res.send( this.getScheme(library, category) );
+    });
+
     app.get("/mocking_G/addLibrary", (req, res) => {
       const { query } = req;
       const { library } = query;

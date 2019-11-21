@@ -34,10 +34,10 @@ function ListItem({ label, handleRowClick, handleRemove, handleEdit, parent }) {
     handleRemove(label);
   }
 
-  const handleEditClick = (e)=>{
-    e.stopPropagation();
-    handleEdit(label);
-  }
+  // const handleEditClick = (e)=>{
+  //   e.stopPropagation();
+  //   handleEdit(label);
+  // }
 
   const renderRemove = () => {
     return (
@@ -50,11 +50,11 @@ function ListItem({ label, handleRowClick, handleRemove, handleEdit, parent }) {
   const rendeEdit = () => {
     return null
     //TODO: edit + SpaceAround width={"80px"}
-    return (
-      <IconButton style={{cursor:'not-allowed'}} size="small" onClick={handleEditClick}>
-        <Icon className={classes.btn}>{access.icon("listItem.edit")}</Icon>
-      </IconButton>
-    );
+    // return (
+    //   <IconButton style={{cursor:'not-allowed'}} size="small" onClick={handleEditClick}>
+    //     <Icon className={classes.btn}>{access.icon("listItem.edit")}</Icon>
+    //   </IconButton>
+    // );
   };
 
   const renderButtons = () => {

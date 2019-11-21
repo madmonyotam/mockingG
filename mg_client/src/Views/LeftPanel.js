@@ -12,14 +12,15 @@ import AddRow from "../components/AddRow";
 
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
+import * as itemsActions from "../tree/actions/items";
 import { setKey } from "../tree/actions//general";
 import { get } from "../plugins/requests";
 
 function LeftPanel() {
   const { libs, dispatch } = useBranch({ libs: ["libs"] });
   const { cats } = useBranch({ cats: ["cats"] });
+  const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
-  const { viewKey } = useBranch({ viewKey: ["viewKey"] });
 
   useEffect(() => {
     get("/getAllLibraries").then(res => {
@@ -27,27 +28,28 @@ function LeftPanel() {
     });
   }, []);
 
-  const getCategoriesFromLibrary = lib => {
-    get("/getCategoriesFromLibrary", { library: lib }).then(res => {
-      dispatch(catsActions.setCats, res.data);
-      setTimeout(() => {
-        dispatch(libsActions.setLibToFocus, lib);
-      });
-    });
-  };
-
   const RenderList = () => {
     let listOf = !focus.lib ? "libs" : "cats";
+    if (focus.lib) {
+      listOf = !focus.cat ? "cats" : "items";
+    }
 
     const handleClickOnLib = label => {
-      getCategoriesFromLibrary(label);
+      dispatch(libsActions.getCategoriesFromLibrary, label);
       packUtils.onLibrarySelected(label);
     };
 
     const handleClickOnCat = label => {
-      dispatch(catsActions.setCatToFocus, label);
-      dispatch(catsActions.setSelected, label);
-      dispatch(setKey,{newKey:'showScheme', schemeName:label});
+      dispatch(catsActions.getItemsFromCategory, label);
+      packUtils.onCategorySelected(focus.lib, label);
+      dispatch(catsActions.setKey, { newKey: "showScheme", schemeName: label });
+    };
+
+    const handleClickOnItem = label => {
+      dispatch(itemsActions.setSelected, label);
+
+      //TODO: open inspector
+      dispatch(setKey, { newKey: "showScheme", schemeName: label });
     };
 
     const handleRemoveLib = label => {
@@ -57,7 +59,12 @@ function LeftPanel() {
 
     const handleRemoveCat = label => {
       dispatch(catsActions.removeCategory, label);
-      packUtils.onRemoveCategory(focus.lib,label);
+      packUtils.onRemoveCategory(focus.lib, label);
+    };
+
+    const handleRemoveItem = label => {
+      dispatch(itemsActions.removeItem, label);
+      packUtils.onRemoveItem(focus.lib, focus.cat, label);
     };
 
     const handleEditLib = label => {};
@@ -86,13 +93,26 @@ function LeftPanel() {
             handleEdit={handleEditCat}
           />
         ));
+      case "items":
+        return Object.keys(items).map(label => (
+          <ListItem
+            key={label}
+            parent={focus.cat}
+            label={label}
+            handleRowClick={handleClickOnItem}
+            handleRemove={handleRemoveItem}
+          />
+        ));
       default:
-        return;
+        return null;
     }
   };
 
   const RenderAddRow = () => {
     let addTo = !focus.lib ? "libs" : "cats";
+    if (focus.lib) {
+      addTo = !focus.cat ? "cats" : "items";
+    }
 
     const handleAddLib = value => {
       value = value.trim();
@@ -103,7 +123,14 @@ function LeftPanel() {
     const handleAddCat = value => {
       value = value.trim();
       dispatch(catsActions.addCategory, value);
-      packUtils.onAddCategory(focus.lib,value);
+      packUtils.onAddCategory(focus.lib, value);
+    };
+
+    //TODO: add item
+    const handleAddItem = value => {
+      value = value.trim();
+      // dispatch(catsActions.addCategory, value);
+      // packUtils.onAddCategory(focus.lib, value);
     };
 
     switch (addTo) {
@@ -121,29 +148,46 @@ function LeftPanel() {
             handleAdd={handleAddCat}
           />
         );
+      case "items":
+        return (
+          <AddRow
+            label={access.translate("Add Item")}
+            handleAdd={handleAddItem}
+          />
+        );
       default:
         return;
     }
   };
 
   const handleBack = () => {
-    packUtils.onBack();
-    dispatch(libsActions.setLibToFocus, null);
+    const { lib, cat } = focus;
+    if (cat) {
+      dispatch(catsActions.setCatToFocus, null);
+      packUtils.onBack(lib);
+    } else if (lib) {
+      dispatch(libsActions.setLibToFocus, null);
+      packUtils.onBack();
+    }
   };
 
   const getLabel = () => {
-    if (focus.lib) return focus.lib;
+    const { lib, cat } = focus;
+    if (lib && cat) return `${lib} - ${cat}`;
+    if (lib) return lib;
     return access.translate("libraries");
   };
 
-  const zIndex = access.dim('zIndexViews.leftPanel');
-  const flex = access.dim('flexViews.leftPanel');
+  const zIndex = access.dim("zIndexViews.leftPanel");
+  const flex = access.dim("flexViews.leftPanel");
 
   return (
-    <Column flex={flex} zIndex={zIndex} >
+    <Column flex={flex} zIndex={zIndex}>
       <SearchBar label={getLabel()} nested={focus.lib} onBack={handleBack} />
       <RenderAddRow />
-      <RenderList />
+      <Column flex={1}>
+        <RenderList />
+      </Column>
     </Column>
   );
 }

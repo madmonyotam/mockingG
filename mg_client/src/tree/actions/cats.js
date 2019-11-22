@@ -1,12 +1,20 @@
 import { onCategorySelected } from "../../plugins/canvases/utils/packUtils";
 import { get } from "../../plugins/requests";
 
+function setCatToSelected(tree,cat) {
+  tree.set(["selectedCategory"], cat);
+}
+
 export function setCats(tree, cats) {
   tree.set(["cats"], cats);
 }
 
 export function setCatToFocus(tree, cat) {
   tree.set(["focus", "cat"], cat);
+
+  if(cat){
+    setCatToSelected(tree,cat);
+  }
 }
 
 export function addCategory(tree, category) {
@@ -36,6 +44,7 @@ export function getItemsFromCategory(tree, category) {
     tree.set("items", res.data);
     setTimeout(() => {
       tree.set(["focus", "cat"], category);
+      setCatToSelected(tree,category);
     });
   });
 }

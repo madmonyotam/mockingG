@@ -13,8 +13,8 @@ function Main() {
   return (
       <Mask opacity={1} style={{display:'flex'}}>
             <LeftPanel/>
-            <MainCanvas key={viewKey}/>
             <SchemePanel/>
+            <MainCanvas key={viewKey}/>
       </Mask>
   );
 }

@@ -175,7 +175,7 @@ function LeftPanel() {
     const { lib, cat } = focus;
     if (lib && cat) return `${lib} - ${cat}`;
     if (lib) return lib;
-    return access.translate("libraries");
+    return access.translate("Project Name");
   };
 
   const zIndex = access.dim("zIndexViews.leftPanel");

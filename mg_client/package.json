@@ -13,6 +13,7 @@
     "lodash": "^4.17.15",
     "node-uuid": "^1.4.8",
     "react": "^16.10.2",
+    "react-ace": "^8.0.0",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
     "styled-components": "^4.4.1"

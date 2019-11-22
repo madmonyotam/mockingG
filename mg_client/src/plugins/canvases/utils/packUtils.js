@@ -340,8 +340,8 @@ export const setCanvas = (c, w, h) => {
 export const normalizeData = (data, newData) => {
   if (!newData)
     newData = {
-      name: "all",
-      value: 0,
+      name: "Project Name",
+      value: 1,
       children: [],
       id: "id",
       level: 0

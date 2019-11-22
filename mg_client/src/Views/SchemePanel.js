@@ -71,6 +71,7 @@ function SchemePanel() {
   const InnerFlex = getInnerFlex();
   const zIndex = access.dim("zIndexViews.schemePanel");
 
+  
   return (
     <Srow
       ref={editorWrapper}

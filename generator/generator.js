@@ -16,6 +16,18 @@ types.addTypes(numbersTypes);
 
 const allTypes = types.getTypes(); 
 
+const setApp = (app) => {
+  app.use("/mocking_G/generate", (req, res) => {
+    const { query } = req;
+    const { library, category } = query;
+    if (!library || !category) {
+      res.status(400).send("missing library or category in query");
+    }
+
+    res.send(generate([library, category]));
+  });
+};
+
 const generateFromType = (el) => {
   if (!allTypes[el.type]) throw Error("type does not exist in types");
   const generateFunc = allTypes[el.type].generate;
@@ -46,6 +58,14 @@ const generate = (scheme, amount = 10) => {
   if (!scheme) throw Error("scheme is required for generate");
   if(amount>10000) amount = 10000;
 
+  if (typeof scheme === 'string') {
+    scheme = scheme.split(/[.,]/);
+  }
+
+  if(Array.isArray(scheme)){
+    scheme = schemes.getScheme(scheme[0],scheme[1]);
+  }
+
   let mockList = [];
   for (let i = 0; i < amount; i++) {
     mockList.push(modelator(scheme));
@@ -54,6 +74,4 @@ const generate = (scheme, amount = 10) => {
   return mockList;
 };
 
-
-
-module.exports = { generate, types, schemes };
+module.exports = { setApp, generate, types, schemes };

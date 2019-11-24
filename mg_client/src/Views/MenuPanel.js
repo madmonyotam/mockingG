@@ -6,14 +6,14 @@ import * as packUtils from "../plugins/canvases/utils/packUtils";
 
 import Column from "../plugins/Layouts/Column";
 
-import SearchBar from "../components/SearchBar";
-import ListItem from "../components/ListItem";
-import AddRow from "../components/AddRow";
+import SearchBar from "../plugins/menuPanel/SearchBar";
+import ListItem from "../plugins/menuPanel/ListItem";
+import AddRow from "../plugins/menuPanel/AddRow";
 
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
 import * as itemsActions from "../tree/actions/items";
-import { setKey } from "../tree/actions//general";
+import { setKey } from "../tree/actions/general";
 import { get } from "../plugins/requests";
 
 function LeftPanel() {

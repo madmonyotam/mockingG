@@ -19,12 +19,27 @@ const allTypes = types.getTypes();
 const setApp = (app) => {
   app.use("/mocking_G/generate", (req, res) => {
     const { query } = req;
-    const { library, category } = query;
+    const { library, category, amount } = query;
+
     if (!library || !category) {
-      res.status(400).send("missing library or category in query");
+      res.status(400)
+      .json({
+        message: `category ${category} does not exist`
+    });
     }
 
-    res.send(generate([library, category]));
+    let data = null
+
+    try {
+     data =  generate([library, category],amount)
+     res.send(data);
+    } catch (error) {
+      res.status(400)
+      .json({
+        message: 'type does not exist in types'
+      });
+    }
+    
   });
 };
 

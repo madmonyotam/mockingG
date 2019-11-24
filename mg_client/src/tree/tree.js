@@ -4,6 +4,7 @@ const tree = new Baobab({
   libs: [],
   cats: [],
   items: null,
+  mockData: null,
   focus: {
     lib: null,
     cat: null,

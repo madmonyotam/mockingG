@@ -8,14 +8,14 @@ import Row from "../plugins/Layouts/Row";
 import Column from "../plugins/Layouts/Column";
 import Label from "../plugins/tools/Label";
 import Editor from "../plugins/editor/Editor";
+import SwitchEditorBtn from "../plugins/schemePanel/SwitchEditorBtn";
 
 const Srow = styled(Row)`
   flex: ${props => props.flex};
 `;
 
 const TopBar = styled(Row)`
-//   min-height: 46px;
-//   margin-bottom: 6px;
+  justify-content: space-between;
 `;
 
 const InnerColumn = styled(Column)`
@@ -27,10 +27,16 @@ const InnerColumn = styled(Column)`
 function SchemePanel() {
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
   const { items } = useBranch({ items: ["items"] });
+  const { mockData } = useBranch({ mockData: ["mockData"] });
   const { selectedCategory } = useBranch({ selectedCategory: ["selectedCategory"] });
 
   const editorWrapper = useRef();
   const [editorWidth, setEditorWidth] = useState(0);
+  const [editorToRender, setEditorToRender] = useState('scheme');
+
+  const handleSwitchEditor = (v) => {
+    setEditorToRender(v);
+  }
 
   const renderEditor = () => {
     if (viewKey === "initKey") {
@@ -43,8 +49,11 @@ function SchemePanel() {
 
     if (editorWidth === 0) return null;
     const width = editorWidth - editorWidth / 100;
+    let jsonToRender = items;
 
-    return <Editor width={width} data={items} />;
+    if(editorToRender === 'code') jsonToRender = mockData;
+
+    return <Editor width={width} data={jsonToRender} />;
   };
 
   const renderActionBar = () => {
@@ -53,6 +62,7 @@ function SchemePanel() {
         <Label color={access.color("searchBar.fg")}>
           {selectedCategory}
         </Label>
+        <SwitchEditorBtn  onSwitch={handleSwitchEditor} value={editorToRender}/>
       </TopBar>
     );
   };

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { isEmpty } from "lodash";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-json";
@@ -11,7 +10,7 @@ function Editor({ width, data }) {
   const [code, setCode] = useState("");
 
   const codeFromProps = JSON.stringify(data, null, 2);
-console.log(data)
+
   if (data!==null && codeFromProps !== initCode) {
     setInitCode(codeFromProps);
     setCode(codeFromProps);
@@ -24,7 +23,7 @@ console.log(data)
   };
 
   const options = {
-    enableBasicAutocompletion: false,
+    enableBasicAutocompletion: true,
     enableLiveAutocompletion: false,
     enableSnippets: false,
     showLineNumbers: true,

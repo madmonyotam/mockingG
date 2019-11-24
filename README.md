@@ -40,6 +40,7 @@ console.log(persons);
 
 ```
 const mg = require('mocking_g');
+
 const persons = mg.generate('test.person',100);
 const phones = mg.generate(['test','phones'],100);
 console.log({ persons, phones });

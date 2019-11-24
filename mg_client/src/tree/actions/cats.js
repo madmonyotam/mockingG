@@ -5,6 +5,17 @@ function setCatToSelected(tree,cat) {
   tree.set(["selectedCategory"], cat);
 }
 
+export function generateFromCat(tree,category) {
+  const library = tree.get(["focus", "lib"]);
+
+  get("/generate", { library, category }).then((res)=>{
+    tree.set('mockData',res.data);
+  }).catch((err)=>{
+    //TODO: notify type does not exist
+    console.log(err.response.data.message)
+  })
+}
+
 export function setCats(tree, cats) {
   tree.set(["cats"], cats);
 }
@@ -45,6 +56,7 @@ export function getItemsFromCategory(tree, category) {
     setTimeout(() => {
       tree.set(["focus", "cat"], category);
       setCatToSelected(tree,category);
+      generateFromCat(tree,category)
     });
   });
 }

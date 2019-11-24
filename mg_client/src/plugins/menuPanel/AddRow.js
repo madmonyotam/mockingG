@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Icon, IconButton, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import * as access from "../plugins/access";
+import * as access from "../access";
 
-import Row from "../plugins/Layouts/Row";
-import Absolute from "../plugins/Layouts/Absolute";
+import Row from "../Layouts/Row";
+import Absolute from "../Layouts/Absolute";
 
 let open = false;
 

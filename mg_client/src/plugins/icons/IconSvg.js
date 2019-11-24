@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class IconSvg extends Component {
   constructor(props) {
@@ -46,17 +47,28 @@ class IconSvg extends Component {
   }
 
   render() {
-    const { color, hoverColor, activeColor, size, icon, ...rest } = this.props;
+    const {
+      color,
+      hoverColor,
+      activeColor,
+      size,
+      icon,
+      selected,
+      selectedColor,
+      ...rest
+    } = this.props;
     const { hover, active } = this.state;
-    let fill = hover ? hoverColor : color;
+
+    let fill = selected ? selectedColor : color;
+    fill = hover ? hoverColor : fill;
     fill = active ? activeColor : fill;
 
-    const vb = icon.viewBox || '0 0 48 48';
+    const vb = icon.viewBox || "0 0 48 48";
 
     return (
       <svg
-        x='0px'
-        y='0px'
+        x="0px"
+        y="0px"
         viewBox={vb}
         width={size}
         height={size}
@@ -65,7 +77,7 @@ class IconSvg extends Component {
         onMouseLeave={this.offHover}
         onMouseDown={this.onActive}
         onMouseUp={this.offActive}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
         {...rest}
       >
         {this.SVGcontent(icon)}
@@ -74,11 +86,23 @@ class IconSvg extends Component {
   }
 }
 
+IconSvg.propTypes = {
+  icon: PropTypes.object.isRequired,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  color: PropTypes.string,
+  hoverColor: PropTypes.string,
+  activeColor: PropTypes.string,
+  selectedColor: PropTypes.string,
+  selected: PropTypes.bool
+};
+
 IconSvg.defaultProps = {
-  size: '40px',
-  color: '#abb6d5',
-  hoverColor: '#ffffff',
-  activeColor: '#abb6d5'
+  size: "40px",
+  color: "#abb6d5",
+  hoverColor: "#ffffff",
+  activeColor: "#abb6d5",
+  selectedColor: "#ffffff",
+  selected: false
 };
 
 export default IconSvg;

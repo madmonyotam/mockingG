@@ -2,7 +2,7 @@ import React from "react";
 import { useBranch } from "baobab-react/hooks";
 
 import Mask from "../plugins/tools/Mask";
-import LeftPanel from "./LeftPanel";
+import MenuPanel from "./MenuPanel";
 import SchemePanel from "./SchemePanel";
 import MainCanvas from "../plugins/canvases/MainCanvas";
 
@@ -12,7 +12,7 @@ function Main() {
     
   return (
       <Mask opacity={1} style={{display:'flex'}}>
-            <LeftPanel/>
+            <MenuPanel/>
             <SchemePanel/>
             <MainCanvas key={viewKey}/>
       </Mask>

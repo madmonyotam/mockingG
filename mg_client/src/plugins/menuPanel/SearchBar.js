@@ -2,10 +2,10 @@ import React from "react";
 import { Icon, IconButton } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
-import * as access from "../plugins/access";
+import * as access from "../access";
 
-import Row from "../plugins/Layouts/Row";
-import Label from "../plugins/tools/Label";
+import Row from "../Layouts/Row";
+import Label from "../tools/Label";
 
 const useStyles = makeStyles(theme => ({
   btn: {

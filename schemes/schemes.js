@@ -1,6 +1,5 @@
 const fs = require("fs");
 const mySchemes = require("./mySchemes.json");
-
 class Schemes {
   constructor() {
     this.schemes = mySchemes;
@@ -120,6 +119,21 @@ class Schemes {
       this.removeScheme(library, category);
       res.send(this.getCategoriesFromLibrary(library));
     });
+
+    app.get("/mocking_G/replaceScheme", (req, res) => {
+      const { query } = req;
+      const { library, category, scheme } = query;
+
+      if (!library || !category || !scheme) {
+
+        res.status(400).json({
+          message: "missing library,category or scheme"
+      });
+      }
+
+        this.replaceScheme(library, category, JSON.parse(scheme))
+        res.send( this.getScheme(library, category) );
+    });
   }
 
   writeSchemesToFile(cb = () => {}) {
@@ -172,7 +186,7 @@ class Schemes {
     delete this.schemes[library][category][field];
   }
 
-  replaceScheme(scheme) {
+  replaceScheme(library, category, scheme) {
     this.schemes[library][category] = scheme;
   }
 

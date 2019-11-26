@@ -151,7 +151,7 @@ function LeftPanel() {
       case "items":
         return (
           <AddRow
-            label={access.translate("Add Item")}
+            label={access.translate("Add Field")}
             handleAdd={handleAddItem}
           />
         );

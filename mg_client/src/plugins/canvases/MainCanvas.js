@@ -9,7 +9,6 @@ import * as packUtils from "./utils/packUtils";
 import * as libsActions from "../../tree/actions/libs";
 import * as catsActions from "../../tree/actions/cats";
 import * as itemsActions from "../../tree/actions/items";
-import { setKey } from "../../tree/actions//general";
 
 import "./style.css";
 

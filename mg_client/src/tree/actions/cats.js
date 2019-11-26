@@ -5,10 +5,10 @@ function setCatToSelected(tree,cat) {
   tree.set(["selectedCategory"], cat);
 }
 
-export function generateFromCat(tree,category) {
+export function generateFromCat(tree,category, amount = 1) {
   const library = tree.get(["focus", "lib"]);
 
-  get("/generate", { library, category }).then((res)=>{
+  get("/generate", { library, category, amount }).then((res)=>{
     tree.set('mockData',res.data);
   }).catch((err)=>{
     //TODO: notify type does not exist

@@ -9,6 +9,7 @@ import Column from "../plugins/Layouts/Column";
 import Label from "../plugins/tools/Label";
 import Editor from "../plugins/editor/Editor";
 import SwitchEditorBtn from "../plugins/schemePanel/SwitchEditorBtn";
+import OpenPanelCanvas from "../plugins/canvases/OpenPanelCanvas";
 
 const Srow = styled(Row)`
   flex: ${props => props.flex};
@@ -20,7 +21,7 @@ const TopBar = styled(Row)`
 
 const InnerColumn = styled(Column)`
   min-width: 0;
-  transition: flex 2s;
+  transition: flex ${access.time('schemePanel.transition')}ms;
   box-shadow: -2px 0px 4px 4px rgb(17, 38, 90);
 `;
 
@@ -38,22 +39,31 @@ function SchemePanel() {
     setEditorToRender(v);
   }
 
+  const openPanelCanvas = () => {
+    if (viewKey === "initKey") return null;
+
+    return <OpenPanelCanvas/>
+  }
+
   const renderEditor = () => {
+    const isData = editorToRender === 'code' ? true : false;
+
     if (viewKey === "initKey") {
-      return null; // TODO: return canvas on open
+      return null;
     } else {
       setTimeout(() => {
-        setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
-      }, 100);
+        if(editorWrapper.current){
+          setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
+        }
+      }, access.time('schemePanel.showEditor'));
     }
 
     if (editorWidth === 0) return null;
     const width = editorWidth - editorWidth / 100;
     let jsonToRender = items;
+    if(isData) jsonToRender = mockData;
 
-    if(editorToRender === 'code') jsonToRender = mockData;
-
-    return <Editor width={width} data={jsonToRender} />;
+    return <Editor isData={isData} width={width} data={jsonToRender} />;
   };
 
   const renderActionBar = () => {
@@ -79,6 +89,7 @@ function SchemePanel() {
 
   const flex = getFlex();
   const InnerFlex = getInnerFlex();
+
   const zIndex = access.dim("zIndexViews.schemePanel");
 
   
@@ -93,7 +104,9 @@ function SchemePanel() {
     >
       <InnerColumn flex={InnerFlex} background={access.color("schemePanel.bg")}>
         {renderActionBar()}
+        {openPanelCanvas()}
         {renderEditor()}
+        
       </InnerColumn>
     </Srow>
   );

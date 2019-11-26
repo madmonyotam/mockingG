@@ -1,0 +1,7 @@
+{
+    "schemePanel": {
+        "transition": 3000,
+        "showEditor": 3000,
+        "removeCanvas": 4000
+    }
+}

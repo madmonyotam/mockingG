@@ -1,25 +1,42 @@
 import React, { useState } from "react";
 import AceEditor from "react-ace";
+import { useBranch } from "baobab-react/hooks";
 
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-xcode";
 
-function Editor({ width, data }) {
+import { onEditorChange } from "../../tree/actions/items";
+
+function Editor({ width, data, isData }) {
+  const { dispatch } = useBranch({ items: ["focus", "cat"] });
+
   const [initCode, setInitCode] = useState("");
   const [code, setCode] = useState("");
 
   const codeFromProps = JSON.stringify(data, null, 2);
 
-  if (data!==null && codeFromProps !== initCode) {
+  if (data !== null && codeFromProps !== initCode) {
     setInitCode(codeFromProps);
     setCode(codeFromProps);
   }
+
+  const updateScheme = newCode => {
+    try {
+      newCode = JSON.parse(newCode);
+      dispatch(onEditorChange, newCode);
+    } catch (error) {
+
+    }
+  };
 
   const onLoad = () => {};
 
   const onChange = c => {
     setCode(c);
+    if (!isData) {
+      updateScheme(c);
+    }
   };
 
   const options = {

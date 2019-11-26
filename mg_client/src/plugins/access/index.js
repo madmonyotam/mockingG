@@ -2,6 +2,7 @@
 import colors from "../config/colors";
 import icons from "../config/icons";
 import dimensions from "../config/dimensions";
+import timeings from "../config/time";
 
 function get(collection, path) {
     if(!path) return collection;
@@ -26,6 +27,11 @@ function get(collection, path) {
 export const dim = (path) => {
     let dimension = get(dimensions,path);
     return dimension;
+}
+
+export const time = (path) => {
+    let timing = get(timeings,path);
+    return timing;
 }
 
 export const color = (path) => {

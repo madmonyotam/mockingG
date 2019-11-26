@@ -17,9 +17,23 @@ types.addTypes(numbersTypes);
 const allTypes = types.getTypes(); 
 
 const setApp = (app) => {
+
   app.use("/mocking_G/generate", (req, res) => {
     const { query } = req;
-    const { library, category, amount } = query;
+    const { scheme, library, category, amount } = query;
+
+    if(scheme){
+      try {
+        res.send(generate(JSON.parse(scheme),amount));
+       } catch (error) {
+         res.status(400)
+         .json({
+           message: "can't generate"
+         });
+       }
+
+       return;
+    }
 
     if (!library || !category) {
       res.status(400)
@@ -28,11 +42,9 @@ const setApp = (app) => {
     });
     }
 
-    let data = null
-
     try {
-     data =  generate([library, category],amount)
-     res.send(data);
+      
+     res.send(generate([library, category],amount));
     } catch (error) {
       res.status(400)
       .json({

@@ -1,11 +1,19 @@
 import { get } from "../../plugins/requests";
 
+function setLibToSelected(tree,lib) {
+  tree.set(["selectedLibrary"], lib);
+}
+
 export function setLibs(tree, libs) {
   tree.set(["libs"], libs);
 }
 
 export function setLibToFocus(tree, lib) {
   tree.set(["focus", "lib"], lib);
+
+  if(lib){
+    setLibToSelected(tree, lib);
+  }
 }
 
 export function addLib(tree, lib) {
@@ -29,6 +37,7 @@ export function getCategoriesFromLibrary(tree, library) {
     tree.set("cats", res.data);
     setTimeout(() => {
       tree.set(["focus", "lib"], library);
+      setLibToSelected(tree, library);
     });
   });
 }

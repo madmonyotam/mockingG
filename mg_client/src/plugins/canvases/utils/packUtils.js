@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { v4 } from "node-uuid";
-import { isEmpty, find } from "lodash";
+import { isEmpty, find, findIndex } from "lodash";
 import * as access from "../../access";
 
 import { move } from "./canvasActions";
@@ -279,6 +279,27 @@ export const onRemoveItem = (lib, cat, it) => {
   const category = findCategory(library,cat);
 
   category.children = category.children.filter(l=>  l.name !== it);
+  createPack(category);
+};
+
+export const onChangeFromEditor = (lib, cat, editorData) => {
+  const library = findLibrary(lib);
+  let category = findCategory(library,cat);
+
+  const root = {
+    name: category.name,
+    value: 1,
+    children: [],
+    id: category.id,
+    level: 2
+  };
+ 
+  category = normalizeData(editorData,root);
+
+  const libIndex = findIndex(mainData.children,['name', lib]);
+  const catIndex = findIndex(library.children,['name', cat]);
+
+  mainData.children[libIndex].children[catIndex] = category;
   createPack(category);
 };
 

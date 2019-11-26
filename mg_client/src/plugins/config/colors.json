@@ -31,13 +31,15 @@
     },
     "schemePanel": {
         "bg": "backgrounds.code",
-        "icons": "colors.blue03",
         "divider": "colors.blue02",
-        "selected": "texts.primary"
+        "selected": "texts.primary",
+        "notSelected": "colors.blue03"
     },
     "canvases": {
         "bg":  "backgrounds.secondary",
         "fg":  "texts.secondary",
+        "moveOnCircle": "colors.blueLight01",
+        "moveOnText": "colors.blue01",
         "packBgStart": "backgrounds.primary",
         "packBgEnd": "backgrounds.hover"
     }

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useBranch } from "baobab-react/hooks";
 
 import * as access from "../plugins/access";
-import * as packUtils from "../plugins/canvases/utils/packUtils";
 
 import Column from "../plugins/Layouts/Column";
 
@@ -13,6 +12,8 @@ import AddRow from "../plugins/menuPanel/AddRow";
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
 import * as itemsActions from "../tree/actions/items";
+
+import { getLibraryPack } from "../plugins/canvases/utils/packUtils";
 import { setKey } from "../tree/actions/general";
 import { get } from "../plugins/requests";
 
@@ -21,6 +22,7 @@ function LeftPanel() {
   const { cats } = useBranch({ cats: ["cats"] });
   const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
+  const libraryPack = getLibraryPack();
 
   useEffect(() => {
     get("/getAllLibraries").then(res => {
@@ -36,12 +38,12 @@ function LeftPanel() {
 
     const handleClickOnLib = label => {
       dispatch(libsActions.getCategoriesFromLibrary, label);
-      packUtils.onLibrarySelected(label);
+      libraryPack.onLibrarySelected(label);
     };
 
     const handleClickOnCat = label => {
       dispatch(catsActions.getItemsFromCategory, label);
-      packUtils.onCategorySelected(focus.lib, label);
+      libraryPack.onCategorySelected(focus.lib, label);
       dispatch(catsActions.setKey, { newKey: "showScheme", schemeName: label });
     };
 
@@ -54,17 +56,17 @@ function LeftPanel() {
 
     const handleRemoveLib = label => {
       dispatch(libsActions.removeLib, label);
-      packUtils.onRemoveLibrary(label);
+      libraryPack.onRemoveLibrary(label);
     };
 
     const handleRemoveCat = label => {
       dispatch(catsActions.removeCategory, label);
-      packUtils.onRemoveCategory(focus.lib, label);
+      libraryPack.onRemoveCategory(focus.lib, label);
     };
 
     const handleRemoveItem = label => {
       dispatch(itemsActions.removeItem, label);
-      packUtils.onRemoveItem(focus.lib, focus.cat, label);
+      libraryPack.onRemoveItem(focus.lib, focus.cat, label);
     };
 
     const handleEditLib = label => {};
@@ -117,20 +119,20 @@ function LeftPanel() {
     const handleAddLib = value => {
       value = value.trim();
       dispatch(libsActions.addLib, value);
-      packUtils.onAddLibrary(value);
+      libraryPack.onAddLibrary(value);
     };
 
     const handleAddCat = value => {
       value = value.trim();
       dispatch(catsActions.addCategory, value);
-      packUtils.onAddCategory(focus.lib, value);
+      libraryPack.onAddCategory(focus.lib, value);
     };
 
     //TODO: add item
     const handleAddItem = value => {
       value = value.trim();
       // dispatch(catsActions.addCategory, value);
-      // packUtils.onAddCategory(focus.lib, value);
+      // LibraryPack.onAddCategory(focus.lib, value);
     };
 
     switch (addTo) {
@@ -164,10 +166,10 @@ function LeftPanel() {
     const { lib, cat } = focus;
     if (cat) {
       dispatch(catsActions.setCatToFocus, null);
-      packUtils.onBack(lib);
+      libraryPack.onBack(lib);
     } else if (lib) {
       dispatch(libsActions.setLibToFocus, null);
-      packUtils.onBack();
+      libraryPack.onBack();
     }
   };
 

@@ -1,5 +1,5 @@
 import { get } from "../../plugins/requests";
-import { onChangeFromEditor } from "../../plugins/canvases/utils/packUtils";
+import { getLibraryPack } from "../../plugins/canvases/utils/packUtils";
 
 export function setItems(tree, items) {
   tree.set(["items"], items);
@@ -12,6 +12,7 @@ export function generate(tree, items, amount = 1) {
     })
     .catch(err => {
       //TODO: notify type does not exist
+      tree.set("mockData", null);
       console.log(err.response.data.message);
     });
 }
@@ -19,11 +20,13 @@ export function generate(tree, items, amount = 1) {
 function replaceScheme(tree, items) {
   const library = tree.get("selectedLibrary");
   const category = tree.get("selectedCategory");
+  const libraryPack = getLibraryPack();
+
 
   get("/replaceScheme", { scheme: items, library, category })
     .then(res => {
       tree.set("items", res.data);
-      onChangeFromEditor(library, category, res.data);
+      libraryPack.onChangeFromEditor(library, category, res.data);
     })
     .catch(err => {
       //TODO: notify type does not exist

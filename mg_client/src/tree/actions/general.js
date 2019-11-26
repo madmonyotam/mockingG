@@ -1,16 +1,17 @@
-import { onItemSelected } from "../../plugins/canvases/utils/packUtils";
+import { getLibraryPack } from "../../plugins/canvases/utils/packUtils";
 
 export function setKey(tree, { newKey, schemeName}) {
     const viewKey = tree.get('viewKey');
-    const focus = tree.get(['focus']);
+    const focus = tree.get('focus');
+    const libraryPack = getLibraryPack();
 
     if(viewKey !== newKey){
         tree.set('viewKey',newKey);
 
         setTimeout(() => {
-            onItemSelected(focus.lib,focus.cat,schemeName);
+            libraryPack.onItemSelected(focus.lib,focus.cat,schemeName);
         }, 200) 
     } else {
-        onItemSelected(focus.lib,focus.cat,schemeName);
+        libraryPack.onItemSelected(focus.lib,focus.cat,schemeName);
     }
 }

@@ -4,55 +4,61 @@ import styled from "styled-components";
 
 import { SpaceAround } from "../Layouts/Spaces";
 
-import { Icon, IconButton } from "@material-ui/core";
+import { Icon, IconButton, Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import * as access from "../access";
 
 const SwitchButtonCont = styled(SpaceAround)`
   &:before {
-    content: '';
+    content: "";
     height: 35px;
     margin-right: 5px;
     border-left: solid 1px ${access.color("schemePanel.divider")};
   }
 `;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(props => ({
   selectedBtn: {
     color: access.color("schemePanel.selected"),
-    padding: 5,
-    fontSize: 25
+    fontSize: 11
   },
   btn: {
-    color: access.color("schemePanel.icons"),
-    padding: 5,
-    fontSize: 25
+    color: access.color("schemePanel.notSelected"),
+    fontSize: 11,
+  },
+  indicator: {
+    backgroundColor: access.color("schemePanel.selected"),
   }
 }));
 
-function SwitchEditorBtn({ onSwitch, value }) {
-  const selectScheme = () => {
-    onSwitch("scheme");
-  };
+function SwitchEditorBtn({ onSwitch, value, mockData }) {
 
-  const selectCode = () => {
-    onSwitch("code");
+  const handleChange = (e, v) => {
+    onSwitch(v);
   };
 
   const CodeSelected = value === "code";
+  const disabled = !mockData;
   const classes = useStyles();
   const codeClass = CodeSelected ? classes.selectedBtn : classes.btn;
   const schemeClass = !CodeSelected ? classes.selectedBtn : classes.btn;
 
   return (
-    <SwitchButtonCont width={"70px"} style={{ marginRight: 10 }}>
-      <IconButton size="small" onClick={selectScheme}>
-        <Icon className={schemeClass}>{access.icon("schemePanel.scheme")}</Icon>
-      </IconButton>
-      <IconButton size="small" onClick={selectCode}>
-        <Icon className={codeClass}>{access.icon("schemePanel.code")}</Icon>
-      </IconButton>
+    <SwitchButtonCont width={"fit-content"}>
+      <Tabs value={value} onChange={handleChange} classes={{indicator: classes.indicator}}>
+        <Tab
+          classes={{ root: schemeClass }}
+          label={access.translate("Scheme")}
+          value={"scheme"}
+        />
+        <Tab
+          classes={{ root: codeClass }}
+          label={access.translate("Generate")}
+          value={"code"}
+          disabled={disabled}
+        />
+      </Tabs>
     </SwitchButtonCont>
   );
 }

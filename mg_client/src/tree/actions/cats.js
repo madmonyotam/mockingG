@@ -1,4 +1,4 @@
-import { onCategorySelected } from "../../plugins/canvases/utils/packUtils";
+import { getLibraryPack } from "../../plugins/canvases/utils/packUtils";
 import { get } from "../../plugins/requests";
 
 function setCatToSelected(tree,cat) {
@@ -12,6 +12,7 @@ export function generateFromCat(tree,category, amount = 1) {
     tree.set('mockData',res.data);
   }).catch((err)=>{
     //TODO: notify type does not exist
+    tree.set('mockData',null);
     console.log(err.response.data.message)
   })
 }
@@ -64,14 +65,15 @@ export function getItemsFromCategory(tree, category) {
 export function setKey(tree, { newKey, schemeName }) {
   const viewKey = tree.get('viewKey');
   const lib = tree.get(['focus','lib']);
+  const libraryPack = getLibraryPack();
 
   if(viewKey !== newKey){
       tree.set('viewKey',newKey);
 
       setTimeout(() => {
-        onCategorySelected(lib,schemeName);
+        libraryPack.onCategorySelected(lib,schemeName);
       }, 200) 
   } else {
-    onCategorySelected(lib,schemeName);
+    libraryPack.onCategorySelected(lib,schemeName);
   }
 }

@@ -4,7 +4,7 @@ import { useBranch } from "baobab-react/hooks";
 import * as access from "../access";
 import { get } from "../requests";
 
-import { move } from "./utils/canvasActions";
+import { move, dropCircles } from "./utils/canvasActions";
 
 import "./style.css";
 
@@ -29,7 +29,7 @@ function OpenPanelCanvas() {
 
 
         frame.transition()
-          .duration(3000)          
+          .duration(access.time('schemePanel.removeCanvas'))          
           .attr("fill", "transparent");
 
     
@@ -39,7 +39,7 @@ function OpenPanelCanvas() {
 
   const onCanvasReady = (canvas, width, height) => {
     const frame = createFrame(canvas, width, height);
-    move(canvas, frame, access.color("canvases.fg"));
+    dropCircles(canvas, height, frame, access.color("canvases.bg"));    
   };
 
   const renderStart = () => {

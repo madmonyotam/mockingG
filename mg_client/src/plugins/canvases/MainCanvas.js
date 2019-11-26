@@ -5,17 +5,16 @@ import * as access from "../access";
 import { get } from "../requests";
 
 import { move } from "./utils/canvasActions";
-import * as packUtils from "./utils/packUtils";
 import * as libsActions from "../../tree/actions/libs";
 import * as catsActions from "../../tree/actions/cats";
 import * as itemsActions from "../../tree/actions/items";
+import LibraryPack from "../canvases/pack/LibraryPack";
+import { setLibraryPack } from "../canvases/utils/packUtils";
 
 import "./style.css";
 
 function MainCanvas() {
   const { viewKey, dispatch } = useBranch({ viewKey: ["viewKey"] });
-
-  let data = {};
 
   const getFlex = () => {
     const schemePanelSize = access.dim("flexViews.schemePanel");
@@ -47,12 +46,13 @@ function MainCanvas() {
 
   const getAllLibs = (canvas, width, height) => {
     get("/getAll").then(res => {
-      data = packUtils.normalizeData(res.data);
-      packUtils.setCanvas(canvas, width, height);
-      packUtils.createPack(data, true);
-      packUtils.setSelectLib(getCategoriesFromLibrary);
-      packUtils.setSelectCat(getItemsFromCategory);
-      packUtils.setSelectItem(handleClickOnItem);
+      const data = res.data;
+      const libraryPack = new LibraryPack({canvas, width, height, data})
+      libraryPack.setLevelClick(1,getCategoriesFromLibrary);
+      libraryPack.setLevelClick(2,getItemsFromCategory);
+      libraryPack.setLevelClick(3,handleClickOnItem);
+
+      setLibraryPack(libraryPack);
     });
   };
 

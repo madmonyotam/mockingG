@@ -69,10 +69,10 @@ function SchemePanel() {
   const renderActionBar = () => {
     return (
       <TopBar background={access.color("searchBar.bg")}>
-        <Label color={access.color("searchBar.fg")}>
+        <Label color={access.color("searchBar.fg")} style={{minWidth: 120}}>
           {selectedCategory}
         </Label>
-        <SwitchEditorBtn  onSwitch={handleSwitchEditor} value={editorToRender}/>
+        <SwitchEditorBtn  onSwitch={handleSwitchEditor} value={editorToRender} mockData={mockData}/>
       </TopBar>
     );
   };

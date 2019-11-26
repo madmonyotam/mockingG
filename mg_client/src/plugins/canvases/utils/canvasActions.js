@@ -43,3 +43,27 @@ export const move = (canvas, board, color) => {
       .remove();
   });
 };
+
+export const dropCircles = (canvas,height, board, color) => {
+
+  board.on("mousemove", (d, i) => {
+    const mousePlace = {
+      x: d3.event.offsetX,
+      y: d3.event.offsetY
+    };
+
+    canvas
+      .append("circle")
+      .attr("cx", mousePlace.x)
+      .attr("cy", mousePlace.y)
+      .attr("r", 1)
+      .attr("fill", color)
+      .transition()
+      .duration(1500)
+      .attr("cy", height)
+      .ease(t => d3.easeCircleIn(t))
+      .transition()
+      .duration(10)
+      .remove();
+  });
+};

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { SpaceAround } from "../Layouts/Spaces";
 
-import { Icon, IconButton, Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import * as access from "../access";

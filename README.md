@@ -70,15 +70,15 @@ const newTypes = {
     }
 }
 
-types.addTypes(nameTypes);
+types.addTypes(newTypes);
 
 ```
 
 ### coming soon
 
-- create schemes with ui
-- see your schemes on the ui
-- see your new types on ui
+- create schemes with a great ui program on port 5588
+- see your schemes as well
+- see all types, inclues yours, on the program
 
 - please check the library after 1.1.2020.
 - thanks for your patience :)

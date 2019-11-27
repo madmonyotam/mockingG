@@ -54,7 +54,7 @@ function OpenPanelCanvas() {
   };
 
   return (
-    <div style={{ width: '30vw' ,flex: 1, cursor: "none", overflow: 'hidden' }}>
+    <div style={{ height:'100vh', width: '100vw', cursor: "none", overflow: 'hidden'}}>
       {renderStart()}
     </div>
   );

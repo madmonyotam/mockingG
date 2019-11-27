@@ -57,3 +57,7 @@ export function removeItem(tree, field) {
     tree.set("items", res.data);
   });
 }
+
+export function setKey(tree, { newKey, itemName}) {
+  tree.set('viewKey',newKey);
+}

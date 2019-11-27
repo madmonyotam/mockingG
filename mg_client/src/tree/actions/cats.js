@@ -65,15 +65,14 @@ export function getItemsFromCategory(tree, category) {
 export function setKey(tree, { newKey, schemeName }) {
   const viewKey = tree.get('viewKey');
   const lib = tree.get(['focus','lib']);
-  const libraryPack = getLibraryPack();
-
+  
   if(viewKey !== newKey){
-      tree.set('viewKey',newKey);
-
-      setTimeout(() => {
-        libraryPack.onCategorySelected(lib,schemeName);
+    tree.set('viewKey',newKey);
+    
+    setTimeout(() => {
+        getLibraryPack().onCategorySelected(lib,schemeName);
       }, 200) 
   } else {
-    libraryPack.onCategorySelected(lib,schemeName);
+    getLibraryPack().onCategorySelected(lib,schemeName);
   }
 }

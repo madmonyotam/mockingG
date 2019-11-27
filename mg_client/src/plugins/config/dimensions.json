@@ -1,11 +1,13 @@
 {
     "flexViews": {
-        "leftPanel": 0.20,
-        "schemePanel": 0.30
+        "leftPanel": 0.2,
+        "schemePanel": 0.3,
+        "addItemPanel": 0.4
     },
     "zIndexViews":{
         "leftPanel": 3,
         "schemePanel": 2,
+        "addItemPanel": 2,
         "mainCanvas": 1
     }
 }

@@ -22,7 +22,8 @@ const TopBar = styled(Row)`
 const InnerColumn = styled(Column)`
   min-width: 0;
   transition: flex ${access.time('schemePanel.transition')}ms;
-  box-shadow: -2px 0px 4px 4px rgb(17, 38, 90);
+  box-shadow: 2px 0px 3px 0px rgb(17, 38, 90);
+  overflow: hidden;
 `;
 
 function SchemePanel() {
@@ -83,7 +84,7 @@ function SchemePanel() {
   };
 
   const getInnerFlex = () => {
-    if (viewKey !== "initKey") return 0.99;
+    if (viewKey !== "initKey") return 0.993;
     return 0;
   };
 

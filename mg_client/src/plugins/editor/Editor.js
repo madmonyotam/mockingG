@@ -58,7 +58,7 @@ function Editor({ width, data, isData }) {
       placeholder="Placeholder Text"
       mode="json"
       theme="xcode"
-      name="blah2"
+      name="editor"
       onLoad={onLoad}
       onChange={onChange}
       fontSize={14}

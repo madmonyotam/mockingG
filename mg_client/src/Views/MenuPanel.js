@@ -14,7 +14,6 @@ import * as catsActions from "../tree/actions/cats";
 import * as itemsActions from "../tree/actions/items";
 
 import { getLibraryPack } from "../plugins/canvases/utils/packUtils";
-import { setKey } from "../tree/actions/general";
 import { get } from "../plugins/requests";
 
 function LeftPanel() {
@@ -49,9 +48,7 @@ function LeftPanel() {
 
     const handleClickOnItem = label => {
       dispatch(itemsActions.setSelected, label);
-
-      //TODO: open inspector
-      dispatch(setKey, { newKey: "showScheme", schemeName: label });
+      dispatch(itemsActions.setKey, { newKey: "showAddItem", itemName: label });
     };
 
     const handleRemoveLib = label => {
@@ -131,6 +128,7 @@ function LeftPanel() {
     //TODO: add item
     const handleAddItem = value => {
       value = value.trim();
+      dispatch(itemsActions.setKey, { newKey: "showAddItem", itemName: value });
       // dispatch(catsActions.addCategory, value);
       // LibraryPack.onAddCategory(focus.lib, value);
     };

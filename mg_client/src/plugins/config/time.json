@@ -1,7 +1,11 @@
 {
     "schemePanel": {
         "transition": 3000,
-        "showEditor": 3000,
-        "removeCanvas": 4000
+        "showEditor": 3600,
+        "removeCanvas": 3500
+    },
+    "addItemPanel": {
+        "transition": 2000,
+        "removeCanvas": 2500
     }
 }

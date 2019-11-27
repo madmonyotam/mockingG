@@ -17,12 +17,8 @@ function MainCanvas() {
   const { viewKey, dispatch } = useBranch({ viewKey: ["viewKey"] });
 
   const getFlex = () => {
-    const schemePanelSize = access.dim("flexViews.schemePanel");
-    const leftPanelSize = access.dim("flexViews.leftPanel");
-    const size = leftPanelSize + schemePanelSize;
-
-    if (viewKey !== "initKey") return 1 - size;
-    return 1 - leftPanelSize;
+    if (viewKey === "showAddItem") return 1 - access.dim("flexViews.addItemPanel");
+    return 1;
   };
 
   const getCategoriesFromLibrary = lib => {
@@ -42,6 +38,7 @@ function MainCanvas() {
   const handleClickOnItem = label => {
     dispatch(itemsActions.setItemToFocus, label);
     dispatch(itemsActions.setSelected, label);
+    dispatch(itemsActions.setKey, { newKey: "showAddItem", itemName: label });
   };
 
   const getAllLibs = (canvas, width, height) => {
@@ -69,7 +66,10 @@ function MainCanvas() {
   const onCanvasReady = (canvas, width, height) => {
     const frame = createFrame(canvas, width, height);
     move(canvas, frame, access.color("canvases.fg"));
-    getAllLibs(canvas, width, height);
+
+    if(viewKey !== 'showAddItem'){
+      getAllLibs(canvas, width, height);
+    }
   };
 
   const renderStart = () => {

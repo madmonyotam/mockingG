@@ -15,8 +15,8 @@ export const move = (canvas, board, color) => {
 
   board.on("mousemove", (d, i) => {
     const mousePlace = {
-      x: d3.event.offsetX,
-      y: d3.event.offsetY
+      x: d3.event.offsetX-1,
+      y: d3.event.offsetY-1
     };
 
     if (!prevMousePlace) {

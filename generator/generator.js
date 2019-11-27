@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const schemesClass = require('../schemes/schemes');
 const typesClass = require('../types/types');
 
@@ -56,10 +58,10 @@ const setApp = (app) => {
 };
 
 const generateFromType = (el) => {
-  if (!allTypes[el.type]) throw Error("type does not exist in types");
+  if (!allTypes[el.type]) return `type ${el.type} does not exist in types`;
   const generateFunc = allTypes[el.type].generate;
 
-  if(el.size){
+  if(!_.isUndefined(el.size)){
     let array = [];
     for (let i = 0; i < el.size; i++) {
       array.push(generateFunc(el));    

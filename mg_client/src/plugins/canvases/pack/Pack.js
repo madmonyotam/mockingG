@@ -259,7 +259,7 @@ export default class Pack {
       this.clickIsBlock = true;
       setTimeout(() => {
         this.clickIsBlock = false;
-      }, 2000);
+      }, 1000);
     };
 
     const clickAction = n => {

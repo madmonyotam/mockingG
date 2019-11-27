@@ -1,360 +1,89 @@
-{
-  "alerts": {
-    "rule cat": {
-      "include": {
-        "type": "boolean"
+{ 
+  "examples": {
+    "names": {
+      "first Name": {
+        "type": "firstName"
       },
-      "categories": {
-        "type": "arraySubArray",
-        "value": [
-          "Category-Ontologies",
-          "Category-EmailConventions",
-          "Category-AffiliatedOrganizations",
-          "Category-OrganizationNames",
-          "Category-Keywords",
-          "Category-Certificate",
-          "Category-ITCSIA",
-          "Category-OTIA"
-        ]
+      "last Name": {
+        "type": "lastName"
+      },
+      "full Name": {
+        "type": "fullName",
+        "size": 10
       }
     },
-    "actionLine": {
-      "alert": {
-        "type": "boolean"
-      },
-      "email": {
-        "type": "boolean"
-      }
-    },
-    "serverData": {
-      "creationDate": {
-        "type": "datePast",
-        "value": ""
-      },
-      "lastUpdate": {
-        "type": "datePast",
-        "value": ""
-      },
-      "createdBy": {
-        "type": "nameFull"
-      },
-      "updatedBy": {
-        "type": "nameFull"
-      },
-      "historyCount": {
+    "numbers": {
+      "number": {
         "type": "number"
       },
-      "currentCount": {
-        "type": "number"
-      },
-      "prevGap": {
+      "numberMax": {
         "type": "numberMax",
-        "value": 20
+        "value": 100
       },
-      "gap": {
+      "numberMin": {
+        "type": "numberMin",
+        "value": 10
+      },
+      "numberBetween": {
         "type": "numberBetween",
-        "value": "min: 0, max: 20"
-      },
-      "lastPull": {
-        "type": "datePast",
-        "value": ""
-      }
-    }
-  },
-  "login": {
-    "logIn": {
-      "AuthorizationToken": {
-        "type": "id"
-      },
-      "passExpired": {
-        "type": "fixedValue",
-        "value": false
-      },
-      "user": {
-        "type": "category",
-        "value": "logIn:userValue"
+        "value": {
+          "min": 34,
+          "max": 150
+        },
+        "size": 5
       }
     },
-    "userValue": {
-      "id": {
-        "type": "id"
+    "wed": {
+      "userName": {
+        "type": "userName"
       },
-      "company": {
-        "type": "company"
+      "url": {
+        "type": "url"
+      },
+      "ip": {
+        "type": "ip"
+      },
+      "ip v6": {
+        "type": "ipv6"
+      },
+      "domain": {
+        "type": "domain",
+        "size": 10
       },
       "email": {
         "type": "email"
       },
-      "username": {
-        "type": "fixedValue",
-        "value": "offlineUser"
+      "user Agent": {
+        "type": "userAgent"
       },
-      "firstName": {
-        "type": "fixedValue",
-        "value": "Mode"
-      },
-      "lastName": {
-        "type": "fixedValue",
-        "value": "Offline"
-      },
-      "userProfileUid": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "workspaceId": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "avatar": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "uploadedAvatar": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "groups": {
-        "type": "fixedValue",
-        "value": [
-          "administrators"
-        ]
-      },
-      "currentPassword": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "newPassword": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "passwordMetadataDTO": {
-        "type": "fixedValue",
-        "value": {
-          "id": null,
-          "type": null,
-          "name": null,
-          "created": null,
-          "createdBy": null,
-          "lastModified": null,
-          "lastModifiedBy": null,
-          "passwordUpdateDate": null,
-          "numOfIncorrectPassLogin": null,
-          "userName": null,
-          "blocked": null
-        }
-      },
-      "tenantId": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "role": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "unit": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "entityType": {
-        "type": "fixedValue",
-        "value": "user"
-      },
-      "loggedIn": {
-        "type": "fixedValue",
-        "value": true
-      },
-      "blocked": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "administrator": {
-        "type": "fixedValue",
-        "value": true
-      },
-      "passwordUpdateDate": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "numOfIncorrectPassLogin": {
-        "type": "fixedValue",
-        "value": null
-      },
-      "isAdministrator": {
-        "type": "fixedValue",
-        "value": true
-      },
-      "principalId": {
-        "type": "userName"
-      }
-    }
-  },
-  "teams": {
-    "tenant": {
-      "nuxeoId": {
-        "type": "id"
-      },
-      "id": {
-        "type": "id"
-      },
-      "title": {
-        "type": "nameFull"
-      },
-      "description": {
-        "type": "sentence",
-        "value": "10"
-      },
-      "monitoringPlans": {
-        "type": "categoryList",
-        "value": "monitoringPlans",
-        "count": "4"
-      },
-      "license": {
-        "type": "category",
-        "value": "license"
+      "protocol": {
+        "type": "protocol"
       }
     },
-    "monitoringPlans": {
-      "title": {
-        "type": "nameFirst"
+    "fixed": {
+      "false":{
+        "type": "false"
       },
-      "organization": {
-        "type": "company"
+      "true":{
+        "type": "true"
       },
-      "description": {
-        "type": "sentence",
-        "value": "10"
+      "null Value":{
+        "type": "nullValue"
       },
-      "active": {
-        "type": "boolean"
+      "undefined Value":{
+        "type": "undefinedValue"
       },
-      "sectors": {
-        "type": "arrayEmpty"
+      "empty Array":{
+        "type": "emptyArray"
       },
-      "sections": {
-        "type": "categoryList",
-        "value": "sections",
-        "count": "2"
+      "empty Object":{
+        "type": "emptyObject"
       },
-      "nuxeoId": {
-        "type": "id"
+      "fixed Value":{
+        "type": "fixedValue",
+        "value": "enter your value"
       }
-    },
-    "sections": {
-      "nuxeoId": {
-        "type": "id"
-      },
-      "title": {
-        "type": "nameFirst"
-      },
-      "description": {
-        "type": "sentence",
-        "value": "10"
-      },
-      "order": {
-        "type": "numberBetween",
-        "value": {
-          "min": "1",
-          "max": "10"
-        }
-      },
-      "categories": {
-        "type": "categoryList",
-        "value": "categories",
-        "count": "3"
-      }
-    },
-    "categories": {
-      "nuxeoId": {
-        "type": "id"
-      },
-      "type": {
-        "type": "arrayElement",
-        "value": [
-          "Category-Keywords",
-          "Category-OTIA",
-          "Category-ITCSIA",
-          "Category-Certificate",
-          "Category-OrganizationNames"
-        ]
-      },
-      "order": {
-        "type": "numberBetween",
-        "value": {
-          "min": "1",
-          "max": "10"
-        }
-      },
-      "active": {
-        "type": "boolean"
-      }
-    },
-    "license": {
-      "nuxeoId": {
-        "type": "id"
-      },
-      "description": {
-        "type": "sentence",
-        "value": "10"
-      },
-      "expirationDate": {
-        "type": "dateFuture"
-      },
-      "categories": {
-        "type": "categoryList",
-        "value": "licenseCat",
-        "count": "5"
-      },
-      "datasources": {
-        "type": "categoryList",
-        "value": "datasources",
-        "count": "3"
-      }
-    },
-    "datasources": {
-      "name": {
-        "type": "arrayElement",
-        "value": [
-          "rss",
-          "domain"
-        ]
-      },
-      "dayFrequency": {
-        "type": "numberMax",
-        "value": "12"
-      },
-      "hourFrequency": {
-        "type": "numberMax",
-        "value": "6"
-      }
-    },
-    "licenseCat": {
-      "numTerms": {
-        "type": "numberMax",
-        "value": 20
-      },
-      "type": {
-        "type": "arrayElement",
-        "value": [
-          "Category-LeadFinance",
-          "Category-LeadHR",
-          "Category-BINs"
-        ]
-      }
-    }
-  },
-  "test": {
-    "person": {
-      "name": {
-        "type": "fullName"
-      },
-      "age": {
-        "type": "numberMax",
-        "value": "100"
-      },
-      "more": {
-        "type": "lastName",
-        "size": 10
-      }
+
     }
   }
 }

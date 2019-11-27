@@ -84,4 +84,15 @@ describe("generate function", () => {
     expect(Object.keys(data[0])).toEqual(["name", "gender"]);
     expect(data[1].name.length).toEqual(10);
   });
+
+  it("should generate empty array by scheme", () => {
+    gen.schemes.addScheme("second", "test2", {
+      name: { type: "firstName", size: 0 }
+    });
+
+    const schemes = gen.schemes.getScheme("second", "test2");
+    const data = gen.generate(schemes, 1);
+
+    expect(data[0].name.length).toEqual(0);
+  });
 });

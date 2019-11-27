@@ -26,4 +26,10 @@ describe('types getter tests', () => {
         expect(firstNameType.length).toBe(Object.keys(types.getTypes()).length); 
     });
 
+    it('should get types by group', () => { 
+        
+        const alltypes = types.getTypesArrangeByGroups();
+        expect(alltypes.names.firstName.group ).toBe('names'); 
+    });
+
 });

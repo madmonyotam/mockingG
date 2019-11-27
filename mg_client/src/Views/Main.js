@@ -27,7 +27,7 @@ function Main() {
       <Mask opacity={1} style={{display:'flex'}}>
             <MenuPanel/>
             <SchemePanel/>
-            <Column flex={getFlex()}>
+            <Column flex={getFlex()} style={{overflow:'hidden'}}>
               <AddItemPanel/>
               <MainCanvas key={viewKey}/>
             </Column>

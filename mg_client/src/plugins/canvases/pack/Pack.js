@@ -11,6 +11,7 @@ export default class Pack {
     this.margin = get(params,'margin',45);
     this.marginBottom = get(params,'marginBottom',10);
     this.showMainCircle = get(params,'showMainCircle',true);
+    this.limitByLevel = get(params,'limitByLevel',10);
 
     this.moveOnCircleColor = get(params,'moveOnCircleColor',access.color("canvases.moveOnCircle"));
     this.moveOnTextColor = get(params,'moveOnTextColor',access.color("canvases.moveOnText"));
@@ -31,6 +32,11 @@ export default class Pack {
       access.color("canvases.packBgEnd")
     ];
 
+    this.textClasses = {
+      in: "light-text",
+      out: "text"
+    }
+
     this.init(params);
   }
 
@@ -39,7 +45,12 @@ export default class Pack {
     this.width = params.width;
     this.height = params.height;
     this.mainGroup = this.canvas.append("g").attr("class", "pack");
-    this.mainData = this.normalizeData(params.data);
+    // this.mainData = this.normalizeData(params.data);
+    // this.createPack(this.mainData,true);
+  }
+
+  initWithData(data){
+    this.mainData = this.normalizeData(data);
     this.createPack(this.mainData,true);
   }
 
@@ -79,7 +90,7 @@ export default class Pack {
   }
 
   createPack(data, isMainData) {
-    const { width, height, margin, circlePadding, showMainCircle } = this;
+    const { width, height, margin, circlePadding, showMainCircle, limitByLevel } = this;
     const size = [width, height - margin];
 
     if (isMainData) this.mainData = data;
@@ -96,6 +107,7 @@ export default class Pack {
     let nodes = treeRoot.descendants();
 
     nodes = nodes.filter(n => {
+      if(n.data.level > limitByLevel) return false;
       if (showMainCircle) return n.depth < 3;
       return n.depth > 0 && n.depth < 3;
     });
@@ -166,10 +178,10 @@ export default class Pack {
   }
 
   paintTexts(nodes) {
-    const { mainGroup } = this;
+    const { mainGroup, textClasses, limitByLevel } = this;
 
     const childrenScope = d => {
-      return isEmpty(d.data.children) || d.depth === 2;
+      return isEmpty(d.data.children) || d.depth === 2 || d.data.level >= limitByLevel;
     };
 
     const adaptText = d => {
@@ -211,7 +223,7 @@ export default class Pack {
         .append("text")
         .attr("transform", this.getTranslate)
         .attr("y", getTextPosition)
-        .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
+        .attr("class", d => (childrenScope(d) ? textClasses.in : textClasses.out))
         .attr("text-anchor", "middle")
         .attr("font-size", "0")
         .text(d => adaptText(d))
@@ -240,7 +252,7 @@ export default class Pack {
         .duration(1000)
         .text(d => adaptText(d))
         .attr("y", getTextPosition)
-        .attr("class", d => (childrenScope(d) ? "light-text" : "text"))
+        .attr("class", d => (childrenScope(d) ? textClasses.in : textClasses.out))
         .attr("font-size", d => getFontSize(d));
     };
 
@@ -283,7 +295,7 @@ export default class Pack {
           break;
       }
 
-      this.createPack(n.data);
+      if(n.data.level < this.limitByLevel) this.createPack(n.data);
       blockButton();
     };
 

@@ -8,7 +8,8 @@ import { move } from "./utils/canvasActions";
 import * as libsActions from "../../tree/actions/libs";
 import * as catsActions from "../../tree/actions/cats";
 import * as itemsActions from "../../tree/actions/items";
-import LibraryPack from "../canvases/pack/LibraryPack";
+import LibraryPack from "../canvases/pack/LibraryPack"; 
+import TypesPack from "../canvases/pack/TypesPack"; 
 import { setLibraryPack } from "../canvases/utils/packUtils";
 
 import "./style.css";
@@ -44,7 +45,8 @@ function MainCanvas() {
   const getAllLibs = (canvas, width, height) => {
     get("/getAll").then(res => {
       const data = res.data;
-      const libraryPack = new LibraryPack({canvas, width, height, data})
+      const libraryPack = new LibraryPack({canvas, width, height})
+      libraryPack.initWithData(data);
       libraryPack.setLevelClick(1,getCategoriesFromLibrary);
       libraryPack.setLevelClick(2,getItemsFromCategory);
       libraryPack.setLevelClick(3,handleClickOnItem);
@@ -52,6 +54,14 @@ function MainCanvas() {
       setLibraryPack(libraryPack);
     });
   };
+
+  const getAllType = (canvas, width, height) => {
+    get("/getTypesArrangeByGroups").then(res => {
+      const data = res.data;
+      const typesPack = new TypesPack({canvas, width, height, showMainCircle:false})
+      typesPack.initWithData(data);
+    })
+  }
 
   const createFrame = (canvas, width, height) => {
     const frame = canvas
@@ -65,9 +75,16 @@ function MainCanvas() {
 
   const onCanvasReady = (canvas, width, height) => {
     const frame = createFrame(canvas, width, height);
-    move(canvas, frame, access.color("canvases.fg"));
 
-    if(viewKey !== 'showAddItem'){
+    if(viewKey === 'showAddItem'){
+      frame.transition()
+      .duration(2000)
+      .attr("fill", access.color("canvases.fg"));
+
+      move(canvas, frame, access.color("canvases.bg"));
+      getAllType(canvas, width, height);
+    } else {
+      move(canvas, frame, access.color("canvases.fg"));
       getAllLibs(canvas, width, height);
     }
   };
@@ -86,7 +103,7 @@ function MainCanvas() {
   const zIndex = access.dim("zIndexViews.schemePanel");
 
   return (
-    <div style={{ flex: getFlex(), cursor: "none", zIndex: zIndex }}>
+    <div style={{ flex: getFlex(), cursor: "none", zIndex: zIndex, width: '100%' }}>
       {renderStart()}
     </div>
   );

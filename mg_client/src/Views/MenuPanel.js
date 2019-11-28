@@ -48,7 +48,6 @@ function LeftPanel() {
 
     const handleClickOnItem = label => {
       dispatch(itemsActions.setSelected, label);
-      dispatch(itemsActions.setKey, { newKey: "showAddItem", itemName: label });
     };
 
     const handleRemoveLib = label => {
@@ -128,9 +127,7 @@ function LeftPanel() {
     //TODO: add item
     const handleAddItem = value => {
       value = value.trim();
-      dispatch(itemsActions.setKey, { newKey: "showAddItem", itemName: value });
-      // dispatch(catsActions.addCategory, value);
-      // LibraryPack.onAddCategory(focus.lib, value);
+      
     };
 
     switch (addTo) {

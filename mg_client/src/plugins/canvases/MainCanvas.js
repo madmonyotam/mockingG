@@ -16,10 +16,14 @@ import "./style.css";
 
 function MainCanvas() {
   const { viewKey, dispatch } = useBranch({ viewKey: ["viewKey"] });
+  const { packView } = useBranch({ packView: ["packView"] });
 
   const getFlex = () => {
-    if (viewKey === "showAddItem") return 1 - access.dim("flexViews.addItemPanel");
-    return 1;
+    const schemePanelSize = access.dim("flexViews.schemePanel");
+    const leftPanelSize = access.dim("flexViews.leftPanel");
+    const size = leftPanelSize + schemePanelSize;
+    if (viewKey !== "initKey") return 1 - size;
+    return 1 - leftPanelSize;
   };
 
   const getCategoriesFromLibrary = lib => {
@@ -39,7 +43,6 @@ function MainCanvas() {
   const handleClickOnItem = label => {
     dispatch(itemsActions.setItemToFocus, label);
     dispatch(itemsActions.setSelected, label);
-    dispatch(itemsActions.setKey, { newKey: "showAddItem", itemName: label });
   };
 
   const getAllLibs = (canvas, width, height) => {
@@ -76,13 +79,13 @@ function MainCanvas() {
   const onCanvasReady = (canvas, width, height) => {
     const frame = createFrame(canvas, width, height);
 
-    if(viewKey === 'showAddItem'){
+    if(packView === 'types'){
       frame.transition()
       .duration(2000)
       .attr("fill", access.color("canvases.fg"));
 
       move(canvas, frame, access.color("canvases.bg"));
-      getAllType(canvas, width, height);
+      // getAllType(canvas, width, height);
     } else {
       move(canvas, frame, access.color("canvases.fg"));
       getAllLibs(canvas, width, height);
@@ -100,7 +103,7 @@ function MainCanvas() {
     return <Start canvasReady={onCanvasReady} margin={margin} />;
   };
 
-  const zIndex = access.dim("zIndexViews.schemePanel");
+  const zIndex = access.dim("zIndexViews.schemePanel");  // check
 
   return (
     <div style={{ flex: getFlex(), cursor: "none", zIndex: zIndex, width: '100%' }}>

@@ -13,7 +13,8 @@ const tree = new Baobab({
   selected: null,
   selectedCategory: null,
   selectedLibrary: null,
-  viewKey: 'initKey'
+  viewKey: 'initKey',
+  packView: 'project' // 'types'
 });
 
 window.tree = tree;

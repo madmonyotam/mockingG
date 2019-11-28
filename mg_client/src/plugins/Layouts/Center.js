@@ -6,7 +6,7 @@ const Center = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  overflow: ${props => props.overflow || 'auto'};
 `
 
 export default Center;

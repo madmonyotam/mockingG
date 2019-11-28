@@ -6,6 +6,7 @@ import * as access from "../plugins/access";
 import styled from "styled-components";
 import Row from "../plugins/Layouts/Row";
 import Column from "../plugins/Layouts/Column";
+import Center from "../plugins/Layouts/Center";
 import Label from "../plugins/tools/Label";
 import Editor from "../plugins/editor/Editor";
 import SwitchEditorBtn from "../plugins/schemePanel/SwitchEditorBtn";
@@ -70,9 +71,12 @@ function SchemePanel() {
   const renderActionBar = () => {
     return (
       <TopBar background={access.color("searchBar.bg")}>
-        <Label color={access.color("searchBar.fg")} style={{minWidth: 120}}>
+        <Center style={{minWidth: 50}} overflow={'hidden'}>
+
+        <Label color={access.color("searchBar.fg")} >
           {selectedCategory}
         </Label>
+        </Center>
         <SwitchEditorBtn  onSwitch={handleSwitchEditor} value={editorToRender} mockData={mockData}/>
       </TopBar>
     );

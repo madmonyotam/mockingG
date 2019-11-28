@@ -205,6 +205,7 @@ export default class Pack {
     };
 
     const getFontSize = d => {
+
       let size = Math.floor(d.r / 3);
 
       size = size < 8 ? 8 : size;

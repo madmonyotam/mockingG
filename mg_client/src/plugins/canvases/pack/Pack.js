@@ -141,6 +141,7 @@ export default class Pack {
     const enterCircles = c => {
       c.enter()
         .append("circle")
+        .attr("id", d => d.id)
         .attr("r", 0)
         .attr("transform", this.getTranslate)
         .attr("fill-opacity", 0.5)
@@ -168,7 +169,7 @@ export default class Pack {
         .attr("r", d => d.r);
     };
 
-    const circles = mainGroup.selectAll("circle").data(nodes, d => d.data.id);
+    const circles = mainGroup.selectAll("circle").data(nodes);
 
     enterCircles(circles);
     exitCircles(circles);

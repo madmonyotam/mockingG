@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Start from "../tools/Start";
 import { useBranch } from "baobab-react/hooks";
 import * as access from "../access";
-import { get } from "../requests";
 
 import { move, dropCircles } from "./utils/canvasActions";
 

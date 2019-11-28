@@ -22,7 +22,7 @@ const TopBar = styled(Row)`
 
 const InnerColumn = styled(Column)`
   min-width: 0;
-  transition: flex ${access.time('schemePanel.transition')}ms;
+  transition: flex ${access.time("schemePanel.transition")}ms;
   box-shadow: 2px 0px 3px 0px rgb(17, 38, 90);
   overflow: hidden;
 `;
@@ -31,39 +31,41 @@ function SchemePanel() {
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
   const { items } = useBranch({ items: ["items"] });
   const { mockData } = useBranch({ mockData: ["mockData"] });
-  const { selectedCategory } = useBranch({ selectedCategory: ["selectedCategory"] });
+  const { selectedCategory } = useBranch({
+    selectedCategory: ["selectedCategory"]
+  });
 
   const editorWrapper = useRef();
   const [editorWidth, setEditorWidth] = useState(0);
-  const [editorToRender, setEditorToRender] = useState('scheme');
+  const [editorToRender, setEditorToRender] = useState("scheme");
 
-  const handleSwitchEditor = (v) => {
+  const handleSwitchEditor = v => {
     setEditorToRender(v);
-  }
+  };
 
   const openPanelCanvas = () => {
     if (viewKey === "initKey") return null;
 
-    return <OpenPanelCanvas/>
-  }
+    return <OpenPanelCanvas />;
+  };
 
   const renderEditor = () => {
-    const isData = editorToRender === 'code' ? true : false;
+    const isData = editorToRender === "code" ? true : false;
 
     if (viewKey === "initKey") {
       return null;
     } else {
       setTimeout(() => {
-        if(editorWrapper.current){
+        if (editorWrapper.current) {
           setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
         }
-      }, access.time('schemePanel.showEditor'));
+      }, access.time("schemePanel.showEditor"));
     }
 
     if (editorWidth === 0) return null;
     const width = editorWidth - editorWidth / 100;
     let jsonToRender = items;
-    if(isData) jsonToRender = mockData;
+    if (isData) jsonToRender = mockData;
 
     return <Editor isData={isData} width={width} data={jsonToRender} />;
   };
@@ -71,13 +73,14 @@ function SchemePanel() {
   const renderActionBar = () => {
     return (
       <TopBar background={access.color("searchBar.bg")}>
-        <Center style={{minWidth: 50}} overflow={'hidden'}>
-
-        <Label color={access.color("searchBar.fg")} >
-          {selectedCategory}
-        </Label>
+        <Center style={{ minWidth: 50 }} overflow={"hidden"}>
+          <Label color={access.color("searchBar.fg")}>{selectedCategory}</Label>
         </Center>
-        <SwitchEditorBtn  onSwitch={handleSwitchEditor} value={editorToRender} mockData={mockData}/>
+        <SwitchEditorBtn
+          onSwitch={handleSwitchEditor}
+          value={editorToRender}
+          mockData={mockData}
+        />
       </TopBar>
     );
   };
@@ -97,7 +100,6 @@ function SchemePanel() {
 
   const zIndex = access.dim("zIndexViews.schemePanel");
 
-  
   return (
     <Srow
       ref={editorWrapper}
@@ -111,7 +113,6 @@ function SchemePanel() {
         {renderActionBar()}
         {openPanelCanvas()}
         {renderEditor()}
-        
       </InnerColumn>
     </Srow>
   );

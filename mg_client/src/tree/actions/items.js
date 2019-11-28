@@ -55,5 +55,7 @@ export function removeItem(tree, field) {
 
   get("/removeFromScheme", { library, category, field }).then(res => {
     tree.set("items", res.data);
+    generate(tree, res.data, 1);
+
   });
 }

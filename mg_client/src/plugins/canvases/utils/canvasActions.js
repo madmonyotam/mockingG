@@ -15,8 +15,8 @@ export const move = (canvas, board, color) => {
 
   board.on("mousemove", (d, i) => {
     const mousePlace = {
-      x: d3.event.offsetX-1,
-      y: d3.event.offsetY-1
+      x: d3.event.offsetX - 1,
+      y: d3.event.offsetY - 1
     };
 
     if (!prevMousePlace) {
@@ -44,8 +44,7 @@ export const move = (canvas, board, color) => {
   });
 };
 
-export const dropCircles = (canvas,height, board, color) => {
-
+export const dropCircles = (canvas, height, board, color) => {
   board.on("mousemove", (d, i) => {
     const mousePlace = {
       x: d3.event.offsetX,
@@ -54,14 +53,42 @@ export const dropCircles = (canvas,height, board, color) => {
 
     canvas
       .append("circle")
+      .attr("cx", mousePlace.x - 1)
+      .attr("cy", mousePlace.y - 1)
+      .attr("r", 1)
+      .attr("fill", color)
+      .transition()
+      .duration(2000)
+      .attr("cy", height)
+      .ease(t => d3.easeCircleIn(t))
+      .transition()
+      .duration(10)
+      .remove();
+  });
+};
+
+export const ripple = (canvas, board, color = "white") => {
+  board.on("click", (d, i) => {
+    const mousePlace = {
+      x: d3.event.offsetX,
+      y: d3.event.offsetY
+    };
+
+    const circle = canvas
+      .append("circle")
       .attr("cx", mousePlace.x)
       .attr("cy", mousePlace.y)
       .attr("r", 1)
       .attr("fill", color)
+      .attr("fill-opacity", 0.3);
+
+    ripple(canvas, circle, color);
+
+    circle
       .transition()
-      .duration(1500)
-      .attr("cy", height)
-      .ease(t => d3.easeCircleIn(t))
+      .duration(500)
+      .attr("r", 70)
+      .attr("fill-opacity", 0)
       .transition()
       .duration(10)
       .remove();

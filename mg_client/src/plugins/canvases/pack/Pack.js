@@ -330,5 +330,19 @@ export default class Pack {
         break;
     }
   }
+
+  scaleDown(){
+    this.mainGroup
+    .transition()
+    .duration(2000)
+    .attr("transform", `translate(${this.width/2},${this.height/2}), scale(0)`)
+  }
+
+  scaleUp(){
+    this.mainGroup
+    .transition()
+    .duration(2000)
+    .attr("transform", `translate(0,0), scale(1)`)
+  }
 }
 

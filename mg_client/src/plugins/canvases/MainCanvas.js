@@ -8,15 +8,17 @@ import { move } from "./utils/canvasActions";
 import * as libsActions from "../../tree/actions/libs";
 import * as catsActions from "../../tree/actions/cats";
 import * as itemsActions from "../../tree/actions/items";
-import LibraryPack from "../canvases/pack/LibraryPack"; 
-import TypesPack from "../canvases/pack/TypesPack"; 
-import { setLibraryPack } from "../canvases/utils/packUtils";
+import LibraryPack from "../canvases/pack/LibraryPack";
+import TypesPack from "../canvases/pack/TypesPack";
+import { setLibraryPack, getLibraryPack, getTypesPack, setTypesPack } from "../canvases/utils/packUtils";
+
+import { paintFrame } from "./paint/Frames";
+import Tag from "../canvases/paint/Tag";
 
 import "./style.css";
 
 function MainCanvas() {
   const { viewKey, dispatch } = useBranch({ viewKey: ["viewKey"] });
-  const { packView } = useBranch({ packView: ["packView"] });
 
   const getFlex = () => {
     const schemePanelSize = access.dim("flexViews.schemePanel");
@@ -48,11 +50,11 @@ function MainCanvas() {
   const getAllLibs = (canvas, width, height) => {
     get("/getAll").then(res => {
       const data = res.data;
-      const libraryPack = new LibraryPack({canvas, width, height})
+      const libraryPack = new LibraryPack({ canvas, width, height });
       libraryPack.initWithData(data);
-      libraryPack.setLevelClick(1,getCategoriesFromLibrary);
-      libraryPack.setLevelClick(2,getItemsFromCategory);
-      libraryPack.setLevelClick(3,handleClickOnItem);
+      libraryPack.setLevelClick(1, getCategoriesFromLibrary);
+      libraryPack.setLevelClick(2, getItemsFromCategory);
+      libraryPack.setLevelClick(3, handleClickOnItem);
 
       setLibraryPack(libraryPack);
     });
@@ -61,35 +63,84 @@ function MainCanvas() {
   const getAllType = (canvas, width, height) => {
     get("/getTypesArrangeByGroups").then(res => {
       const data = res.data;
-      const typesPack = new TypesPack({canvas, width, height, showMainCircle:false})
+      const typesPack = new TypesPack({
+        canvas,
+        width,
+        height,
+        showMainCircle: false
+      });
       typesPack.initWithData(data);
-    })
-  }
+      typesPack.scaleDown();
+      setTypesPack(typesPack);
 
-  const createFrame = (canvas, width, height) => {
-    const frame = canvas
-      .append("rect")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("fill", access.color("canvases.bg"));
-
-    return frame;
+    });
   };
 
-  const onCanvasReady = (canvas, width, height) => {
-    const frame = createFrame(canvas, width, height);
+  const paintTabs = (canvas, width, height, frame) => {
 
-    if(packView === 'types'){
-      frame.transition()
-      .duration(2000)
-      .attr("fill", access.color("canvases.fg"));
+    const onSelect = (id)=>{
+      projectTag.setSelected(id === 'project');
+      typesTag.setSelected(id === 'types');
+      menuTag.setSelected(id === 'menu');
 
-      move(canvas, frame, access.color("canvases.bg"));
-      // getAllType(canvas, width, height);
-    } else {
-      move(canvas, frame, access.color("canvases.fg"));
-      getAllLibs(canvas, width, height);
+      switch (id) {
+        case 'types':
+          getLibraryPack().scaleDown();
+          getTypesPack().scaleUp();
+          break;
+
+          case 'project':
+              getLibraryPack().scaleUp();
+              getTypesPack().scaleDown();
+              break;
+      
+        default:
+          break;
+      }
     }
+
+    const projectTag = new Tag({
+      selected: true,
+      onSelect,
+      canvas,
+      width,
+      height,
+      id: "project",
+      index: 0,
+      color: access.color("canvases.fg")
+    });
+
+    const typesTag = new Tag({
+      selected: false,
+      onSelect,
+      canvas,
+      width,
+      height,
+      id: "types",
+      index: 1,
+      color: access.color("canvases.fg")
+    });
+
+    const menuTag = new Tag({
+      selected: false,
+      onSelect,
+      canvas,
+      width,
+      height,
+      id: "menu",
+      index: 2,
+      color: access.color("canvases.fg")
+    });
+
+  }
+
+  const onCanvasReady = (canvas, width, height) => {
+    const frame = paintFrame(canvas, width, height);
+    paintTabs(canvas, width, height, frame);
+
+    move(canvas, frame, access.color("canvases.fg"));
+    getAllLibs(canvas, width, height);
+    getAllType(canvas, width, height);
   };
 
   const renderStart = () => {
@@ -103,10 +154,12 @@ function MainCanvas() {
     return <Start canvasReady={onCanvasReady} margin={margin} />;
   };
 
-  const zIndex = access.dim("zIndexViews.schemePanel");  // check
+  const zIndex = access.dim("zIndexViews.schemePanel"); // check
 
   return (
-    <div style={{ flex: getFlex(), cursor: "none", zIndex: zIndex, width: '100%' }}>
+    <div
+      style={{ flex: getFlex(), cursor: "none", zIndex: zIndex, width: "100%" }}
+    >
       {renderStart()}
     </div>
   );

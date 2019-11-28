@@ -7,15 +7,15 @@ export default class TypesPack extends Pack {
 
     this.limitByLevel = 2;
 
-    this.colorScaleRange = [
-      "white",
-      "grey"
-    ];
+    // this.colorScaleRange = [
+    //   "white",
+    //   "grey"
+    // ];
 
-    this.textClasses = {
-      in: "text",
-      out: "light-text",
-    }
+    // this.textClasses = {
+    //   in: "text",
+    //   out: "light-text",
+    // }
 
   }
 }

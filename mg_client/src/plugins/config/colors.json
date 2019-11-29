@@ -42,5 +42,11 @@
         "moveOnText": "colors.blue01",
         "packBgStart": "backgrounds.primary",
         "packBgEnd": "backgrounds.hover"
+    },
+    "tags": {
+        "bg": "backgrounds.primary",
+        "fg": "texts.primary",
+        "moveOnTag": "colors.blueLight01",
+        "moveOnText": "colors.blue01"
     }
 }

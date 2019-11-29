@@ -46,12 +46,12 @@ export default class Tag {
     const tags = this.mainGroup.selectAll("rect");
     const texts = this.mainGroup.selectAll("text");
 
-    dropCircles(this.mainGroup, this.height, tags, access.color("canvases.bg"));
+    dropCircles(this.mainGroup, this.height, tags, access.color("tags.moveOnTag"));
     dropCircles(
       this.mainGroup,
       this.height,
       texts,
-      access.color("canvases.fg")
+      access.color("tags.moveOnText")
     );
 
     this.mouseEvents();

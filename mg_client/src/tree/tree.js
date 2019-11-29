@@ -3,7 +3,7 @@ import Baobab from 'baobab';
 const tree = new Baobab({
   libs: [],
   cats: [],
-  items: null,
+  items: [],
   mockData: null,
   focus: {
     lib: null,

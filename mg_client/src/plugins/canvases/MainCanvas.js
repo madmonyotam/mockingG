@@ -107,7 +107,7 @@ function MainCanvas() {
       height,
       id: "project",
       index: 0,
-      color: access.color("canvases.fg")
+      color: access.color("tags.bg")
     });
 
     const typesTag = new Tag({
@@ -118,7 +118,7 @@ function MainCanvas() {
       height,
       id: "types",
       index: 1,
-      color: access.color("canvases.fg")
+      color: access.color("tags.bg")
     });
 
     const menuTag = new Tag({
@@ -129,7 +129,7 @@ function MainCanvas() {
       height,
       id: "menu",
       index: 2,
-      color: access.color("canvases.fg")
+      color: access.color("tags.bg")
     });
 
   }

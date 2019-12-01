@@ -7,6 +7,7 @@ const nameTypes = require('../types/collection/nameTypes');
 const fixedTypes = require('../types/collection/fixedTypes');
 const webTypes = require('../types/collection/webTypes');
 const numbersTypes = require('../types/collection/numbersTypes');
+const textsTypes = require('../types/collection/textTypes');
 
 const types = new typesClass();
 const schemes = new schemesClass();
@@ -15,6 +16,7 @@ types.addTypes(nameTypes);
 types.addTypes(fixedTypes); 
 types.addTypes(webTypes); 
 types.addTypes(numbersTypes); 
+types.addTypes(textsTypes);
 
 const allTypes = types.getTypes(); 
 

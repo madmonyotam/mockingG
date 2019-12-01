@@ -11,6 +11,7 @@ export default class TypesPack extends Pack {
     this.dragCircle = null;
     this.dragText = null;
     this.blockDrag = false;
+    this.firstMove = true;
 
     // this.colorScaleRange = [
     //   "white",
@@ -28,7 +29,17 @@ export default class TypesPack extends Pack {
     const x = event.offsetX;
     const y = event.offsetY;
 
-    return { x, y };
+    if(this.firstMove){
+      return { x, y };
+    }
+
+    const {prevX,prevY} = this.getPrevCircle();
+
+    return {
+      x: prevX + event.movementX,
+      y: prevY + event.movementY
+    }
+
   }
 
   getPrevCircle() {
@@ -142,8 +153,6 @@ export default class TypesPack extends Pack {
   }
 
   handleNodeDrag(circles, texts) {
-    let firstMove = true;
-
     circles.call(
       d3
         .drag()
@@ -151,21 +160,21 @@ export default class TypesPack extends Pack {
           if (d.data.level < 2) return null;
           if(this.blockDrag) return null;
 
-          if (firstMove) {  
+          if (this.firstMove) {  
             this.startDragCircle();
             this.startDragText();
           }
 
           this.onDrag();
-          firstMove = false;
+          this.firstMove = false;
         })
         .on("end", d => {
-          if(this.blockDrag) return null;
           if (d.data.level < 2) return null;
+          if(this.blockDrag) return null;
 
           this.endDragText();
           this.endDragCircle();
-          firstMove = true;
+          this.firstMove = true;
           this.blockDrag = true;
           setTimeout(() => {
           this.blockDrag = false;

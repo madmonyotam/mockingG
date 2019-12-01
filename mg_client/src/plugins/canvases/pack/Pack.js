@@ -80,6 +80,10 @@ export default class Pack {
         level: newData.level + 1
       };
 
+      if(this.limitByLevel  === newData.level + 1){
+        d.name = data[key].name || key;
+      }
+
       const countBack = this.normalizeData(data[key], d);
 
       newData.value += countBack.value;
@@ -120,7 +124,6 @@ export default class Pack {
 
     this.paintCircles(nodes);
     this.paintTexts(nodes);
-
     const circles = mainGroup.selectAll("circle");
     const texts = mainGroup.selectAll("text");
 
@@ -128,6 +131,11 @@ export default class Pack {
     move(canvas, texts, moveOnTextColor);
 
     this.handleNodeClick(circles, texts);
+    this.handleNodeDrag(circles, texts);
+  }
+
+  handleNodeDrag(circles, texts){
+
   }
 
   paintCircles(nodes) {
@@ -223,6 +231,7 @@ export default class Pack {
     const enterTexts = t => {
       t.enter()
         .append("text")
+        .attr("id",d => d.data.id)
         .attr("transform", this.getTranslate)
         .attr("y", getTextPosition)
         .attr("class", d => (childrenScope(d) ? textClasses.in : textClasses.out))
@@ -267,7 +276,11 @@ export default class Pack {
     return texts;
   }
 
-  handleNodeClick(circle, text) {
+  navigateBack(data) {
+
+  }
+
+  handleNodeClick(circles, text) {
 
     const blockButton = () => {
       this.clickIsBlock = true;
@@ -277,8 +290,12 @@ export default class Pack {
     };
 
     const clickAction = n => {
+
       if (this.clickIsBlock) return;
-      if (n.depth === 0) return;
+      if (n.depth === 0) {
+        this.navigateBack(n.data);
+        return;
+      }
       if (n.depth === 2) n = n.parent;
 
       switch (n.data.level) {
@@ -297,11 +314,13 @@ export default class Pack {
           break;
       }
 
-      if(n.data.level < this.limitByLevel) this.createPack(n.data);
-      blockButton();
+      if(n.data.level < this.limitByLevel){
+        this.createPack(n.data);
+        blockButton();
+      } 
     };
 
-    circle.on("click", n => {
+    circles.on("click", n => {
       clickAction(n);
     });
 

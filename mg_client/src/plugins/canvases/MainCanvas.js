@@ -10,7 +10,12 @@ import * as catsActions from "../../tree/actions/cats";
 import * as itemsActions from "../../tree/actions/items";
 import LibraryPack from "../canvases/pack/LibraryPack";
 import TypesPack from "../canvases/pack/TypesPack";
-import { setLibraryPack, getLibraryPack, getTypesPack, setTypesPack } from "../canvases/utils/packUtils";
+import {
+  setLibraryPack,
+  getLibraryPack,
+  getTypesPack,
+  setTypesPack
+} from "../canvases/utils/packUtils";
 
 import { paintFrame } from "./paint/Frames";
 import Tag from "../canvases/paint/Tag";
@@ -72,32 +77,30 @@ function MainCanvas() {
       typesPack.initWithData(data);
       typesPack.scaleDown();
       setTypesPack(typesPack);
-
     });
   };
 
   const paintTabs = (canvas, width, height, frame) => {
-
-    const onSelect = (id)=>{
-      projectTag.setSelected(id === 'project');
-      typesTag.setSelected(id === 'types');
-      menuTag.setSelected(id === 'menu');
+    const onSelect = id => {
+      projectTag.setSelected(id === "project");
+      typesTag.setSelected(id === "types");
+      menuTag.setSelected(id === "menu");
 
       switch (id) {
-        case 'types':
+        case "types":
           getLibraryPack().scaleDown();
           getTypesPack().scaleUp();
           break;
 
-          case 'project':
-              getLibraryPack().scaleUp();
-              getTypesPack().scaleDown();
-              break;
-      
+        case "project":
+          getLibraryPack().scaleUp();
+          getTypesPack().scaleDown();
+          break;
+
         default:
           break;
       }
-    }
+    };
 
     const projectTag = new Tag({
       selected: true,
@@ -131,8 +134,7 @@ function MainCanvas() {
       index: 2,
       color: access.color("tags.bg")
     });
-
-  }
+  };
 
   const onCanvasReady = (canvas, width, height) => {
     const frame = paintFrame(canvas, width, height);

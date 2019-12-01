@@ -3,7 +3,7 @@ import Start from "../tools/Start";
 import { useBranch } from "baobab-react/hooks";
 import * as access from "../access";
 
-import { move, dropCircles } from "./utils/canvasActions";
+import { dropCircles } from "./utils/canvasActions";
 
 import "./style.css";
 

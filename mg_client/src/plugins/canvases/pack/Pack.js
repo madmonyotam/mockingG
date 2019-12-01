@@ -149,7 +149,7 @@ export default class Pack {
     const enterCircles = c => {
       c.enter()
         .append("circle")
-        .attr("id", d => d.id)
+        .attr("id", d => `circle-${d.data.id}`)
         .attr("r", 0)
         .attr("transform", this.getTranslate)
         .attr("fill-opacity", 0.5)
@@ -231,7 +231,7 @@ export default class Pack {
     const enterTexts = t => {
       t.enter()
         .append("text")
-        .attr("id",d => d.data.id)
+        .attr("id", d => `text-${d.data.id}`)
         .attr("transform", this.getTranslate)
         .attr("y", getTextPosition)
         .attr("class", d => (childrenScope(d) ? textClasses.in : textClasses.out))

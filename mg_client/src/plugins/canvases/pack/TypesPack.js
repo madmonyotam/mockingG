@@ -29,17 +29,16 @@ export default class TypesPack extends Pack {
     const x = event.offsetX;
     const y = event.offsetY;
 
-    if(this.firstMove){
+    if (this.firstMove) {
       return { x, y };
     }
 
-    const {prevX,prevY} = this.getPrevCircle();
+    const { prevX, prevY } = this.getPrevCircle();
 
     return {
       x: prevX + event.movementX,
       y: prevY + event.movementY
-    }
-
+    };
   }
 
   getPrevCircle() {
@@ -63,8 +62,8 @@ export default class TypesPack extends Pack {
   }
 
   initDragStart(d, i, items) {
-    this.dragCircle = d3.select(items[i]);
-    this.dragText = d3.select(`#${d.data.id}`);
+    this.dragCircle = d3.select(`#circle-${d.data.id}`);
+    this.dragText = d3.select(`#text-${d.data.id}`);
 
     const { prevX, prevY, prevR, prevT } = this.getPrevCircle();
     const { prevText, prevFontSize } = this.getPrevText();
@@ -152,40 +151,46 @@ export default class TypesPack extends Pack {
     dragCircle.attr("cx", x).attr("cy", y);
   }
 
+  stop(d) {
+    if (d.data.level < 2) return true;
+    if (this.blockDrag) return true;
+  }
+
+  block() {
+    this.blockDrag = true;
+    setTimeout(() => {
+      this.blockDrag = false;
+    }, 500);
+  }
+
   handleNodeDrag(circles, texts) {
-    circles.call(
-      d3
-        .drag()
-        .on("drag", d => {
-          if (d.data.level < 2) return null;
-          if(this.blockDrag) return null;
 
-          if (this.firstMove) {  
-            this.startDragCircle();
-            this.startDragText();
-          }
 
-          this.onDrag();
-          this.firstMove = false;
-        })
-        .on("end", d => {
-          if (d.data.level < 2) return null;
-          if(this.blockDrag) return null;
+    const dragAction = d3.drag()
+      .on("drag", d => {
+        if (this.stop(d)) return null;
+        if (this.firstMove) {
+          this.startDragCircle();
+          this.startDragText();
+        }
 
-          this.endDragText();
-          this.endDragCircle();
-          this.firstMove = true;
-          this.blockDrag = true;
-          setTimeout(() => {
-          this.blockDrag = false;
-          }, 1000)
-          
-        })
-        .on("start", (d, i, items) => {
-          if(this.blockDrag) return null;
-          if (d.data.level < 2) return null;
-          this.initDragStart(d, i, items);
-        })
-    );
+        this.onDrag();
+        this.firstMove = false;
+      })
+      .on("end", d => {
+        if (this.stop(d)) return null;
+
+        this.endDragText();
+        this.endDragCircle();
+        this.firstMove = true;
+        this.block();
+      })
+      .on("start", (d, i, items) => {
+        if (this.stop(d)) return null;
+        this.initDragStart(d);
+      });
+      
+        circles.call(dragAction);
+        texts.call(dragAction);
   }
 }

@@ -84,7 +84,7 @@ export default class TypesPack extends Pack {
       .attr("cx", x)
       .attr("cy", y)
       .transition()
-      .duration(250)
+      .duration(500)
       .attr("r", 10)
       .attr("fill-opacity", 1);
   }
@@ -108,12 +108,12 @@ export default class TypesPack extends Pack {
     const { x, y } = this.getXyFromEvent();
 
     this.dragText
-      .attr("y", y + 30)
-      .attr("x", x)
-      .attr("transform", null)
-      .transition()
-      .duration(250)
-      .attr("class", d => this.textClasses.out)
+    .attr("transform", null)
+    .attr("class", this.textClasses.out)
+    .attr("y", y + 30)
+    .attr("x", x)
+    .transition()
+    .duration(500)
       .attr("font-size", "20px")
       .text(d => d.data.name);
   }

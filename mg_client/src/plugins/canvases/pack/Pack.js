@@ -177,7 +177,7 @@ export default class Pack {
         .attr("r", d => d.r);
     };
 
-    const circles = mainGroup.selectAll("circle").data(nodes);
+    const circles = mainGroup.selectAll("circle").data(nodes,d=>d.data.id);
 
     enterCircles(circles);
     exitCircles(circles);

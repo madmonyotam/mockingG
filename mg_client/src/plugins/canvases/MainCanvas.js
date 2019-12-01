@@ -160,7 +160,7 @@ function MainCanvas() {
 
   return (
     <div
-      style={{ flex: getFlex(), cursor: "none", zIndex: zIndex, width: "100%" }}
+      style={{ flex: getFlex(), zIndex: zIndex, width: "100%" }}
     >
       {renderStart()}
     </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { useBranch } from "baobab-react/hooks";
 
 import { SpaceAround } from "../Layouts/Spaces";
 
@@ -32,7 +33,9 @@ const useStyles = makeStyles(props => ({
   }
 }));
 
-function SwitchEditorBtn({ onSwitch, value, mockData }) {
+function SwitchEditorBtn({ onSwitch, value }) {
+  const { mockData } = useBranch({ mockData: ["mockData"] });
+
 
   const handleChange = (e, v) => {
     onSwitch(v);

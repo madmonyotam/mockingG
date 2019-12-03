@@ -10,7 +10,13 @@ import Center from "../plugins/Layouts/Center";
 import Label from "../plugins/tools/Label";
 import Editor from "../plugins/editor/Editor";
 import SwitchEditorBtn from "../plugins/schemePanel/SwitchEditorBtn";
+import BottomBarGen from "../plugins/schemePanel/BottomBarGen";
+import BottomBarScheme from "../plugins/schemePanel/BottomBarScheme";
 import OpenPanelCanvas from "../plugins/canvases/OpenPanelCanvas";
+
+const Placeholder = styled('div')`
+  flex:1
+`
 
 const Srow = styled(Row)`
   flex: ${props => props.flex};
@@ -28,6 +34,7 @@ const InnerColumn = styled(Column)`
 `;
 
 function SchemePanel() {
+
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
   const { items } = useBranch({ items: ["items"] });
   const { mockData } = useBranch({ mockData: ["mockData"] });
@@ -56,21 +63,20 @@ function SchemePanel() {
       return null;
     } else {
       setTimeout(() => {
+        if(editorWidth !== 0) return;
         if (editorWrapper.current) {
           setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
         }
       }, access.time("schemePanel.showEditor"));
     }
 
-    if (editorWidth === 0) return null;
+    if (editorWidth === 0) return <Placeholder/>;
     const width = editorWidth - editorWidth / 100;
-    let jsonToRender = items;
-    if (isData) jsonToRender = mockData;
 
-    return <Editor isData={isData} width={width} data={jsonToRender} />;
+    return <Editor isData={isData} width={width} />;
   };
 
-  const renderActionBar = () => {
+  const RenderActionBar = () => {
     return (
       <TopBar background={access.color("searchBar.bg")}>
         <Center style={{ minWidth: 50 }} overflow={"hidden"}>
@@ -79,10 +85,17 @@ function SchemePanel() {
         <SwitchEditorBtn
           onSwitch={handleSwitchEditor}
           value={editorToRender}
-          mockData={mockData}
         />
       </TopBar>
     );
+  };
+
+  const RenderBottomBar = () => {
+    if (editorToRender === "scheme") {
+      return <BottomBarScheme />;
+    }
+
+    return <BottomBarGen />;
   };
 
   const getFlex = () => {
@@ -110,9 +123,10 @@ function SchemePanel() {
       shadowColor={"none"}
     >
       <InnerColumn flex={InnerFlex} background={access.color("schemePanel.bg")}>
-        {renderActionBar()}
+        <RenderActionBar />
         {openPanelCanvas()}
         {renderEditor()}
+        <RenderBottomBar />
       </InnerColumn>
     </Srow>
   );

@@ -5,7 +5,7 @@ export function setItems(tree, items) {
   tree.set(["items"], items);
 }
 
-export function generate(tree, items, amount = 1) {
+export function generate(tree, {items, amount = 1}) {
   get("/generate", { scheme: items, amount })
     .then(res => {
       tree.set("mockData", res.data);
@@ -22,7 +22,6 @@ function replaceScheme(tree, items) {
   const category = tree.get("selectedCategory");
   const libraryPack = getLibraryPack();
 
-
   get("/replaceScheme", { scheme: items, library, category })
     .then(res => {
       tree.set("items", res.data);
@@ -35,7 +34,7 @@ function replaceScheme(tree, items) {
 }
 
 export function onEditorChange(tree, items) {
-  generate(tree, items, 1);
+  generate(tree, {items, amount:1});
   replaceScheme(tree, items);
 }
 
@@ -51,8 +50,7 @@ export function onAddFromPack(tree,type) {
       type: type
     }
 
-    tree.set('items',items);
-    onEditorChange(tree, items)
+    onEditorChange(tree, items);
   });
 }
 
@@ -72,7 +70,7 @@ export function removeItem(tree, field) {
 
   get("/removeFromScheme", { library, category, field }).then(res => {
     tree.set("items", res.data);
-    generate(tree, res.data, 1);
+    generate(tree, {items:res.data, amount:1});
 
   });
 }

@@ -23,19 +23,17 @@ export default class TypesPack extends Pack {
 
   getXyFromEvent() {
     const event = d3.event.sourceEvent;
-    const x = event.offsetX;
-    const y = event.offsetY;
-
-    if (this.firstMove) {
-      return { x, y };
-    }
+    let x  = event.offsetX;
+    let y = event.offsetY;
 
     const { prevX, prevY } = this.getPrevCircle();
 
-    return {
-      x: prevX + event.movementX,
-      y: prevY + event.movementY
-    };
+    if(d3.event.x<10){
+      x = 10
+      y = prevY
+    }
+
+    return { x, y };
   }
 
   getPrevCircle() {

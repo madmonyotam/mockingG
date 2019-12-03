@@ -16,13 +16,21 @@
             "type": null,
             "name": "add"
         },
-        "playCircle": {
+        "play": {
             "type": null,
-            "name": "play_circle_filled"
+            "name": "play_arrow"
         },
         "list": {
             "type": null,
             "name": "view_list"
+        },
+        "copy": {
+            "type": null,
+            "name": "file_copy"
+        },
+        "download": {
+            "type": null,
+            "name": "file_download"
         }
     },
     "searchBar": {
@@ -36,7 +44,9 @@
        "add": "icons.add"
     },
     "schemePanel": {
-        "code": "icons.playCircle",
-        "scheme": "icons.list"
+        "scheme": "icons.list",
+        "play": "icons.play",
+        "download": "icons.download",
+        "copy": "icons.copy"
     }
 }

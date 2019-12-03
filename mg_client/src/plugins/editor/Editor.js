@@ -8,12 +8,14 @@ import "ace-builds/src-noconflict/theme-xcode";
 
 import { onEditorChange } from "../../tree/actions/items";
 
-function Editor({ width, data, isData }) {
-  const { dispatch } = useBranch({ items: ["focus", "cat"] });
+function Editor({ width, isData }) {
+  const { items, dispatch } = useBranch({ items: ["items"] });
+  const { mockData } = useBranch({ mockData: ["mockData"] });
 
   const [initCode, setInitCode] = useState("");
   const [code, setCode] = useState("");
 
+  const data = isData ? mockData : items;
   const codeFromProps = JSON.stringify(data, null, 2);
 
   if (data !== null && codeFromProps !== initCode) {
@@ -26,7 +28,7 @@ function Editor({ width, data, isData }) {
       newCode = JSON.parse(newCode);
       dispatch(onEditorChange, newCode);
     } catch (error) {
-
+      console.log(error)
     }
   };
 

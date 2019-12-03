@@ -29,6 +29,10 @@
         "bg": "backgrounds.primary",
         "fg": "texts.primary"
     },
+    "bottomBar": {
+        "bg": "backgrounds.primary",
+        "fg": "texts.primary"
+    },
     "schemePanel": {
         "bg": "backgrounds.code",
         "divider": "colors.blue02",

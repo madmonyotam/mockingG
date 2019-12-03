@@ -39,6 +39,23 @@ export function onEditorChange(tree, items) {
   replaceScheme(tree, items);
 }
 
+export function onAddFromPack(tree,type) {
+
+  get("/getTypeByKey", { type }).then(res => {
+
+    // const type = res.data;
+    const num = Math.floor(Math.random()*1000);
+
+    let items = {...tree.get('items')};
+    items[`${type}-${num}`] = {
+      type: type
+    }
+
+    tree.set('items',items);
+    onEditorChange(tree, items)
+  });
+}
+
 export function setItemToFocus(tree, item) {
   tree.set(["focus", "item"], item);
 }

@@ -74,6 +74,7 @@ export default class Pack {
     for (const key in data) {
       const d = {
         name: key,
+        nameKey: key,
         value: 1,
         children: [],
         id: `${newData.id}-${key}`,

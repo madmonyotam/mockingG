@@ -1,4 +1,5 @@
 import React from "react";
+
 import Start from "../tools/Start";
 import { useBranch } from "baobab-react/hooks";
 import * as access from "../access";
@@ -17,7 +18,13 @@ import {
   setTypesPack
 } from "../canvases/utils/packUtils";
 
-import { paintFrame } from "./paint/Frames";
+import {
+  paintFrame,
+  openAddPanel,
+  closeAddPanel,
+  paintAddPanel,
+  createGradient
+} from "./paint/Frames";
 import Tag from "../canvases/paint/Tag";
 
 import "./style.css";
@@ -52,6 +59,10 @@ function MainCanvas() {
     dispatch(itemsActions.setSelected, label);
   };
 
+  const handleAddFromPack = type => {
+    dispatch(itemsActions.onAddFromPack, type);
+  };
+
   const getAllLibs = (canvas, width, height) => {
     get("/getAll").then(res => {
       const data = res.data;
@@ -74,33 +85,43 @@ function MainCanvas() {
         height,
         showMainCircle: false
       });
+      typesPack.setAddToScheme(handleAddFromPack);
       typesPack.initWithData(data);
       typesPack.scaleDown();
       setTypesPack(typesPack);
     });
   };
 
-  const paintTabs = (canvas, width, height, frame) => {
+  const createDefs = canvas => {
+    var defs = canvas.append("defs");
+    createGradient(defs);
+  };
+
+  const paintTabs = (canvas, width, height) => {
     const onSelect = id => {
       projectTag.setSelected(id === "project");
-      typesTag.setSelected(id === "types");
+      typesTag && typesTag.setSelected(id === "types");
       menuTag.setSelected(id === "menu");
 
       switch (id) {
         case "types":
           getLibraryPack().scaleDown();
           getTypesPack().scaleUp();
+          openAddPanel();
           break;
 
         case "project":
           getLibraryPack().scaleUp();
           getTypesPack().scaleDown();
+          closeAddPanel();
           break;
 
         default:
           break;
       }
     };
+
+    const initKey = viewKey === "initKey";
 
     const projectTag = new Tag({
       selected: true,
@@ -113,16 +134,20 @@ function MainCanvas() {
       color: access.color("tags.bg")
     });
 
-    const typesTag = new Tag({
-      selected: false,
-      onSelect,
-      canvas,
-      width,
-      height,
-      id: "types",
-      index: 1,
-      color: access.color("tags.bg")
-    });
+    let typesTag;
+
+    if (!initKey) {
+      typesTag = new Tag({
+        selected: false,
+        onSelect,
+        canvas,
+        width,
+        height,
+        id: "types",
+        index: 1,
+        color: access.color("tags.bg")
+      });
+    }
 
     const menuTag = new Tag({
       selected: false,
@@ -131,16 +156,19 @@ function MainCanvas() {
       width,
       height,
       id: "menu",
-      index: 2,
+      index: initKey ? 1 : 2,
       color: access.color("tags.bg")
     });
   };
 
   const onCanvasReady = (canvas, width, height) => {
+    createDefs(canvas);
     const frame = paintFrame(canvas, width, height);
-    paintTabs(canvas, width, height, frame);
-
+    const addPanel = paintAddPanel(canvas, height);
     move(canvas, frame, access.color("canvases.fg"));
+    move(canvas, addPanel, access.color("canvases.fg"));
+
+    paintTabs(canvas, width, height);
     getAllLibs(canvas, width, height);
     getAllType(canvas, width, height);
   };
@@ -159,9 +187,7 @@ function MainCanvas() {
   const zIndex = access.dim("zIndexViews.schemePanel"); // check
 
   return (
-    <div
-      style={{ flex: getFlex(), zIndex: zIndex, width: "100%" }}
-    >
+    <div style={{ flex: getFlex(), zIndex: zIndex, width: "100%" }}>
       {renderStart()}
     </div>
   );

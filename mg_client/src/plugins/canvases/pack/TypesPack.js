@@ -12,16 +12,13 @@ export default class TypesPack extends Pack {
     this.dragText = null;
     this.blockDrag = false;
     this.firstMove = true;
+    this.panelIsopen = false;
 
-    // this.colorScaleRange = [
-    //   "white",
-    //   "grey"
-    // ];
+    this.addToScheme = () => {};
+  }
 
-    // this.textClasses = {
-    //   in: "text",
-    //   out: "light-text",
-    // }
+  setAddToScheme(func) {
+    this.addToScheme = func;
   }
 
   getXyFromEvent() {
@@ -84,7 +81,7 @@ export default class TypesPack extends Pack {
       .attr("cx", x)
       .attr("cy", y)
       .transition()
-      .duration(500)
+      .duration(access.time('typesPack.transitions'))
       .attr("r", 10)
       .attr("fill-opacity", 1);
   }
@@ -92,28 +89,24 @@ export default class TypesPack extends Pack {
   endDragCircle() {
     this.dragCircle
       .transition()
-      .duration(250)
+      .duration(access.time('typesPack.transitions'))
       .attr("r", this.TempR)
       .attr("cx", this.TempX)
       .attr("cy", this.TempY)
       .attr("transform", this.TempT)
       .attr("fill-opacity", 0.5);
-
-    this.TempR = null;
-    this.TempY = null;
-    this.TempX = null;
   }
 
   startDragText() {
     const { x, y } = this.getXyFromEvent();
 
     this.dragText
-    .attr("transform", null)
-    .attr("class", this.textClasses.out)
-    .attr("y", y + 30)
-    .attr("x", x)
-    .transition()
-    .duration(500)
+      .attr("transform", null)
+      .attr("class", this.textClasses.out)
+      .attr("y", y + 30)
+      .attr("x", x)
+      .transition()
+      .duration(access.time('typesPack.transitions'))
       .attr("font-size", "20px")
       .text(d => d.data.name);
   }
@@ -129,7 +122,7 @@ export default class TypesPack extends Pack {
 
     this.dragText
       .transition()
-      .duration(250)
+      .duration(access.time('typesPack.transitions'))
       .attr("x", this.TempX)
       .attr("y", this.TempY)
       .attr("class", d =>
@@ -138,9 +131,6 @@ export default class TypesPack extends Pack {
       .text(this.TempText)
       .attr("transform", this.TempT)
       .attr("font-size", this.TempFontSize);
-
-    this.TempText = null;
-    this.TempFontSize = null;
   }
 
   onDrag() {
@@ -164,9 +154,8 @@ export default class TypesPack extends Pack {
   }
 
   handleNodeDrag(circles, texts) {
-
-
-    const dragAction = d3.drag()
+    const dragAction = d3
+      .drag()
       .on("drag", d => {
         if (this.stop(d)) return null;
         if (this.firstMove) {
@@ -179,18 +168,51 @@ export default class TypesPack extends Pack {
       })
       .on("end", d => {
         if (this.stop(d)) return null;
-
+        this.block();
+        this.checkDrop(d);
         this.endDragText();
         this.endDragCircle();
         this.firstMove = true;
-        this.block();
       })
       .on("start", (d, i, items) => {
         if (this.stop(d)) return null;
         this.initDragStart(d);
       });
+
+    circles.call(dragAction);
+    texts.call(dragAction);
+  }
+
+  checkDrop(d) {
+    const { x, y } = this.getXyFromEvent();
+
+    if (x < 100) {
+      setTimeout(() => {
+        this.addToScheme(d.data.nameKey);
+      }, access.time('addItemPanel.addToScheme'))
       
-        circles.call(dragAction);
-        texts.call(dragAction);
+      let i = 0;
+      const interval = d3.interval(() => {
+        this.canvas
+          .append("circle")
+          .attr("cx", x)
+          .attr("cy", y)
+          .attr("fill", access.color("canvases.fg"))
+          .attr("r", 10)
+          .transition()
+          .duration(access.time('addItemPanel.addToScheme'))
+          .attr("fill", access.color("canvases.bg"))
+          .attr("r", 1)
+          .attr("cx", 0)
+          .transition()
+          .duration(10)
+          .remove();
+
+        i++;
+        if (i == 50) {
+          interval.stop();
+        }
+      }, 10);
+    }
   }
 }

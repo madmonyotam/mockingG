@@ -20,6 +20,10 @@ class Types {
         app.use('/mocking_G/getTypesArrangeByGroups',(req, res)=>{
             res.send(this.getTypesArrangeByGroups());
         })
+
+        app.use('/mocking_G/getTypeByKey',(req, res)=>{
+            res.send(this.getTypeByKey(req.query.type));
+        })
     }
 
     getTypes(){

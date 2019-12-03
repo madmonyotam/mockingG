@@ -1,11 +1,17 @@
 {
     "schemePanel": {
-        "transition": 3000,
-        "showEditor": 3600,
-        "removeCanvas": 3500
+        "transition": 2000,
+        "showEditor": 2600,
+        "removeCanvas": 2500
+    },
+    "typesPack": {
+        "transitions":350
     },
     "addItemPanel": {
-        "transition": 2000,
-        "removeCanvas": 2500
+        "open": 1000,
+        "openText": 1000,
+        "close": 1000,
+        "closeText": 1000,
+        "addToScheme": 1000
     }
 }

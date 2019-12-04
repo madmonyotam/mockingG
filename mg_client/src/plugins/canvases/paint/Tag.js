@@ -1,5 +1,5 @@
 import * as access from "../../access";
-import { dropCircles, ripple } from "../utils/canvasActions";
+import { dropCircles } from "../utils/canvasActions";
 
 let tagsContexts = [];
 
@@ -93,7 +93,7 @@ export default class Tag {
     const { mainGroup, positionX, positionY, tagWidth, tagHeight } = this;
 
     const x = positionX + tagWidth / 2;
-    const y = positionY + this.tagHeight / 2 + 3;
+    const y = positionY + tagHeight / 2 + 3;
 
     const enterTexts = t => {
       t.enter()

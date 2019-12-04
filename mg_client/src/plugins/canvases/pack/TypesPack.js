@@ -26,7 +26,7 @@ export default class TypesPack extends Pack {
     let x  = event.offsetX;
     let y = event.offsetY;
 
-    const { prevX, prevY } = this.getPrevCircle();
+    const { prevY } = this.getPrevCircle();
 
     if(d3.event.x<10){
       x = 10
@@ -207,7 +207,7 @@ export default class TypesPack extends Pack {
           .remove();
 
         i++;
-        if (i == 50) {
+        if (i === 50) {
           interval.stop();
         }
       }, 10);

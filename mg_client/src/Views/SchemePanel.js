@@ -36,8 +36,6 @@ const InnerColumn = styled(Column)`
 function SchemePanel() {
 
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
-  const { items } = useBranch({ items: ["items"] });
-  const { mockData } = useBranch({ mockData: ["mockData"] });
   const { selectedCategory } = useBranch({
     selectedCategory: ["selectedCategory"]
   });

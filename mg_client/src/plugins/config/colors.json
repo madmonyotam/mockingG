@@ -31,7 +31,8 @@
     },
     "bottomBar": {
         "bg": "backgrounds.primary",
-        "fg": "texts.primary"
+        "fg": "texts.primary",
+        "outline": "colors.blueLight01"
     },
     "schemePanel": {
         "bg": "backgrounds.code",

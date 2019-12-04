@@ -11,7 +11,6 @@ import { onEditorChange } from "../../tree/actions/items";
 function Editor({ width, isData }) {
   const { items, dispatch } = useBranch({ items: ["items"] });
   const { mockData } = useBranch({ mockData: ["mockData"] });
-
   const [initCode, setInitCode] = useState("");
   const [code, setCode] = useState("");
 
@@ -28,7 +27,9 @@ function Editor({ width, isData }) {
       newCode = JSON.parse(newCode);
       dispatch(onEditorChange, newCode);
     } catch (error) {
-      console.log(error)
+      dispatch((tree) => {
+        tree.set("mockData", null);
+      })
     }
   };
 

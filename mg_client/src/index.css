@@ -30,3 +30,8 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #496a8c;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

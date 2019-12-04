@@ -3,9 +3,6 @@ import { find, findIndex } from "lodash";
 import Pack from "./Pack";
 
 export default class LibraryPack extends Pack {
-  constructor(params) {
-    super(params);
-  }
 
   findLibrary(lib) {
     const library = find(this.mainData.children, c => {

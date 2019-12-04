@@ -38,7 +38,7 @@ function OpenPanelCanvas() {
 
   const onCanvasReady = (canvas, width, height) => {
     const frame = createFrame(canvas, width, height);
-    dropCircles(canvas, height, frame, access.color("canvases.bg"));    
+    dropCircles(canvas, height, frame, access.color("canvases.fg"));    
   };
 
   const renderStart = () => {

@@ -6,6 +6,7 @@ import * as access from "../access";
 
 import styled from "styled-components";
 import Row from "../Layouts/Row";
+import FileDownloader from "../tools/FileDownloader";
 
 import { Icon, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,6 +17,15 @@ const BottomBar = styled(Row)`
 
 const ButtonsCont = styled(Row)`
   padding-left: 10px;
+`;
+
+const AmountInput = styled("input")`
+  width: 60px;
+  margin-left: 25px;
+  padding: 0px 5px;
+  text-align: center;
+  outline-color: ${access.color("bottomBar.outline")}
+  font-weight: 600;
 `;
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +48,8 @@ function BottomBarGen(params) {
   const classes = useStyles();
   const { mockData, dispatch } = useBranch({ mockData: ["mockData"] });
   const { items } = useBranch({ items: ["items"] });
-  const [amount, setAmount] = useState(10);
+  const { focus } = useBranch({ focus: ["focus"] });
+  const [amount, setAmount] = useState(1);
 
   const copyToClipboard = textToCopy => {
     try {
@@ -61,16 +72,12 @@ function BottomBarGen(params) {
   };
 
   const gen = () => {
-    dispatch(generate,{items,amount})
-  }
+    dispatch(generate, { items, amount });
+  };
 
   const PlayButton = () => {
     return (
-      <IconButton
-        className={classes.play}
-        size="small"
-        onClick={gen}
-      >
+      <IconButton className={classes.play} size="small" onClick={gen}>
         <Icon>{access.icon("schemePanel.play")}</Icon>
       </IconButton>
     );
@@ -90,15 +97,31 @@ function BottomBarGen(params) {
     );
   };
 
+  const RenderAmountInput = () => {
+
+    const handleSetAmount = (e) => {
+      let value = e.target.value;
+      
+      value = value < 1 ? 1 : value; 
+      value = value > 10000 ? 10000 : value; 
+
+      setAmount(value);
+    }
+
+    return <AmountInput type={"number"} value={amount} onChange={handleSetAmount} autoFocus={true} />;
+  };
+
   const DownloadButton = () => {
+    const fileName = `${focus.lib}_${focus.cat}`;
+
     return (
-      <IconButton
-        size="small"
-        className={classes.button} >
-        <Icon className={classes.copy}>
-          {access.icon("schemePanel.download")}
-        </Icon>
-      </IconButton>
+      <FileDownloader content={mockData} fileName={fileName} fileExtension={'json'}>
+        <IconButton size="small" className={classes.button}>
+          <Icon className={classes.copy}>
+            {access.icon("schemePanel.download")}
+          </Icon>
+        </IconButton>
+      </FileDownloader>
     );
   };
 
@@ -108,6 +131,8 @@ function BottomBarGen(params) {
         <CopyButton />
         <DownloadButton />
       </ButtonsCont>
+
+      <RenderAmountInput />
       <PlayButton />
     </BottomBar>
   );

@@ -38,16 +38,48 @@ export function onEditorChange(tree, items) {
   replaceScheme(tree, items);
 }
 
+function getValueByRendererType(rendererType) {
+  switch (rendererType) {
+    case 'number':
+      return 10;
+    case 'string':
+      return 'string';
+  
+    default:
+      return 'value';
+  }
+}
+
+function getAdditionalFields(type) {
+  const { renderer } = type;
+
+  if(!renderer) return {};
+
+  if(renderer.type){
+    return { value: getValueByRendererType(renderer.type) }
+  }
+
+
+  let AdditionalFields = {  value:{} };
+  for (const key in renderer) {
+    const innerType = renderer[key].type;
+    AdditionalFields.value[key] = getValueByRendererType(innerType);
+  }
+
+  return AdditionalFields;
+}
+
 export function onAddFromPack(tree,type) {
 
   get("/getTypeByKey", { type }).then(res => {
 
-    // const type = res.data;
+    const additionalFields = getAdditionalFields(res.data);
     const num = Math.floor(Math.random()*1000);
 
     let items = {...tree.get('items')};
     items[`${type}-${num}`] = {
-      type: type
+      type: type,
+      ...additionalFields
     }
 
     onEditorChange(tree, items);

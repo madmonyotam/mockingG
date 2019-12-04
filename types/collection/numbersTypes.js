@@ -1,7 +1,7 @@
 const faker = require("faker");
 const translate = require("../../translate/getTranslate");
 
-//TODO: add option to float/int  possitive/negative 
+//TODO: add option to float/int  possitive/negative
 
 const numberTypes = {
   number: {
@@ -43,16 +43,13 @@ const numberTypes = {
   numberBetween: {
     name: "number Between",
     renderer: {
-      type: "numerous",
-      renderer: {
-        min: {
-          type: "number",
-          placeholder: translate("enter min value for number")
-        },
-        max: {
-          type: "number",
-          placeholder: translate("enter max value for number")
-        }
+      min: {
+        type: "number",
+        placeholder: translate("enter min value for number")
+      },
+      max: {
+        type: "number",
+        placeholder: translate("enter max value for number")
       }
     },
     generate: element => {

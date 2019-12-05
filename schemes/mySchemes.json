@@ -1,39 +1,24 @@
-{ 
+{
   "examples": {
-    "names": {
-      "first Name": {
+    "person": {
+      "firstName": {
         "type": "firstName"
       },
-      "last Name": {
+      "lastName": {
         "type": "lastName"
       },
-      "full Name": {
-        "type": "fullName",
-        "size": 10
-      }
-    },
-    "numbers": {
-      "number": {
-        "type": "number"
-      },
-      "numberMax": {
+      "age": {
         "type": "numberMax",
         "value": 100
       },
-      "numberMin": {
-        "type": "numberMin",
-        "value": 10
+      "email": {
+        "type": "email"
       },
-      "numberBetween": {
-        "type": "numberBetween",
-        "value": {
-          "min": 34,
-          "max": 150
-        },
-        "size": 5
+      "parent": {
+        "type": "fullName"
       }
     },
-    "web": {
+    "user": {
       "userName": {
         "type": "userName"
       },
@@ -43,47 +28,22 @@
       "ip": {
         "type": "ip"
       },
-      "ip v6": {
-        "type": "ipv6"
-      },
-      "domain": {
-        "type": "domain",
-        "size": 10
-      },
-      "email": {
-        "type": "email"
-      },
-      "user Agent": {
-        "type": "userAgent"
-      },
-      "protocol": {
-        "type": "protocol"
+      "renk": {
+        "type": "numberMax",
+        "value": 10
       }
     },
-    "fixed": {
-      "false":{
-        "type": "false"
+    "artical": {
+      "title": {
+        "type": "word"
       },
-      "true":{
-        "type": "true"
+      "content": {
+        "type": "textLines",
+        "value": 100
       },
-      "null Value":{
-        "type": "nullValue"
-      },
-      "undefined Value":{
-        "type": "undefinedValue"
-      },
-      "empty Array":{
-        "type": "emptyArray"
-      },
-      "empty Object":{
-        "type": "emptyObject"
-      },
-      "fixed Value":{
-        "type": "fixedValue",
-        "value": "enter your value"
+      "author name": {
+        "type": "fullName"
       }
-
     }
   }
 }

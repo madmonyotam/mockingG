@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import Pack from "./Pack";
 import * as access from "../../access";
 import { isEmpty } from "lodash";
+import Tag from "../paint/Tag";
 
 export default class TypesPack extends Pack {
   constructor(params) {
@@ -219,5 +220,27 @@ export default class TypesPack extends Pack {
           .remove();
 
     }
+  }
+
+  _clickAction(){
+    // const backBtn = this.canvas.append('g');
+    const { canvas, width, height} = this;
+    let backTag;
+
+    const onSelect = () => {
+      this.createPack(this.mainData);
+      backTag.removeTag();
+    }
+
+    backTag = new Tag({
+      selected: false,
+      onSelect,
+      canvas,
+      width,
+      height,
+      id: "back",
+      index: 2,
+      color: access.color("tags.bg")
+    });
   }
 }

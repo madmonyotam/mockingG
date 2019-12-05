@@ -106,7 +106,7 @@ function MainCanvas() {
     const onSelect = id => {
       projectTag.setSelected(id === "project");
       typesTag && typesTag.setSelected(id === "types");
-      menuTag.setSelected(id === "menu");
+      // menuTag.setSelected(id === "menu");
 
       switch (id) {
         case "types":
@@ -154,16 +154,16 @@ function MainCanvas() {
       });
     }
 
-    const menuTag = new Tag({
-      selected: false,
-      onSelect,
-      canvas,
-      width,
-      height,
-      id: "menu",
-      index: initKey ? 1 : 2,
-      color: access.color("tags.bg")
-    });
+    // const menuTag = new Tag({
+    //   selected: false,
+    //   onSelect,
+    //   canvas,
+    //   width,
+    //   height,
+    //   id: "menu",
+    //   index: initKey ? 1 : 2,
+    //   color: access.color("tags.bg")
+    // });
   };
 
   const onCanvasReady = (canvas, width, height) => {

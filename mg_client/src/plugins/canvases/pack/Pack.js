@@ -291,7 +291,6 @@ export default class Pack {
     };
 
     const clickAction = n => {
-
       if (this.clickIsBlock) return;
       if (n.depth === 0) {
         this.navigateBack(n.data);
@@ -316,6 +315,7 @@ export default class Pack {
       }
 
       if(n.data.level < this.limitByLevel){
+        this._clickAction && this._clickAction();
         this.createPack(n.data);
         blockButton();
       } 

@@ -5,7 +5,17 @@ let tagsContexts = [];
 
 export default class Tag {
   constructor(params) {
-    const { canvas, width, height, id, label, color, index, onSelect, selected } = params;
+    const {
+      canvas,
+      width,
+      height,
+      id,
+      label,
+      color,
+      index,
+      onSelect,
+      selected
+    } = params;
 
     this.onSelect = onSelect;
     this.selected = selected;
@@ -36,8 +46,8 @@ export default class Tag {
   init() {
     this.mainGroup = this.canvas.append("g").attr("id", this.id);
     this.mainGroup.attr("opacity", 0.5);
-    if ( this.selected) {
-        this.mainGroup.attr("opacity", 1);
+    if (this.selected) {
+      this.mainGroup.attr("opacity", 1);
     }
 
     this.paintTag();
@@ -46,7 +56,12 @@ export default class Tag {
     const tags = this.mainGroup.selectAll("rect");
     const texts = this.mainGroup.selectAll("text");
 
-    dropCircles(this.mainGroup, this.height, tags, access.color("tags.moveOnTag"));
+    dropCircles(
+      this.mainGroup,
+      this.height,
+      tags,
+      access.color("tags.moveOnTag")
+    );
     dropCircles(
       this.mainGroup,
       this.height,
@@ -57,17 +72,40 @@ export default class Tag {
     this.mouseEvents();
   }
 
-  mouseEvents(){
-    if ( this.selected) {
-        this.mainGroup.attr("opacity", 1);
+  removeTag() {
+    this.mainGroup.selectAll('rect')
+      .transition()
+      .duration(700)
+      .attr("width", 0)
+      .transition()
+      .duration(10)
+      .remove();
+
+      this.mainGroup.selectAll('text')
+      .transition()
+      .duration(700)
+      .attr("font-size", 0)
+      .transition()
+      .duration(10)
+      .remove();
+
+      this.mainGroup
+      .transition()
+      .duration(700)
+      .remove();
+  }
+
+  mouseEvents() {
+    if (this.selected) {
+      this.mainGroup.attr("opacity", 1);
     }
 
     this.mainGroup.on("mouseenter", () => {
-        this.mainGroup.attr("opacity", 0.8);
+      this.mainGroup.attr("opacity", 0.8);
     });
 
     this.mainGroup.on("mouseleave", () => {
-      if ( this.selected ) {
+      if (this.selected) {
         this.mainGroup.attr("opacity", 1);
       } else {
         this.mainGroup.attr("opacity", 0.5);
@@ -75,18 +113,17 @@ export default class Tag {
     });
 
     this.mainGroup.on("click", () => {
-        this.mainGroup.attr("opacity", 1);
-        this.onSelect(this.id);
-      });
+      this.mainGroup.attr("opacity", 1);
+      this.onSelect(this.id);
+    });
   }
 
   setSelected(selected) {
-      
-      this.selected = selected;
+    this.selected = selected;
 
-      if(!selected){
-        this.mainGroup.attr("opacity", 0.5);
-      }
+    if (!selected) {
+      this.mainGroup.attr("opacity", 0.5);
+    }
   }
 
   paintText() {

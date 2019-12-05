@@ -33,7 +33,7 @@ export default class TypesPack extends Pack {
 
     const { prevY } = this.getPrevCircle();
 
-    if(d3.event.x<5){
+    if(d3.event.x<10){
       x = -200
       y = prevY
     }

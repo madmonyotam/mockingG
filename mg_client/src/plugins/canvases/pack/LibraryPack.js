@@ -4,6 +4,12 @@ import Pack from "./Pack";
 
 export default class LibraryPack extends Pack {
 
+  constructor(params){
+    super(params)
+
+    this.limitByLevel = 3;
+  }
+
   findLibrary(lib) {
     const library = find(this.mainData.children, c => {
       return c.name === lib;

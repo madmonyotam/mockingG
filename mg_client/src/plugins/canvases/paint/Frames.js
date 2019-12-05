@@ -17,11 +17,11 @@ export const openAddPanel = () => {
     .duration(access.time("addItemPanel.open"))
     .attr("width", 100);
 
-  d3.select("#addLabel")
-    .attr("font-size", "0")
-    .transition()
-    .duration(access.time("addItemPanel.openText"))
-    .attr("font-size", 16);
+  // d3.select("#addLabel")
+  //   .attr("font-size", "0")
+  //   .transition()
+  //   .duration(access.time("addItemPanel.openText"))
+  //   .attr("font-size", 16);
 };
 
 export const closeAddPanel = () => {
@@ -30,10 +30,10 @@ export const closeAddPanel = () => {
     .duration(access.time("addItemPanel.close"))
     .attr("width", 0);
 
-  d3.select("#addLabel")
-    .transition()
-    .duration(access.time("addItemPanel.closeText"))
-    .attr("font-size", 0);
+  // d3.select("#addLabel")
+  //   .transition()
+  //   .duration(access.time("addItemPanel.closeText"))
+  //   .attr("font-size", 0);
 };
 
 export const paintAddPanel = (canvas, height) => {
@@ -44,15 +44,15 @@ export const paintAddPanel = (canvas, height) => {
     .attr("height", height)
     .attr("fill", "url(#svgGradient)");
 
-  canvas
-    .append("text")
-    .attr("id", "addLabel")
-    .text("Add")
-    .attr("x", 50)
-    .attr("y", 30)
-    .attr("class", "light-text")
-    .attr("text-anchor", "middle")
-    .attr("font-size", "0");
+  // canvas
+  //   .append("text")
+  //   .attr("id", "addLabel")
+  //   .text("Add")
+  //   .attr("x", 50)
+  //   .attr("y", 30)
+  //   .attr("class", "light-text")
+  //   .attr("text-anchor", "middle")
+  //   .attr("font-size", "0");
 
     return addPanel;
 };

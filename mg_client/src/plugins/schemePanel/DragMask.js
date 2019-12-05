@@ -8,8 +8,8 @@ import Label from "../tools/Label";
 import Mask from "../tools/Mask";
 
 const RoundWrapper = styled('div')`
-  width: 285px;
-  height: 285px;
+  width: ${p => !p.open ? '0px' : '285px'};
+  height: ${p => !p.open ? '0px' : '285px'};
   overflow: hidden;
   background: ${access.color("backgrounds.primary")};
   color: ${access.color("texts.primary")};
@@ -18,28 +18,24 @@ const RoundWrapper = styled('div')`
   align-items: center;
   justify-content: center;
   display: flex;
+  transition: all 250ms;
 `;
 
 function DragMask({ text }) {
-  const [background, setBackground] = useState("transparent");
   const [open, setOpen] = useState(false);
 
   const handleOnMouseEnter = e => {
-    setBackground(access.color("schemePanel.bg"));
     setOpen(true);
   };
 
   const handleOnMouseLeave = e => {
-    setBackground("transparent");
     setOpen(false);
   };
 
-  const renderAddIcon = () => {
-    if (!open) return null;
-
+  const renderAdd = () => {
     return (
       <Center>
-        <RoundWrapper>
+        <RoundWrapper open={open}>
           <Label fontSize={"30px"} weight={700} style={{maxWidth:'250px'}}>
             {text}
           </Label>
@@ -51,12 +47,12 @@ function DragMask({ text }) {
   return (
     <Mask
       opacity={0.8}
-      mask={background}
+      mask={access.color("schemePanel.bg")}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
       style={{ transition: `background 250ms` }}
     >
-      {renderAddIcon()}
+      {renderAdd()}
     </Mask>
   );
 }

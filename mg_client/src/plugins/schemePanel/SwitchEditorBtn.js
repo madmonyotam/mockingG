@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import * as access from "../access";
 
 const SwitchButtonCont = styled(SpaceAround)`
+margin-right: 5px;
   &:before {
     content: "";
     height: 35px;

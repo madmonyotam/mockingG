@@ -25,13 +25,15 @@ const Srow = styled(Row)`
 
 const TopBar = styled(Row)`
   justify-content: space-between;
+  border-right: 1px solid ${access.color("schemePanel.border")}
 `;
 
 const InnerColumn = styled(Column)`
   min-width: 0;
   transition: flex ${access.time("schemePanel.transition")}ms;
-  box-shadow: 2px 0px 3px 0px rgb(17, 38, 90);
+  border-right: 1px solid ${access.color("schemePanel.border")}
   overflow: hidden;
+  box-shadow: unset;
 `;
 
 function SchemePanel() {
@@ -110,7 +112,7 @@ function SchemePanel() {
   };
 
   const getInnerFlex = () => {
-    if (viewKey !== "initKey") return 0.993;
+    if (viewKey !== "initKey") return 1;
     return 0;
   };
 

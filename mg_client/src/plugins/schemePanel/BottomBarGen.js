@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const BottomBar = styled(Row)`
   justify-content: flex-end;
+  border-right: 1px solid ${access.color("schemePanel.border")}
 `;
 
 const ButtonsCont = styled(Row)`

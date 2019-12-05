@@ -12,6 +12,7 @@ import Editor from "../plugins/editor/Editor";
 import SwitchEditorBtn from "../plugins/schemePanel/SwitchEditorBtn";
 import BottomBarGen from "../plugins/schemePanel/BottomBarGen";
 import BottomBarScheme from "../plugins/schemePanel/BottomBarScheme";
+import DragMask from "../plugins/schemePanel/DragMask";
 import OpenPanelCanvas from "../plugins/canvases/OpenPanelCanvas";
 
 const Placeholder = styled('div')`
@@ -36,6 +37,7 @@ const InnerColumn = styled(Column)`
 function SchemePanel() {
 
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
+  const { dragState } = useBranch({ dragState: ["drag"] });
   const { selectedCategory } = useBranch({
     selectedCategory: ["selectedCategory"]
   });
@@ -52,6 +54,12 @@ function SchemePanel() {
     if (viewKey === "initKey") return null;
 
     return <OpenPanelCanvas />;
+  };
+
+  const dragCanvas = () => {
+    if (!dragState) return null;
+
+    return <DragMask text={dragState} />;
   };
 
   const renderEditor = () => {
@@ -124,6 +132,7 @@ function SchemePanel() {
         <RenderActionBar />
         {openPanelCanvas()}
         {renderEditor()}
+        {dragCanvas()}
         <RenderBottomBar />
       </InnerColumn>
     </Srow>

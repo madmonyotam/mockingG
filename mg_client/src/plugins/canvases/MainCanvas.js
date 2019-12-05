@@ -63,6 +63,10 @@ function MainCanvas() {
     dispatch(itemsActions.onAddFromPack, type);
   };
 
+  const handleDragState = value => {
+    dispatch(itemsActions.changeDragState, value);
+  };
+
   const getAllLibs = (canvas, width, height) => {
     get("/getAll").then(res => {
       const data = res.data;
@@ -86,6 +90,7 @@ function MainCanvas() {
         showMainCircle: false
       });
       typesPack.setAddToScheme(handleAddFromPack);
+      typesPack.setDragState(handleDragState);
       typesPack.initWithData(data);
       typesPack.scaleDown();
       setTypesPack(typesPack);

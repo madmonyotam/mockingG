@@ -86,6 +86,10 @@ export function onAddFromPack(tree,type) {
   });
 }
 
+export function changeDragState(tree,value) {
+  tree.set('drag',value);
+}
+
 export function setItemToFocus(tree, item) {
   tree.set(["focus", "item"], item);
 }

@@ -15,10 +15,15 @@ export default class TypesPack extends Pack {
     this.panelIsopen = false;
 
     this.addToScheme = () => {};
+    this.setDrag = () => {};
   }
 
   setAddToScheme(func) {
     this.addToScheme = func;
+  }
+
+  setDragState(func) {
+    this.setDrag = func;
   }
 
   getXyFromEvent() {
@@ -28,8 +33,8 @@ export default class TypesPack extends Pack {
 
     const { prevY } = this.getPrevCircle();
 
-    if(d3.event.x<10){
-      x = 10
+    if(d3.event.x<5){
+      x = -200
       y = prevY
     }
 
@@ -98,6 +103,11 @@ export default class TypesPack extends Pack {
   startDragText() {
     const { x, y } = this.getXyFromEvent();
 
+    const addText = (d)=> {
+      this.setDrag(d.data.name);
+      return d.data.name;
+    }
+
     this.dragText
       .attr("transform", null)
       .attr("class", this.textClasses.out)
@@ -106,7 +116,7 @@ export default class TypesPack extends Pack {
       .transition()
       .duration(access.time('typesPack.transitions'))
       .attr("font-size", "20px")
-      .text(d => d.data.name);
+      .text(addText);
   }
 
   endDragText() {
@@ -170,6 +180,7 @@ export default class TypesPack extends Pack {
         this.checkDrop(d);
         this.endDragText();
         this.endDragCircle();
+        this.setDrag(false);
         this.firstMove = true;
       })
       .on("start", (d, i, items) => {
@@ -182,15 +193,16 @@ export default class TypesPack extends Pack {
   }
 
   checkDrop(d) {
-    const { x, y } = this.getXyFromEvent();
+    let { x, y } = this.getXyFromEvent();
 
     if (x < 100) {
+
       setTimeout(() => {
         this.addToScheme(d.data.nameKey);
       }, access.time('addItemPanel.addToScheme'))
       
       let i = 0;
-      const interval = d3.interval(() => {
+     
         this.canvas
           .append("circle")
           .attr("cx", x)
@@ -200,17 +212,12 @@ export default class TypesPack extends Pack {
           .transition()
           .duration(access.time('addItemPanel.addToScheme'))
           .attr("fill", access.color("canvases.bg"))
-          .attr("r", 1)
+          .attr("r", 4)
           .attr("cx", 0)
           .transition()
           .duration(10)
           .remove();
 
-        i++;
-        if (i === 50) {
-          interval.stop();
-        }
-      }, 10);
     }
   }
 }

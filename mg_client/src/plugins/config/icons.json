@@ -47,6 +47,7 @@
         "scheme": "icons.list",
         "play": "icons.play",
         "download": "icons.download",
-        "copy": "icons.copy"
+        "copy": "icons.copy",
+        "add": "icons.add"
     }
 }

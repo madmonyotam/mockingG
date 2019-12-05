@@ -10,6 +10,7 @@ const tree = new Baobab({
     cat: null,
     item: null
   },
+  drag: false,
   selected: null,
   selectedCategory: null,
   selectedLibrary: null,

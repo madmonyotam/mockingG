@@ -9,6 +9,8 @@ const webTypes = require('../types/collection/webTypes');
 const numbersTypes = require('../types/collection/numbersTypes');
 const textsTypes = require('../types/collection/textTypes');
 const workTypes = require('../types/collection/workTypes');
+const locatonTypes = require('../types/collection/locatonTypes');
+const financeTypes = require('../types/collection/financeTypes');
 
 const types = new typesClass();
 const schemes = new schemesClass();
@@ -19,8 +21,8 @@ types.addTypes(webTypes);
 types.addTypes(numbersTypes); 
 types.addTypes(textsTypes);
 types.addTypes(workTypes);
-
-const allTypes = types.getTypes(); 
+types.addTypes(locatonTypes);
+types.addTypes(financeTypes);
 
 const setApp = (app) => {
 
@@ -76,6 +78,8 @@ const generateOneItem = (func,el) => {
 }
 
 const generateFromType = (el) => {
+  const allTypes = types.getTypes(); 
+
   if (!allTypes[el.type]) return `type ${el.type} does not exist in types`;
   const generateFunc = allTypes[el.type].generate;
 
@@ -121,4 +125,4 @@ const generate = (scheme, amount = 10) => {
   return mockList;
 };
 
-module.exports = { setApp, generate, types, schemes };
+module.exports = { setApp, generate, types, schemes, generateFromType };

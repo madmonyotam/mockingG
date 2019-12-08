@@ -30,6 +30,12 @@ describe('types getter tests', () => {
         expect(catKeys).toContain('test2'); 
     });
 
+    it('should add category', () => {    
+        
+        const Keys = schemes.getAllCategoriesPath();
+        expect(Keys).toContain('myFirst.test'); 
+    });
+
     it('should remove this library', () => {    
         schemes.removeLibrary('second');
         expect(Object.keys(schemes.schemes)).not.toContain('second'); 
@@ -51,8 +57,6 @@ describe('types getter tests', () => {
         schemes.addCategory('newLib','newCat');
         const libKeys = schemes.getCategoriesFromLibrary('newLib');
         expect(libKeys).toContain('newCat'); 
-    });
-
-    
+    }); 
 
 });

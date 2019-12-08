@@ -160,6 +160,21 @@ class Schemes {
     return Object.keys(this.schemes[library]);
   }
 
+  getAllCategoriesPath() {
+    let arrayOfCategories = [];
+    const libs = this.getAllLibraries();
+    libs.forEach(lib => {
+      const cats = this.getCategoriesFromLibrary(lib);
+
+      cats.forEach(cat=>{
+        const path = `${lib}.${cat}`;
+        arrayOfCategories.push(path);
+      })
+    });
+
+    return arrayOfCategories;
+  }
+
   addScheme(library, category, scheme) {
     if (!this.schemes[library]) this.schemes[library] = {};
 

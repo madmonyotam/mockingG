@@ -8,6 +8,7 @@ const fixedTypes = require('../types/collection/fixedTypes');
 const webTypes = require('../types/collection/webTypes');
 const numbersTypes = require('../types/collection/numbersTypes');
 const textsTypes = require('../types/collection/textTypes');
+const workTypes = require('../types/collection/workTypes');
 
 const types = new typesClass();
 const schemes = new schemesClass();
@@ -17,6 +18,7 @@ types.addTypes(fixedTypes);
 types.addTypes(webTypes); 
 types.addTypes(numbersTypes); 
 types.addTypes(textsTypes);
+types.addTypes(workTypes);
 
 const allTypes = types.getTypes(); 
 
@@ -59,6 +61,20 @@ const setApp = (app) => {
   });
 };
 
+const generateOneItem = (func,el) => {
+
+  let value = func(el);
+  if( el.prefix ){
+    value = el.prefix + value;
+  };
+
+  if( el.suffix ){
+    value = value + el.suffix;
+  };
+
+  return value;
+}
+
 const generateFromType = (el) => {
   if (!allTypes[el.type]) return `type ${el.type} does not exist in types`;
   const generateFunc = allTypes[el.type].generate;
@@ -66,12 +82,12 @@ const generateFromType = (el) => {
   if(!_.isUndefined(el.size)){
     let array = [];
     for (let i = 0; i < el.size; i++) {
-      array.push(generateFunc(el));    
+      array.push(generateOneItem(generateFunc,el));    
     }
     return array;
   }
 
-  return generateFunc(el);
+  return generateOneItem(generateFunc,el);
 };
 
 const modelator = scheme => {

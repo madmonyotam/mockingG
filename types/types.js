@@ -1,6 +1,6 @@
 class Types {
     constructor(){
-        this.types = {};
+        this.types = { };
     }
 
     setApp(app){

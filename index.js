@@ -1,10 +1,12 @@
-const gen = require("./generator/generator");
 const express = require("express");
 const favicon = require("express-favicon");
 var cors = require('cors')
 const path = require("path");
 const port = process.env.PORT || 5588;
 const app = express();
+
+const gen = require("./generator/generator");
+const categoryTypes = require('./types/collection/categoryTypes');
 
 app.use(cors());
 
@@ -27,5 +29,8 @@ console.log(`running on port ${port}`);
 gen.schemes.setApp(app);
 gen.types.setApp(app);
 gen.setApp(app);
+
+const catTypes = categoryTypes(gen);
+gen.types.addTypes(catTypes);
 
 module.exports = gen;

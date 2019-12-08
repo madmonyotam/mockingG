@@ -8,6 +8,9 @@ const fixedTypes = require('../types/collection/fixedTypes');
 const webTypes = require('../types/collection/webTypes');
 const numbersTypes = require('../types/collection/numbersTypes');
 const textsTypes = require('../types/collection/textTypes');
+const workTypes = require('../types/collection/workTypes');
+const locatonTypes = require('../types/collection/locatonTypes');
+const financeTypes = require('../types/collection/financeTypes');
 
 const types = new typesClass();
 const schemes = new schemesClass();
@@ -17,8 +20,9 @@ types.addTypes(fixedTypes);
 types.addTypes(webTypes); 
 types.addTypes(numbersTypes); 
 types.addTypes(textsTypes);
-
-const allTypes = types.getTypes(); 
+types.addTypes(workTypes);
+types.addTypes(locatonTypes);
+types.addTypes(financeTypes);
 
 const setApp = (app) => {
 
@@ -59,19 +63,35 @@ const setApp = (app) => {
   });
 };
 
+const generateOneItem = (func,el) => {
+
+  let value = func(el);
+  if( el.prefix ){
+    value = el.prefix + value;
+  };
+
+  if( el.suffix ){
+    value = value + el.suffix;
+  };
+
+  return value;
+}
+
 const generateFromType = (el) => {
+  const allTypes = types.getTypes(); 
+
   if (!allTypes[el.type]) return `type ${el.type} does not exist in types`;
   const generateFunc = allTypes[el.type].generate;
 
   if(!_.isUndefined(el.size)){
     let array = [];
     for (let i = 0; i < el.size; i++) {
-      array.push(generateFunc(el));    
+      array.push(generateOneItem(generateFunc,el));    
     }
     return array;
   }
 
-  return generateFunc(el);
+  return generateOneItem(generateFunc,el);
 };
 
 const modelator = scheme => {
@@ -105,4 +125,4 @@ const generate = (scheme, amount = 10) => {
   return mockList;
 };
 
-module.exports = { setApp, generate, types, schemes };
+module.exports = { setApp, generate, types, schemes, generateFromType };

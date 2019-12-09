@@ -39,7 +39,7 @@
         "divider": "colors.blue02",
         "selected": "texts.primary",
         "notSelected": "colors.blue03",
-        "border": "colors.grey01"
+        "border": "backgrounds.primary"
     },
     "canvases": {
         "bg":  "backgrounds.secondary",

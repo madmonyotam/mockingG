@@ -5,33 +5,86 @@ const categoryTypes = gen => {
     category: {
       name: "category",
       renderer: {
-          categoryPath:{
-              type: "autocomplete",
-              options: gen.schemes.getAllCategoriesPath(),
-              placeholder: translate("choose category from list")
-          },
-          size: {
-            type: "number",
-            placeholder: translate("enter amount")
-          }
+        categoryPath: {
+          type: "autocomplete",
+          options: gen.schemes.getAllCategoriesPath(),
+          placeholder: translate("choose category from list")
+        },
+        size: {
+          type: "number",
+          placeholder: translate("enter amount")
+        }
       },
       generate: el => {
         const { value } = el;
-        if(!value) return translate("missing value");
-        if(!el.value.categoryPath) return translate("missing property categoryPath");
+        if (!value) return translate("missing value");
+        if (!value.categoryPath)
+          return translate("missing property categoryPath");
 
         const [lib, cat] = el.value.categoryPath.split(".");
         const size = el.value.size;
         const scheme = gen.schemes.getScheme(lib, cat);
+        if (typeof scheme === "undefined")
+          return translate(`can't find scheme ${lib}.${cat}`);
 
-        if(size){
-            const newObject = gen.generate(scheme,size);
-            return newObject;
+        if (size) {
+          const newObject = gen.generate(scheme, size);
+          return newObject;
         }
 
-        const newObject = gen.generate(scheme,1);
+        const newObject = gen.generate(scheme, 1);
         return newObject[0];
       },
+      group: "categories"
+    },
+
+    categoryGroup: {
+      name: "category Group",
+      renderer: {
+        categories: {
+          type: "autocompleteArray",
+          options: gen.schemes.getAllCategoriesPath(),
+          placeholder: translate("choose categories from list")
+        },
+        size: {
+          type: "number",
+          placeholder: translate("enter amount")
+        }
+      },
+      generate: el => {
+        const { value } = el;
+        if (!value) return translate("missing value");
+        const { categories, size } = value;
+
+        if (!categories) return translate("missing property categories");
+        if (!Array.isArray(categories))
+          return translate("property categories expects Array");
+
+        const genRandomScheme = () => {
+          const length = categories.length;
+          const index = Math.floor(Math.random() * length);
+          const [lib, cat] = categories[index].split(".");
+          const scheme = gen.schemes.getScheme(lib, cat);
+          if (typeof scheme === "undefined")
+            return translate(`can't find scheme ${lib}.${cat}`);
+          const newObject = gen.generate(scheme, 1);
+          return newObject[0];
+        };
+
+        if (size) {
+          const data = [];
+
+          for (let i = 0; i < size; i++) {
+            const element = genRandomScheme();
+            data.push(element);
+          }
+
+          return data;
+        }
+
+        return genRandomScheme();
+      },
+
       group: "categories"
     }
   };

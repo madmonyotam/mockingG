@@ -29,14 +29,24 @@ export default class TypesPack extends Pack {
 
   getXyFromEvent() {
     const event = d3.event.sourceEvent;
-    let x  = event.offsetX;
+    let x = event.offsetX;
     let y = event.offsetY;
 
-    const { prevY } = this.getPrevCircle();
+    const { prevY, prevX } = this.getPrevCircle();
 
-    if(d3.event.x<10){
-      x = -200
-      y = prevY
+    if (!this.firstMove && prevX + 200 < x) {
+      x = prevX - 1;
+      y = prevY;
+    }
+
+    if (!this.firstMove && prevX < 5) {
+      x = -200;
+      y = prevY;
+    }
+
+    if (d3.event.x > 100) {
+      x = event.offsetX;
+      y = event.offsetY;
     }
 
     return { x, y };
@@ -85,7 +95,7 @@ export default class TypesPack extends Pack {
       .attr("cx", x)
       .attr("cy", y)
       .transition()
-      .duration(access.time('typesPack.transitions'))
+      .duration(access.time("typesPack.transitions"))
       .attr("r", 10)
       .attr("fill-opacity", 1);
   }
@@ -93,7 +103,7 @@ export default class TypesPack extends Pack {
   endDragCircle() {
     this.dragCircle
       .transition()
-      .duration(access.time('typesPack.transitions'))
+      .duration(access.time("typesPack.transitions"))
       .attr("r", this.TempR)
       .attr("cx", this.TempX)
       .attr("cy", this.TempY)
@@ -104,10 +114,10 @@ export default class TypesPack extends Pack {
   startDragText() {
     const { x, y } = this.getXyFromEvent();
 
-    const addText = (d)=> {
+    const addText = d => {
       this.setDrag(d.data.name);
       return d.data.name;
-    }
+    };
 
     this.dragText
       .attr("transform", null)
@@ -115,7 +125,7 @@ export default class TypesPack extends Pack {
       .attr("y", y + 30)
       .attr("x", x)
       .transition()
-      .duration(access.time('typesPack.transitions'))
+      .duration(access.time("typesPack.transitions"))
       .attr("font-size", "20px")
       .text(addText);
   }
@@ -131,7 +141,7 @@ export default class TypesPack extends Pack {
 
     this.dragText
       .transition()
-      .duration(access.time('typesPack.transitions'))
+      .duration(access.time("typesPack.transitions"))
       .attr("x", this.TempX)
       .attr("y", this.TempY)
       .attr("class", d =>
@@ -146,8 +156,12 @@ export default class TypesPack extends Pack {
     const { dragCircle, dragText } = this;
     const { x, y } = this.getXyFromEvent();
 
-    dragText.attr("x", x).attr("y", y + 30);
-    dragCircle.attr("cx", x).attr("cy", y);
+    dragText
+      .attr("x", x)
+      .attr("y", y + 30);
+    dragCircle
+      .attr("cx", x)
+      .attr("cy", y);
   }
 
   stop(d) {
@@ -197,40 +211,38 @@ export default class TypesPack extends Pack {
     let { x, y } = this.getXyFromEvent();
 
     if (x < 100) {
-
       setTimeout(() => {
         this.addToScheme(d.data.nameKey);
-      }, access.time('addItemPanel.addToScheme'))
-      
-      let i = 0;
-     
-        this.canvas
-          .append("circle")
-          .attr("cx", x)
-          .attr("cy", y)
-          .attr("fill", access.color("canvases.fg"))
-          .attr("r", 10)
-          .transition()
-          .duration(access.time('addItemPanel.addToScheme'))
-          .attr("fill", access.color("canvases.bg"))
-          .attr("r", 4)
-          .attr("cx", 0)
-          .transition()
-          .duration(10)
-          .remove();
+      }, access.time("addItemPanel.addToScheme"));
 
+      let i = 0;
+
+      this.canvas
+        .append("circle")
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("fill", access.color("canvases.fg"))
+        .attr("r", 10)
+        .transition()
+        .duration(access.time("addItemPanel.addToScheme"))
+        .attr("fill", access.color("canvases.bg"))
+        .attr("r", 4)
+        .attr("cx", 0)
+        .transition()
+        .duration(10)
+        .remove();
     }
   }
 
-  _clickAction(){
+  _clickAction() {
     // const backBtn = this.canvas.append('g');
-    const { canvas, width, height} = this;
+    const { canvas, width, height } = this;
     let backTag;
 
     const onSelect = () => {
       this.createPack(this.mainData);
       backTag.removeTag();
-    }
+    };
 
     backTag = new Tag({
       selected: false,

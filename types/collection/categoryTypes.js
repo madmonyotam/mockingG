@@ -11,11 +11,15 @@ const categoryTypes = gen => {
               placeholder: translate("choose category from list")
           },
           size: {
-            type: "nubmer",
+            type: "number",
             placeholder: translate("enter amount")
           }
       },
       generate: el => {
+        const { value } = el;
+        if(!value) return translate("missing value");
+        if(!el.value.categoryPath) return translate("missing property categoryPath");
+
         const [lib, cat] = el.value.categoryPath.split(".");
         const size = el.value.size;
         const scheme = gen.schemes.getScheme(lib, cat);

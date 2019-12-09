@@ -106,7 +106,7 @@ const modelator = scheme => {
 };
 
 const generate = (scheme, amount = 10) => {
-  if (!scheme) throw Error("scheme is required for generate");
+  if (!scheme) return "can't find scheme";
   if(amount>10000) amount = 10000;
 
   if (typeof scheme === 'string') {

@@ -20,7 +20,10 @@ const numberTypes = {
     },
     generate: element => {
       let { value } = element;
+      if(!value) return translate("missing value");
+
       value = Number(value);
+      if(isNaN(value)) return translate("value is not a number");
       return faker.random.number({ max: value });
     },
     group: "number"
@@ -34,7 +37,10 @@ const numberTypes = {
     },
     generate: element => {
       let { value } = element;
+      if(!value) return translate("missing value");
+
       value = Number(value);
+      if(isNaN(value)) return translate("value is not a number");
       return faker.random.number({ min: value });
     },
     group: "number"
@@ -54,9 +60,15 @@ const numberTypes = {
     },
     generate: element => {
       const { value } = element;
+      if(!value) return translate("missing value");
+      if(!value.min) return translate("missing property min");
+      if(!value.max) return translate("missing property max");
 
       let min = Number(value.min);
       let max = Number(value.max);
+
+      if(isNaN(min)) return translate("min value is not a number");
+      if(isNaN(max)) return translate("max value is not a number");
 
       if (max <= min) max = min + 1;
 

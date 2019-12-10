@@ -79,7 +79,7 @@ function SchemePanel() {
     }
 
     if (editorWidth === 0) return <Placeholder/>;
-    const width = editorWidth - editorWidth / 100;
+    const width = editorWidth;
 
     return <Editor isData={isData} width={width} />;
   };

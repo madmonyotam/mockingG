@@ -200,12 +200,13 @@ export default class Pack {
       let cutIn = 25;
 
       if (childrenScope(d)) {
-        cutIn = radius < 70 ? 16 : cutIn;
-        cutIn = radius < 50 ? 14 : cutIn;
+        cutIn = radius < 80 ? 16 : cutIn;
+        cutIn = radius < 70 ? 14 : cutIn;
         cutIn = radius < 40 ? 12 : cutIn;
         cutIn = radius < 35 ? 9 : cutIn;
         cutIn = radius < 30 ? 7 : cutIn;
         cutIn = radius < 20 ? 3 : cutIn;
+        cutIn = radius < 14 ? 0 : cutIn;
 
         if (text.length <= cutIn) return text;
         return text.substring(0, cutIn) + "...";
@@ -214,14 +215,14 @@ export default class Pack {
       return text;
     };
 
-    const getFontSize = d => {
+    const getFontSize = (d, isChildren) => {
 
-      let size = Math.floor(d.r / 3);
+      if(isChildren){
+        
+        return(Math.min(Math.max(d.r, 30)/4,36));
+      }
 
-      size = size < 8 ? 8 : size;
-      size = size > 14 ? 14 : size;
-      size = size > 30 ? 20 : size;
-      return size;
+      return(Math.min(d.r, 60)/3);
     };
 
     const getTextPosition = d => {
@@ -241,7 +242,7 @@ export default class Pack {
         .text(d => adaptText(d))
         .transition()
         .duration(2000)
-        .attr("font-size", d => getFontSize(d));
+        .attr("font-size", d => getFontSize(d,childrenScope(d)));
     };
 
     const exitTexts = t => {
@@ -265,7 +266,7 @@ export default class Pack {
         .text(d => adaptText(d))
         .attr("y", getTextPosition)
         .attr("class", d => (childrenScope(d) ? textClasses.in : textClasses.out))
-        .attr("font-size", d => getFontSize(d));
+        .attr("font-size", d => getFontSize(d,childrenScope(d)));
     };
 
     const texts = mainGroup.selectAll("text").data(nodes, d => d.data.id);

@@ -38,18 +38,20 @@ export function onEditorChange(tree, items) {
   replaceScheme(tree, items);
 }
 
-function getValueByRendererType(rendererType) {
-  switch (rendererType) {
+function getValueByRendererType(renderer) {
+  switch (renderer.type) {
     case "number":
       return 10;
     case "string":
-      return "string";
+      return renderer.placeholder;
     case "autocompleteArray":
       return [];
 
     default:
-      return "value";
+      return renderer.placeholder;
   }
+
+  
 }
 
 function getAdditionalFields(type) {
@@ -58,13 +60,13 @@ function getAdditionalFields(type) {
   if (!renderer) return {};
 
   if (renderer.type) {
-    return { value: getValueByRendererType(renderer.type) };
+    return { value: getValueByRendererType(renderer) };
   }
 
   let AdditionalFields = { value: {} };
   for (const key in renderer) {
-    const innerType = renderer[key].type;
-    AdditionalFields.value[key] = getValueByRendererType(innerType);
+    const innerRenderer = renderer[key];
+    AdditionalFields.value[key] = getValueByRendererType(innerRenderer);
   }
 
   return AdditionalFields;

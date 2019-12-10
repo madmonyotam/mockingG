@@ -35,7 +35,7 @@ export default class TypesPack extends Pack {
     const { prevY, prevX } = this.getPrevCircle();
 
     if (!this.firstMove && prevX + 200 < x) {
-      x = prevX - 1;
+      x = prevX - 5;
       y = prevY;
     }
 

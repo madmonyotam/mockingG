@@ -11,6 +11,7 @@ const textsTypes = require('../types/collection/textTypes');
 const workTypes = require('../types/collection/workTypes');
 const locatonTypes = require('../types/collection/locatonTypes');
 const financeTypes = require('../types/collection/financeTypes');
+const dateTypes = require('../types/collection/dateTypes');
 
 const types = new typesClass();
 const schemes = new schemesClass();
@@ -23,6 +24,7 @@ types.addTypes(textsTypes);
 types.addTypes(workTypes);
 types.addTypes(locatonTypes);
 types.addTypes(financeTypes);
+types.addTypes(dateTypes);
 
 const setApp = (app) => {
 

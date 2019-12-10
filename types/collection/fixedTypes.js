@@ -46,9 +46,9 @@ const fixedTypes = {
     },
     fixedValue : {
         name: "Fixed Value",
-        generate: (element)=>{
-            if(!value) return translate("missing value");
-            return element.value;
+        generate: (el)=>{
+            if(!el.value) return translate("missing value");
+            return el.value;
         },
         renderer: {
             type: 'string',

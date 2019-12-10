@@ -210,7 +210,7 @@ export default class TypesPack extends Pack {
   checkDrop(d) {
     let { x, y } = this.getXyFromEvent();
 
-    if (x < 100) {
+    if (x < 0) {
       setTimeout(() => {
         this.addToScheme(d.data.nameKey);
       }, access.time("addItemPanel.addToScheme"));

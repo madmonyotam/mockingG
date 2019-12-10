@@ -6,18 +6,14 @@ import * as access from "../access";
 
 import styled from "styled-components";
 import Row from "../Layouts/Row";
-import FileDownloader from "../tools/FileDownloader";
+import BarButtons from "./BarButtons";
 
 import { Icon, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const BottomBar = styled(Row)`
   justify-content: flex-end;
-  border-right: 1px solid ${access.color("schemePanel.border")}
-`;
-
-const ButtonsCont = styled(Row)`
-  padding-left: 10px;
+  border-right: 1px solid ${access.color("schemePanel.border")};
 `;
 
 const AmountInput = styled("input")`
@@ -35,13 +31,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10,
     marginLeft: 10,
     padding: 6
-  },
-  button: {
-    color: access.color("bottomBar.fg"),
-    padding: 10
-  },
-  copy: {
-    fontSize: 18
   }
 }));
 
@@ -51,26 +40,7 @@ function BottomBarGen(params) {
   const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
   const [amount, setAmount] = useState(1);
-
-  const copyToClipboard = textToCopy => {
-    try {
-      textToCopy = JSON.stringify(textToCopy, null, 2);
-    } catch (error) {
-      textToCopy = "unable to stringify data";
-    }
-
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(textToCopy);
-    } else {
-      const el = document.createElement("textarea");
-      el.value = textToCopy;
-      el.style.display = "none";
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand("copy");
-      document.body.removeChild(el);
-    }
-  };
+  const fileName = `${focus.lib}_${focus.cat}`;
 
   const gen = () => {
     dispatch(generate, { items, amount });
@@ -84,55 +54,29 @@ function BottomBarGen(params) {
     );
   };
 
-  const CopyButton = () => {
-    return (
-      <IconButton
-        size="small"
-        className={classes.button}
-        onClick={() => {
-          copyToClipboard(mockData);
-        }}
-      >
-        <Icon className={classes.copy}>{access.icon("schemePanel.copy")}</Icon>
-      </IconButton>
-    );
-  };
-
   const RenderAmountInput = () => {
-
-    const handleSetAmount = (e) => {
+    const handleSetAmount = e => {
       let value = e.target.value;
-      
-      value = value < 1 ? 1 : value; 
-      value = value > 10000 ? 10000 : value; 
+
+      value = value < 1 ? 1 : value;
+      value = value > 10000 ? 10000 : value;
 
       setAmount(value);
-    }
-
-    return <AmountInput type={"number"} value={amount} onChange={handleSetAmount} autoFocus={true} />;
-  };
-
-  const DownloadButton = () => {
-    const fileName = `${focus.lib}_${focus.cat}`;
+    };
 
     return (
-      <FileDownloader content={mockData} fileName={fileName} fileExtension={'json'}>
-        <IconButton size="small" className={classes.button}>
-          <Icon className={classes.copy}>
-            {access.icon("schemePanel.download")}
-          </Icon>
-        </IconButton>
-      </FileDownloader>
+      <AmountInput
+        type={"number"}
+        value={amount}
+        onChange={handleSetAmount}
+        autoFocus={true}
+      />
     );
   };
 
   return (
     <BottomBar background={access.color("bottomBar.bg")}>
-      <ButtonsCont>
-        <CopyButton />
-        <DownloadButton />
-      </ButtonsCont>
-
+      <BarButtons content={mockData} filename={fileName} />
       <RenderAmountInput />
       <PlayButton />
     </BottomBar>

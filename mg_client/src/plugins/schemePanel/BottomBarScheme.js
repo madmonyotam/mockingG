@@ -1,33 +1,24 @@
 import React from "react";
 
 import * as access from "../access";
+import { useBranch } from "baobab-react/hooks";
 
 import styled from "styled-components";
 import Row from "../Layouts/Row";
-
-import { Icon, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import BarButtons from "./BarButtons";
 
 const BottomBar = styled(Row)`
   border-right: 1px solid ${access.color("schemePanel.border")}
 `;
 
-const useStyles = makeStyles(theme => ({
-  btn: {
-    marginLeft: 10,
-    marginTop: 2,
-    color: access.color("bottomBar.fg")
-  }
-}));
-
 function BottomBarScheme(params) {
-  const classes = useStyles();
+  const { items } = useBranch({ items: ["items"] });
+  const { focus } = useBranch({ focus: ["focus"] });
+  const fileName = `${focus.lib}_${focus.cat}_scheme`;
 
   return (
     <BottomBar background={access.color("bottomBar.bg")}>
-      <IconButton className={classes.btn} size="small">
-        <Icon>{access.icon("searchBar.back")}</Icon>
-      </IconButton>
+      <BarButtons content={items} filename={fileName} />
     </BottomBar>
   );
 }

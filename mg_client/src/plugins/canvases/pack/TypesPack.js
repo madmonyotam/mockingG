@@ -32,21 +32,9 @@ export default class TypesPack extends Pack {
     let x = event.offsetX;
     let y = event.offsetY;
 
-    const { prevY, prevX } = this.getPrevCircle();
-
-    if (!this.firstMove && prevX + 200 < x) {
-      x = prevX - 5;
-      y = prevY;
-    }
-
-    if (!this.firstMove && prevX < 5) {
-      x = -200;
-      y = prevY;
-    }
-
-    if (d3.event.x > 100) {
-      x = event.offsetX;
-      y = event.offsetY;
+    const { prevX } = this.getPrevCircle();
+    if(prevX<100 && !this.firstMove){
+      x = prevX + event.movementX;
     }
 
     return { x, y };

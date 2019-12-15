@@ -26,11 +26,11 @@ app.get("/mocking_G", function(req, res) {
 app.listen(port);
 console.log(`running on port ${port}`);
 
-gen.schemes.setApp(app);
-gen.types.setApp(app);
 gen.setApp(app);
-
+gen.types.setApp(app);
+gen.schemes.setApp(app);
 const catTypes = categoryTypes(gen);
 gen.types.addTypes(catTypes);
+
 
 module.exports = gen;

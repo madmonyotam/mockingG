@@ -1,28 +1,64 @@
 const fs = require("fs");
-const mySchemes = require("./mySchemes.json");
+const path = require("path");
+
 class Schemes {
   constructor() {
-    this.schemes = mySchemes;
+    this.projectsPath = path.resolve(__dirname, "projects/");
+
+    const firstFileName = this.getFirstFilePath();
+    this.projectName = firstFileName;
+    this.currentPath = path.resolve(this.projectsPath, `${firstFileName}.json`);
+    this.setSchemesFromFile();
+  }
+
+  getFirstFilePath() {
+    const fileName = this.getFilesNames()[0];
+    if(!fileName) return mySchemes;
+    return fileName;
+  }
+
+  getFilesNames() {
+    let files = fs.readdirSync(this.projectsPath);
+    files = files.map(f => f.split(".")[0]);
+    return files;
+  }
+
+  setSchemesFromFile() {
+    if (!fs.existsSync(this.currentPath)) {
+      fs.writeFileSync(this.currentPath, "{}");
+      this.schemes = require(this.currentPath);
+    } else {
+      this.schemes = require(this.currentPath);
+    }
+  }
+
+  saveByFileName(fileName) {
+    const filePath = path.resolve(this.projectsPath, `${fileName}.json`);
+    this.currentPath = filePath;
+    this.projectName = fileName;
+    fs.writeFileSync(filePath, JSON.stringify(this.schemes, null, 2));
   }
 
   setApp(app) {
     this.app = app;
-    app.use("/mocking_G/write", (req, res) => {
-      this.writeSchemesToFile(err => {
-        if (err) {
-          res.status(400).send("check your data");
-        }
 
-        res.send("The file was saved!");
-      });
+    app.get("/mocking_G/saveAs", (req, res) => {
+      const { query } = req;
+      const { fileName } = query;
+      this.saveByFileName(fileName);
+      res.send("This file has been saved!");
+    });
+
+    app.get("/mocking_G/getFilesNames", (req, res) => {
+      res.send(this.getFilesNames());
     });
 
     app.get("/mocking_G/getAll", (req, res) => {
-      res.send(this.schemes);
+      res.send({data:this.schemes,projectName:this.projectName});
     });
 
     app.get("/mocking_G/getAllLibraries", (req, res) => {
-      res.send(this.getAllLibraries());
+      res.send({libraries:this.getAllLibraries(),projectName:this.projectName});
     });
 
     app.get("/mocking_G/getCategoriesFromLibrary", (req, res) => {
@@ -53,7 +89,7 @@ class Schemes {
       }
 
       this.removeFromScheme(library, category, field);
-      res.send( this.getScheme(library, category) );
+      res.send(this.getScheme(library, category));
     });
 
     app.get("/mocking_G/addLibrary", (req, res) => {
@@ -68,12 +104,10 @@ class Schemes {
         this.addLibrary(library);
         res.send(this.getAllLibraries());
       } catch (error) {
-        res.status(400)
-        .json({
+        res.status(400).json({
           message: `library ${library} all ready exist`
-      });
+        });
       }
-      
     });
 
     app.get("/mocking_G/removeLibrary", (req, res) => {
@@ -97,15 +131,13 @@ class Schemes {
       }
 
       try {
-        this.addCategory(library,category);
+        this.addCategory(library, category);
         res.send(this.getCategoriesFromLibrary(library));
       } catch (error) {
-        res.status(400)
-        .json({
+        res.status(400).json({
           message: `category ${category} all ready exist`
-      });
+        });
       }
-      
     });
 
     app.get("/mocking_G/removeCategory", (req, res) => {
@@ -125,25 +157,18 @@ class Schemes {
       const { library, category, scheme } = query;
 
       if (!library || !category || !scheme) {
-
         res.status(400).json({
           message: "missing library,category or scheme"
-      });
+        });
       }
 
-        this.replaceScheme(library, category, JSON.parse(scheme))
-        res.send( this.getScheme(library, category) );
+      this.replaceScheme(library, category, JSON.parse(scheme));
+      res.send(this.getScheme(library, category));
     });
   }
 
-  writeSchemesToFile(cb = () => {}) {
-    fs.writeFile(
-      "./schemes/mySchemes.json",
-      JSON.stringify(this.schemes, null, 2),
-      function(err) {
-        cb(err);
-      }
-    );
+  writeSchemesToFile() {
+    fs.writeFileSync( this.currentPath, JSON.stringify(this.schemes, null, 2) );
   }
 
   getScheme(library, category) {
@@ -166,10 +191,10 @@ class Schemes {
     libs.forEach(lib => {
       const cats = this.getCategoriesFromLibrary(lib);
 
-      cats.forEach(cat=>{
+      cats.forEach(cat => {
         const path = `${lib}.${cat}`;
         arrayOfCategories.push(path);
-      })
+      });
     });
 
     return arrayOfCategories;
@@ -180,6 +205,7 @@ class Schemes {
 
     if (this.schemes[library][category]) throw Error("scheme all ready exist");
     this.schemes[library][category] = scheme;
+    this.writeSchemesToFile();
   }
 
   addToScheme(library, category, field) {
@@ -191,6 +217,8 @@ class Schemes {
       ...this.schemes[library][category],
       field
     };
+
+    this.writeSchemesToFile();
   }
 
   removeFromScheme(library, category, field) {
@@ -199,24 +227,30 @@ class Schemes {
       throw Error(`category does not exist on library ${library}`);
 
     delete this.schemes[library][category][field];
+    this.writeSchemesToFile();
   }
 
   replaceScheme(library, category, scheme) {
     this.schemes[library][category] = scheme;
+    this.writeSchemesToFile();
   }
 
   removeScheme(library, category) {
     delete this.schemes[library][category];
+    this.writeSchemesToFile();
   }
 
   addCategory(library, category) {
     if (!this.schemes[library]) throw Error("library does not exist");
-    if (this.schemes[library][category]) throw Error(`category ${category} all ready exist`);
+    if (this.schemes[library][category])
+      throw Error(`category ${category} all ready exist`);
     this.schemes[library][category] = {};
+    this.writeSchemesToFile();
   }
 
   removeLibrary(library) {
     delete this.schemes[library];
+    this.writeSchemesToFile();
   }
 
   addLibrary(name) {
@@ -224,6 +258,7 @@ class Schemes {
       throw Error(`library ${library} all ready exist`);
     }
     this.schemes[name] = {};
+    this.writeSchemesToFile();
   }
 
   editCategory(library, oldName, newName) {}

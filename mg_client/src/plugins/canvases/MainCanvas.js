@@ -69,9 +69,10 @@ function MainCanvas() {
 
   const getAllLibs = (canvas, width, height) => {
     get("/getAll").then(res => {
-      const data = res.data;
+      const {data, projectName } = res.data;
+
       const libraryPack = new LibraryPack({ canvas, width, height });
-      libraryPack.initWithData(data);
+      libraryPack.initWithData(data,projectName);
       libraryPack.setLevelClick(1, getCategoriesFromLibrary);
       libraryPack.setLevelClick(2, getItemsFromCategory);
       libraryPack.setLevelClick(3, handleClickOnItem);

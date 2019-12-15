@@ -4,8 +4,12 @@ function setLibToSelected(tree,lib) {
   tree.set(["selectedLibrary"], lib);
 }
 
-export function setLibs(tree, libs) {
-  tree.set(["libs"], libs);
+export function setLibs(tree, data) {
+  tree.set(["libs"], data.libraries);
+  setTimeout(() => { 
+    tree.set(["projectName"], data.projectName);
+  })
+  
 }
 
 export function setLibToFocus(tree, lib) {

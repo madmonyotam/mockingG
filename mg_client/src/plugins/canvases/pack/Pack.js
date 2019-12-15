@@ -45,22 +45,20 @@ export default class Pack {
     this.width = params.width;
     this.height = params.height;
     this.mainGroup = this.canvas.append("g").attr("class", "pack");
-    // this.mainData = this.normalizeData(params.data);
-    // this.createPack(this.mainData,true);
   }
 
-  initWithData(data){
-    this.mainData = this.normalizeData(data);
+  initWithData(data,projectName){
+    this.mainData = this.normalizeData(data,null,projectName);
     this.createPack(this.mainData,true);
   }
 
-  normalizeData(data, newData) {
+  normalizeData(data, newData,projectName = "Project") {
     if (!newData)
       newData = {
-        name: "Project Name",
+        name: projectName,
         value: 1,
         children: [],
-        id: "id",
+        id: projectName,
         level: 0
       };
 

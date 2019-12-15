@@ -18,6 +18,7 @@ import { get } from "../plugins/requests";
 
 function LeftPanel() {
   const { libs, dispatch } = useBranch({ libs: ["libs"] });
+  const { projectName } = useBranch({ projectName: ["projectName"] });
   const { cats } = useBranch({ cats: ["cats"] });
   const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
@@ -172,15 +173,16 @@ function LeftPanel() {
     const { lib, cat } = focus;
     if (lib && cat) return `${lib} - ${cat}`;
     if (lib) return lib;
-    return access.translate("Project Name");
+    return projectName;
   };
 
   const zIndex = access.dim("zIndexViews.leftPanel");
   const flex = access.dim("flexViews.leftPanel");
+  const label = getLabel();
 
   return (
     <Column flex={flex} zIndex={zIndex}>
-      <SearchBar label={getLabel()} nested={focus.lib} onBack={handleBack} />
+      <SearchBar label={label} nested={focus.lib} onBack={handleBack} />
       <RenderAddRow />
       <Column flex={1}>
         <RenderList />

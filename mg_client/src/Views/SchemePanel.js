@@ -21,6 +21,7 @@ const Placeholder = styled('div')`
 
 const Srow = styled(Row)`
   flex: ${props => props.flex};
+  transition: flex ${access.time("schemePanel.collapse")}ms;
 `;
 
 const TopBar = styled(Row)`
@@ -40,6 +41,7 @@ function SchemePanel() {
 
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
   const { dragState } = useBranch({ dragState: ["drag"] });
+  const { collapse } = useBranch({ collapse: ["collapse"] });
   const { selectedCategory } = useBranch({
     selectedCategory: ["selectedCategory"]
   });
@@ -69,9 +71,14 @@ function SchemePanel() {
 
     if (viewKey === "initKey") {
       return null;
+    } else if(collapse || editorWidth !== 0){
+      setTimeout(() => {
+        if (editorWrapper.current) {
+          setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
+        }
+      }, 600);
     } else {
       setTimeout(() => {
-        if(editorWidth !== 0) return;
         if (editorWrapper.current) {
           setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
         }
@@ -107,7 +114,14 @@ function SchemePanel() {
   };
 
   const getFlex = () => {
-    if (viewKey !== "initKey") return access.dim("flexViews.schemePanel");
+    if (viewKey !== "initKey"){
+
+      if(collapse){
+        return access.dim("flexCollapse.schemePanel");
+      }
+
+      return access.dim("flexViews.schemePanel");
+    } 
     return 0;
   };
 

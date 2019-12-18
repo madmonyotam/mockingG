@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { useBranch } from "baobab-react/hooks";
 
 import * as access from "../plugins/access";
+import styled from "styled-components";
 
 import Column from "../plugins/Layouts/Column";
-
 import SearchBar from "../plugins/menuPanel/SearchBar";
 import ListItem from "../plugins/menuPanel/ListItem";
 import AddRow from "../plugins/menuPanel/AddRow";
+import BottomBarMenu from "../plugins/menuPanel/BottomBarMenu";
 
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
@@ -16,12 +17,19 @@ import * as itemsActions from "../tree/actions/items";
 import { getLibraryPack } from "../plugins/canvases/utils/packUtils";
 import { get } from "../plugins/requests";
 
-function LeftPanel() {
+const CollapseColumn = styled(Column)`
+  min-width: 50px;
+  transition: flex ${access.time("schemePanel.collapse")}ms;
+  overflow-x: hidden;
+`;
+
+function LeftPanel({ viewKey }) {
   const { libs, dispatch } = useBranch({ libs: ["libs"] });
   const { projectName } = useBranch({ projectName: ["projectName"] });
   const { cats } = useBranch({ cats: ["cats"] });
   const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
+  const { collapse } = useBranch({ collapse: ["collapse"] });
   const libraryPack = getLibraryPack();
 
   useEffect(() => {
@@ -128,7 +136,6 @@ function LeftPanel() {
     //TODO: add item
     const handleAddItem = value => {
       value = value.trim();
-      
     };
 
     switch (addTo) {
@@ -176,18 +183,44 @@ function LeftPanel() {
     return projectName;
   };
 
+  const getFlex = () => {
+    if (collapse) {
+      return access.dim("flexCollapse.leftPanel");
+    }
+
+    return access.dim("flexViews.leftPanel");
+  };
+
   const zIndex = access.dim("zIndexViews.leftPanel");
-  const flex = access.dim("flexViews.leftPanel");
+  const flex = getFlex();
   const label = getLabel();
 
+  const renderContent = () => {
+    if (collapse) {
+      return (
+        <Fragment>
+          <CollapseColumn flex={1} background={access.color("bottomBar.bg")} >
+          </CollapseColumn>
+        </Fragment>
+      );
+    }
+
+    return (
+      <Fragment>
+        <RenderAddRow />
+        <Column flex={1}>
+          <RenderList />
+        </Column>
+      </Fragment>
+    );
+  };
+
   return (
-    <Column flex={flex} zIndex={zIndex}>
+    <CollapseColumn flex={flex} zIndex={zIndex} background={access.color("menuPanel.bg")}>
       <SearchBar label={label} nested={focus.lib} onBack={handleBack} />
-      <RenderAddRow />
-      <Column flex={1}>
-        <RenderList />
-      </Column>
-    </Column>
+      {renderContent()}
+      <BottomBarMenu viewKey={viewKey} />
+    </CollapseColumn>
   );
 }
 

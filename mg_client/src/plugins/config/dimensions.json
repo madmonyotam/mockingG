@@ -3,6 +3,10 @@
         "leftPanel": 0.2,
         "schemePanel": 0.3
     },
+    "flexCollapse": {
+        "leftPanel": 0,
+        "schemePanel": 0.5
+    },
     "zIndexViews":{
         "leftPanel": 3,
         "schemePanel": 2,

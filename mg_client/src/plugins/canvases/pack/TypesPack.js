@@ -203,8 +203,6 @@ export default class TypesPack extends Pack {
         this.addToScheme(d.data.nameKey);
       }, access.time("addItemPanel.addToScheme"));
 
-      let i = 0;
-
       this.canvas
         .append("circle")
         .attr("cx", x)

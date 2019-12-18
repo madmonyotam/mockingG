@@ -41,6 +41,9 @@
         "notSelected": "colors.blue03",
         "border": "backgrounds.primary"
     },
+    "menuPanel": {
+        "bg": "colors.grey02"
+    },
     "canvases": {
         "bg":  "backgrounds.secondary",
         "fg":  "texts.secondary",

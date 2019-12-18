@@ -31,6 +31,10 @@
         "download": {
             "type": null,
             "name": "file_download"
+        },
+        "collapse": {
+            "type": null,
+            "name": "chevron_left"
         }
     },
     "searchBar": {
@@ -41,7 +45,8 @@
         "edit": "icons.edit"
     },
     "leftPanel": {
-       "add": "icons.add"
+       "add": "icons.add",
+       "collapse": "icons.collapse"
     },
     "schemePanel": {
         "scheme": "icons.list",

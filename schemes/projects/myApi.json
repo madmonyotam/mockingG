@@ -25,15 +25,11 @@
       "url": {
         "type": "url"
       },
+      "id": {
+        "type": "id"
+      },
       "ip": {
         "type": "ip"
-      },
-      "renk": {
-        "type": "numberMax",
-        "value": 10
-      },
-      "id-445": {
-        "type": "id"
       }
     },
     "artical": {
@@ -42,14 +38,17 @@
       },
       "content": {
         "type": "textLines",
-        "value": 100
+        "value": 10
       },
       "author name": {
         "type": "fullName"
       },
-      "serialId-830": {
-        "type": "serialId",
-        "prefix": "id-"
+      "category-145": {
+        "type": "category",
+        "value": {
+          "categoryPath": "examples.user",
+          "size": 3
+        }
       }
     }
   }

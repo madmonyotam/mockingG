@@ -11,12 +11,15 @@ const tree = new Baobab({
     cat: null,
     item: null
   },
+
+  packView: 'project', // 'types'
   drag: false,
   selected: null,
   selectedCategory: null,
   selectedLibrary: null,
+
+  collapse: false,
   viewKey: 'initKey',
-  packView: 'project' // 'types'
 });
 
 window.tree = tree;

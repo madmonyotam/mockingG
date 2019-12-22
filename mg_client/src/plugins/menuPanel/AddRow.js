@@ -1,25 +1,15 @@
 import React, { useState, useEffect } from "react";
-
-import { Icon, IconButton, TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { TextField } from "@material-ui/core";
 
 import * as access from "../access";
 
 import Row from "../Layouts/Row";
 import Absolute from "../Layouts/Absolute";
+import IconButton from "../icons/IconButton";
 
 let open = false;
 
-const useStyles = makeStyles(theme => ({
-  btn: {
-    color: access.color("texts.secondary"),
-    padding: 5,
-    fontSize: 20
-  }
-}));
-
 function AddRow({ label, handleAdd }) {
-  const classes = useStyles();
   const [value, setValue] = useState("");
 
   useEffect(() => {
@@ -51,9 +41,11 @@ function AddRow({ label, handleAdd }) {
     return (
       <Absolute left={null}>
         <Row>
-          <IconButton size="small" onClick={add}>
-            <Icon className={classes.btn}>{access.icon("leftPanel.add")}</Icon>
-          </IconButton>
+          <IconButton
+            icon={access.icon("leftPanel.add")}
+            color={access.color("texts.secondary")}
+            onClick={add}
+          />
         </Row>
       </Absolute>
     );

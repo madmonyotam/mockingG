@@ -8,34 +8,23 @@ import Row from "../Layouts/Row";
 import FileDownloader from "../tools/FileDownloader";
 import CopyToClipBoard from "../tools/CopyToClipBoard";
 
-import { Icon, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import IconButton from "../icons/IconButton";
 
 const ButtonsCont = styled(Row)`
   padding-left: 10px;
 `;
 
-const useStyles = makeStyles(theme => ({
-  button: {
-    color: access.color("bottomBar.fg"),
-    padding: 10
-  },
-  copy: {
-    fontSize: 18
-  }
-}));
-
 function BarButtons({ content, filename }) {
-  const classes = useStyles();
 
   const CopyButton = () => {
     return (
       <CopyToClipBoard content={content}>
-        <IconButton size="small" className={classes.button}>
-          <Icon className={classes.copy}>
-            {access.icon("schemePanel.copy")}
-          </Icon>
-        </IconButton>
+        <IconButton
+          icon={access.icon("schemePanel.copy")}
+          color={access.color("bottomBar.fg")}
+          iconPadding={8}
+          iconSize={18}
+        />
       </CopyToClipBoard>
     );
   };
@@ -47,11 +36,12 @@ function BarButtons({ content, filename }) {
         fileName={filename}
         fileExtension={"json"}
       >
-        <IconButton size="small" className={classes.button}>
-          <Icon className={classes.copy}>
-            {access.icon("schemePanel.download")}
-          </Icon>
-        </IconButton>
+        <IconButton
+          icon={access.icon("schemePanel.download")}
+          color={access.color("bottomBar.fg")}
+          iconPadding={8}
+          iconSize={18}
+        />
       </FileDownloader>
     );
   };

@@ -35,14 +35,15 @@
         "outline": "colors.blueLight01"
     },
     "schemePanel": {
-        "bg": "backgrounds.code",
+        "bg": "colors.white",
         "divider": "colors.blue02",
         "selected": "texts.primary",
         "notSelected": "colors.blue03",
         "border": "backgrounds.primary"
     },
     "menuPanel": {
-        "bg": "colors.grey02"
+        "bg": "colors.grey02",
+        "icon": "colors.grey02"
     },
     "canvases": {
         "bg":  "backgrounds.secondary",

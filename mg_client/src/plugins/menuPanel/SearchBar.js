@@ -1,36 +1,29 @@
 import React from "react";
-import { Icon, IconButton } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
 
 import * as access from "../access";
 
 import Row from "../Layouts/Row";
 import Label from "../tools/Label";
-
-const useStyles = makeStyles(theme => ({
-  btn: {
-    marginLeft: 10,
-    marginTop: 2,
-    color: access.color("searchBar.fg")
-  }
-}));
+import IconButton from "../icons/IconButton";
 
 function SearchBar({ label, nested, onBack }) {
-  const classes = useStyles();
-  
-  const renderBack = ()=>{
-    if(!nested) return;
-    
-    return(
-      <IconButton className={classes.btn} size="small" onClick={onBack}>
-        <Icon>{access.icon("searchBar.back")}</Icon>
-      </IconButton>
-    )
-  }
+  const renderBack = () => {
+    if (!nested) return;
+    const btnStyle = { marginLeft: 10, marginTop: 2 };
+
+    return (
+      <IconButton
+        icon={access.icon("searchBar.back")}
+        color={access.color("searchBar.fg")}
+        onClick={onBack}
+        btnStyle={btnStyle}
+      />
+    );
+  };
 
   return (
     <Row background={access.color("searchBar.bg")}>
-      { renderBack() }
+      {renderBack()}
       <Label color={access.color("searchBar.fg")}>{label}</Label>
     </Row>
   );

@@ -5,11 +5,9 @@ import { generate } from "../../tree/actions/items";
 import * as access from "../access";
 
 import styled from "styled-components";
+import IconButton from "../icons/IconButton";
 import Row from "../Layouts/Row";
 import BarButtons from "./BarButtons";
-
-import { Icon, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 const BottomBar = styled(Row)`
   justify-content: flex-end;
@@ -25,17 +23,7 @@ const AmountInput = styled("input")`
   font-weight: 600;
 `;
 
-const useStyles = makeStyles(theme => ({
-  play: {
-    color: access.color("bottomBar.fg"),
-    marginRight: 10,
-    marginLeft: 10,
-    padding: 6
-  }
-}));
-
 function BottomBarGen(params) {
-  const classes = useStyles();
   const { mockData, dispatch } = useBranch({ mockData: ["mockData"] });
   const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
@@ -47,10 +35,15 @@ function BottomBarGen(params) {
   };
 
   const PlayButton = () => {
+    const btnStyle = { marginRight: 10, marginLeft: 10 };
+
     return (
-      <IconButton className={classes.play} size="small" onClick={gen}>
-        <Icon>{access.icon("schemePanel.play")}</Icon>
-      </IconButton>
+      <IconButton
+        icon={access.icon("schemePanel.play")}
+        color={access.color("bottomBar.fg")}
+        onClick={gen}
+        btnStyle={btnStyle}
+      />
     );
   };
 

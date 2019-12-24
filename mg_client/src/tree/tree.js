@@ -20,6 +20,7 @@ const tree = new Baobab({
 
   collapse: false,
   viewKey: 'initKey',
+  openMenu: false
 });
 
 window.tree = tree;

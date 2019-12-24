@@ -104,10 +104,16 @@ function MainCanvas() {
   };
 
   const paintTabs = (canvas, width, height) => {
+    const openMenu = () => {
+      dispatch((tree)=>{
+        tree.set('openMenu',true);
+      })
+    }
+
+
     const onSelect = id => {
       projectTag.setSelected(id === "project");
       typesTag && typesTag.setSelected(id === "types");
-      // menuTag.setSelected(id === "menu");
 
       switch (id) {
         case "types":
@@ -155,16 +161,16 @@ function MainCanvas() {
       });
     }
 
-    // const menuTag = new Tag({
-    //   selected: false,
-    //   onSelect,
-    //   canvas,
-    //   width,
-    //   height,
-    //   id: "menu",
-    //   index: initKey ? 1 : 2,
-    //   color: access.color("tags.bg")
-    // });
+    const menuTag = new Tag({
+      selected: false,
+      onSelect: openMenu,
+      canvas,
+      width,
+      height,
+      id: "menu",
+      index: initKey ? 1 : 2,
+      color: access.color("tags.bg")
+    });
   };
 
   const onCanvasReady = (canvas, width, height) => {
@@ -193,7 +199,7 @@ function MainCanvas() {
   const zIndex = access.dim("zIndexViews.schemePanel"); // check
 
   return (
-    <div style={{ flex: getFlex(), zIndex: zIndex, width: "100%" }}>
+    <div style={{ flex: getFlex(), zIndex: zIndex, width: "100%", userSelect: "none" }}>
       {renderStart()}
     </div>
   );

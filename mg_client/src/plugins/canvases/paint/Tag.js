@@ -56,18 +56,18 @@ export default class Tag {
     const tags = this.mainGroup.selectAll("rect");
     const texts = this.mainGroup.selectAll("text");
 
-    dropCircles(
-      this.mainGroup,
-      this.height,
-      tags,
-      access.color("tags.moveOnTag")
-    );
-    dropCircles(
-      this.mainGroup,
-      this.height,
-      texts,
-      access.color("tags.moveOnText")
-    );
+    // dropCircles(
+    //   this.mainGroup,
+    //   this.height,
+    //   tags,
+    //   access.color("tags.moveOnTag")
+    // );
+    // dropCircles(
+    //   this.mainGroup,
+    //   this.height,
+    //   texts,
+    //   access.color("tags.moveOnText")
+    // );
 
     this.mouseEvents();
   }
@@ -138,6 +138,7 @@ export default class Tag {
         .attr("transform", `translate(${x},${y})`)
         .attr("text-anchor", "middle")
         .attr("font-size", "0")
+        .attr("cursor", "pointer")
         .attr("class", "light-text")
         .text(d => d.label)
         .transition()
@@ -167,6 +168,7 @@ export default class Tag {
         .attr("width", 0)
         .attr("height", tagHeight)
         .attr("rx", 10)
+        .attr("cursor", "pointer")
         .attr("transform", `translate(${positionX},${positionY})`)
         .attr("fill", color)
         .transition()

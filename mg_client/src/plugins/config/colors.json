@@ -58,5 +58,10 @@
         "fg": "texts.primary",
         "moveOnTag": "colors.blueLight01",
         "moveOnText": "colors.blue01"
+    },
+    "menu": {
+        "bg": "colors.white",
+        "headerFg": "texts.primary",
+        "headerBg": "backgrounds.primary"
     }
 }

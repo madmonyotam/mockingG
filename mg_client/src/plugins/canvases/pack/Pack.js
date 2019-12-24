@@ -10,6 +10,7 @@ export default class Pack {
     this.circlePadding = get(params,'circlePadding',30);
     this.margin = get(params,'margin',45);
     this.marginBottom = get(params,'marginBottom',10);
+    this.marginRight = get(params,'marginRight',22);
     this.showMainCircle = get(params,'showMainCircle',true);
     this.limitByLevel = get(params,'limitByLevel',10);
 
@@ -94,7 +95,7 @@ export default class Pack {
 
   createPack(data, isMainData) {
     const { width, height, margin, circlePadding, showMainCircle, limitByLevel } = this;
-    const size = [width, height - margin];
+    const size = [width - margin, height - margin];
 
     if (isMainData) this.mainData = data;
     this.packDomain = data.value;
@@ -330,7 +331,7 @@ export default class Pack {
   }
 
   getTranslate(d) {
-    return `translate(${d.x},${d.y + this.margin - this.marginBottom})`;
+    return `translate(${d.x + this.margin - this.marginRight},${d.y + this.margin - this.marginBottom})`;
   }
 
   setLevelClick(level, func) {

@@ -221,7 +221,6 @@ export default class TypesPack extends Pack {
   }
 
   _clickAction() {
-    // const backBtn = this.canvas.append('g');
     const { canvas, width, height } = this;
     let backTag;
 
@@ -237,7 +236,7 @@ export default class TypesPack extends Pack {
       width,
       height,
       id: "back",
-      index: 2,
+      index: 3,
       color: access.color("tags.bg")
     });
   }

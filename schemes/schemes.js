@@ -295,6 +295,7 @@ class Schemes {
 
     this.schemes[library][newName] = this.schemes[library][oldName];
     delete this.schemes[library][oldName];
+    this.writeSchemesToFile();
   }
 
   editLibrary(oldName, newName) {

@@ -236,7 +236,7 @@ export default class TypesPack extends Pack {
       width,
       height,
       id: "back",
-      index: 3,
+      index: 2,
       color: access.color("tags.bg")
     });
   }

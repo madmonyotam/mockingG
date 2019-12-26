@@ -161,16 +161,16 @@ function MainCanvas() {
       });
     }
 
-    const menuTag = new Tag({
-      selected: false,
-      onSelect: openMenu,
-      canvas,
-      width,
-      height,
-      id: "menu",
-      index: initKey ? 1 : 2,
-      color: access.color("tags.bg")
-    });
+    // const menuTag = new Tag({
+    //   selected: false,
+    //   onSelect: openMenu,
+    //   canvas,
+    //   width,
+    //   height,
+    //   id: "menu",
+    //   index: initKey ? 1 : 2,
+    //   color: access.color("tags.bg")
+    // });
   };
 
   const onCanvasReady = (canvas, width, height) => {

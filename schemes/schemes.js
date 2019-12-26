@@ -13,7 +13,7 @@ class Schemes {
 
   getFirstFilePath() {
     const fileName = this.getFilesNames()[0];
-    if(!fileName) return mySchemes;
+    if(!fileName) return 'mockingG';
     return fileName;
   }
 
@@ -122,6 +122,18 @@ class Schemes {
       res.send(this.getAllLibraries());
     });
 
+    app.get("/mocking_G/editLibrary", (req, res) => {
+      const { query } = req;
+      const { oldName, newName } = query;
+      
+      if (!oldName || !newName) {
+        res.status(400).send("missing library new or old name");
+      }
+
+      this.editLibrary(oldName, newName);
+      res.send(this.getAllLibraries());
+    });
+
     app.get("/mocking_G/addCategory", (req, res) => {
       const { query } = req;
       const { library, category } = query;
@@ -149,6 +161,22 @@ class Schemes {
       }
 
       this.removeScheme(library, category);
+      res.send(this.getCategoriesFromLibrary(library));
+    });
+
+    app.get("/mocking_G/editCategory", (req, res) => {
+      const { query } = req;
+      const { oldName, newName, library } = query;
+
+      if (!library) {
+        res.status(400).send("missing library name");
+      }
+      
+      if (!oldName || !newName) {
+        res.status(400).send("missing category new or old name");
+      }
+
+      this.editCategory(library, oldName, newName);
       res.send(this.getCategoriesFromLibrary(library));
     });
 
@@ -261,9 +289,21 @@ class Schemes {
     this.writeSchemesToFile();
   }
 
-  editCategory(library, oldName, newName) {}
+  editCategory(library, oldName, newName) {
+    if (!this.schemes[library]) throw Error("library does not exist");
+    if (this.schemes[library][newName]) throw Error(`category ${newName} all ready exist`);
 
-  editLibrary(oldName, newName) {}
+    this.schemes[library][newName] = this.schemes[library][oldName];
+    delete this.schemes[library][oldName];
+  }
+
+  editLibrary(oldName, newName) {
+    if (this.schemes[newName]) throw Error(`library ${newName} all ready exist`);
+
+    this.schemes[newName] = this.schemes[oldName];
+    delete this.schemes[oldName];
+    this.writeSchemesToFile();
+  }
 }
 
 module.exports = Schemes;

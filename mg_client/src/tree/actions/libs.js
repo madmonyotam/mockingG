@@ -36,6 +36,14 @@ export function removeLib(tree, lib) {
   });
 }
 
+export function editLib(tree, data) {
+  const {oldName, newName} = data;
+
+  get("/editLibrary", { oldName, newName }).then(res => {
+    tree.set("libs", res.data);
+  });
+}
+
 export function getCategoriesFromLibrary(tree, library) {
   get("/getCategoriesFromLibrary", { library }).then(res => {
     tree.set("cats", res.data);

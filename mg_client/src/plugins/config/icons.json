@@ -1,5 +1,9 @@
 {
     "icons": {
+        "check": {
+            "type": null,
+            "name": "check"
+        },
         "back": {
             "type": null,
             "name": "keyboard_arrow_left"
@@ -42,7 +46,8 @@
     },
     "listItem": {
         "remove": "icons.remove",
-        "edit": "icons.edit"
+        "edit": "icons.edit",
+        "check": "icons.check"
     },
     "leftPanel": {
        "add": "icons.add",

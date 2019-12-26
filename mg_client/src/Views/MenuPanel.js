@@ -74,9 +74,15 @@ function LeftPanel({ viewKey }) {
       libraryPack.onRemoveItem(focus.lib, focus.cat, label);
     };
 
-    const handleEditLib = label => {};
+    const handleEditLib = (oldName, newName) => {
+      dispatch(libsActions.editLib, { oldName, newName });
+      libraryPack.onEditLibrary(oldName, newName);
+    };
 
-    const handleEditCat = label => {};
+    const handleEditCat = (oldName, newName) => {
+      dispatch(catsActions.editCategory, { oldName, newName });
+      libraryPack.onEditCategory(focus.lib, oldName, newName);
+    };
 
     switch (listOf) {
       case "libs":
@@ -199,8 +205,10 @@ function LeftPanel({ viewKey }) {
     if (collapse) {
       return (
         <Fragment>
-          <CollapseColumn flex={1} background={access.color("bottomBar.bg")} >
-          </CollapseColumn>
+          <CollapseColumn
+            flex={1}
+            background={access.color("bottomBar.bg")}
+          ></CollapseColumn>
         </Fragment>
       );
     }
@@ -216,7 +224,11 @@ function LeftPanel({ viewKey }) {
   };
 
   return (
-    <CollapseColumn flex={flex} zIndex={zIndex} background={access.color("menuPanel.bg")}>
+    <CollapseColumn
+      flex={flex}
+      zIndex={zIndex}
+      background={access.color("menuPanel.bg")}
+    >
       <SearchBar label={label} nested={focus.lib} onBack={handleBack} />
       {renderContent()}
       <BottomBarMenu viewKey={viewKey} />

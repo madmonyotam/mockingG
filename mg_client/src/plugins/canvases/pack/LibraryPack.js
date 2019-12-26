@@ -3,9 +3,8 @@ import { find, findIndex } from "lodash";
 import Pack from "./Pack";
 
 export default class LibraryPack extends Pack {
-
-  constructor(params){
-    super(params)
+  constructor(params) {
+    super(params);
 
     this.limitByLevel = 3;
   }
@@ -60,6 +59,32 @@ export default class LibraryPack extends Pack {
     });
 
     this.createPack(mainData);
+  }
+
+  onEditLibrary(oldName, newName) {
+    const { mainData } = this;
+
+    mainData.children = mainData.children.map(l => {
+      if (l.name === oldName) {
+        l.name = newName;
+      }
+      return l;
+    });
+
+    this.createPack(mainData);
+  }
+
+  onEditCategory(lib, oldName, newName) {
+    const library = this.findLibrary(lib);
+
+    library.children = library.children.map(c => {
+      if (c.name === oldName) {
+        c.name = newName;
+      }
+      return c;
+    });
+
+    this.createPack(library);
   }
 
   onRemoveCategory(lib, cat) {

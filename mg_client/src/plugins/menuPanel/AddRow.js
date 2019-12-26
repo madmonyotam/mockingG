@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { TextField } from "@material-ui/core";
+import { TextField, ClickAwayListener } from "@material-ui/core";
 
 import * as access from "../access";
 
 import Row from "../Layouts/Row";
-import Absolute from "../Layouts/Absolute";
 import IconButton from "../icons/IconButton";
 
 let open = false;
@@ -39,15 +38,13 @@ function AddRow({ label, handleAdd }) {
     if (!value) return null;
 
     return (
-      <Absolute left={null}>
-        <Row>
+        <Row width={'50px'} style={{padding:'0 5px', justifyContent:'center'}}>
           <IconButton
             icon={access.icon("leftPanel.add")}
             color={access.color("texts.secondary")}
             onClick={add}
           />
         </Row>
-      </Absolute>
     );
   };
 
@@ -70,10 +67,12 @@ function AddRow({ label, handleAdd }) {
   };
 
   return (
-    <Row style={{ cursor: "pointer" }} onKeyUp={handleOnKeyPrass}>
-      {renderInput()}
-      {renderAddBtn()}
-    </Row>
+    <ClickAwayListener onClickAway={ ( )=>{setValue("")} }>
+      <Row style={{ cursor: "pointer" }} onKeyUp={handleOnKeyPrass}>
+        {renderInput()}
+        {renderAddBtn()}
+      </Row>
+    </ClickAwayListener>
   );
 }
 

@@ -41,6 +41,21 @@ export function addCategory(tree, category) {
     });
 }
 
+export function editCategory(tree, data) {
+  const library = tree.get(["focus", "lib"]);
+  const selectedCategory = tree.get("selectedCategory");
+  const {oldName, newName} = data;
+
+  get("/editCategory", {library, oldName, newName }).then(res => {
+    tree.set("cats", res.data);
+
+    if(selectedCategory === oldName){
+      tree.set("selectedCategory", newName);
+    }
+
+  });
+}
+
 export function removeCategory(tree, category) {
   const library = tree.get(["focus", "lib"]);
 

@@ -75,7 +75,7 @@ function getAdditionalFields(type) {
 export function onAddFromPack(tree, type) {
   get("/getTypeByKey", { type }).then(res => {
     const additionalFields = getAdditionalFields(res.data);
-    const num = Math.floor(Math.random() * 1000);
+    const num = Math.floor(Math.random() * 100);
 
     let items = { ...tree.get("items") };
     items[`${type}-${num}`] = {

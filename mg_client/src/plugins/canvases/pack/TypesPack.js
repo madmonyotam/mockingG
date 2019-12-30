@@ -8,6 +8,16 @@ export default class TypesPack extends Pack {
   constructor(params) {
     super(params);
 
+    this.colorScaleRange = [
+      access.color("types.packBgStart"),
+      access.color("types.packBgEnd")
+    ];
+
+    this.textClasses = {
+      out: "light-text",
+      in: "light-text-types"
+    }
+
     this.limitByLevel = 2;
     this.dragCircle = null;
     this.dragText = null;

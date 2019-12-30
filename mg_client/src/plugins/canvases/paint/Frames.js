@@ -4,12 +4,21 @@ import * as d3 from "d3";
 export const paintFrame = (canvas, width, height) => {
   const frame = canvas
     .append("rect")
+    .attr("id","mainFrame")
     .attr("width", width)
     .attr("height", height)
     .attr("fill", access.color("canvases.bg"));
 
   return frame;
 };
+
+export const fillFrame = (color) => { 
+  d3.select("#mainFrame")
+  .transition()
+  .duration(1000)
+  .attr("fill", color);
+
+}
 
 export const openAddPanel = () => {
   d3.select("#addPanel")

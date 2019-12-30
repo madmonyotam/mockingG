@@ -20,10 +20,7 @@ import {
 
 import {
   paintFrame,
-  openAddPanel,
-  closeAddPanel,
-  paintAddPanel,
-  createGradient
+  fillFrame,
 } from "./paint/Frames";
 import Tag from "../canvases/paint/Tag";
 
@@ -100,7 +97,7 @@ function MainCanvas() {
 
   const createDefs = canvas => {
     var defs = canvas.append("defs");
-    createGradient(defs);
+    // createGradient(defs);
   };
 
   const paintTabs = (canvas, width, height) => {
@@ -119,13 +116,13 @@ function MainCanvas() {
         case "types":
           getLibraryPack().scaleDown();
           getTypesPack().scaleUp();
-          openAddPanel();
+          fillFrame(access.color("types.bg"));
           break;
 
         case "project":
           getLibraryPack().scaleUp();
           getTypesPack().scaleDown();
-          closeAddPanel();
+          fillFrame(access.color("canvases.bg"));
           break;
 
         default:
@@ -175,10 +172,9 @@ function MainCanvas() {
 
   const onCanvasReady = (canvas, width, height) => {
     createDefs(canvas);
+
     const frame = paintFrame(canvas, width, height);
-    const addPanel = paintAddPanel(canvas, height);
     move(canvas, frame, access.color("canvases.fg"));
-    move(canvas, addPanel, access.color("canvases.fg"));
 
     paintTabs(canvas, width, height);
     getAllLibs(canvas, width, height);

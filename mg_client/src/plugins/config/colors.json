@@ -5,6 +5,8 @@
         "blue01": "#39536f",
         "blue02": "#496a8c",
         "blue03": "#5980a9",
+        "blue04": "#aec9e8",
+        "blue05": "#21354a",
         "blueLight01": "#bfd6ef",
         "grey01": "#808080",
         "grey02": "#e8e8e8"
@@ -52,6 +54,11 @@
         "moveOnText": "colors.blue01",
         "packBgStart": "backgrounds.primary",
         "packBgEnd": "backgrounds.hover"
+    },
+    "types": {
+        "bg":  "colors.blue05",
+        "packBgStart": "colors.blue04",
+        "packBgEnd": "colors.white"
     },
     "tags": {
         "bg": "backgrounds.primary",

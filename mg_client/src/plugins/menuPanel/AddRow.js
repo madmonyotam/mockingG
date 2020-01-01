@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { TextField, ClickAwayListener } from "@material-ui/core";
+import { useBranch } from "baobab-react/hooks";
 
 import * as access from "../access";
 
 import Row from "../Layouts/Row";
+import Center from "../Layouts/Center";
+import Label from "../tools/Label";
 import IconButton from "../icons/IconButton";
 
 let open = false;
 
 function AddRow({ label, handleAdd }) {
   const [value, setValue] = useState("");
+  const { focusItem } = useBranch({ focusItem: ["focus", "item"] });
 
   useEffect(() => {
     open = false;
@@ -38,13 +42,16 @@ function AddRow({ label, handleAdd }) {
     if (!value) return null;
 
     return (
-        <Row width={'50px'} style={{padding:'0 5px', justifyContent:'center'}}>
-          <IconButton
-            icon={access.icon("leftPanel.add")}
-            color={access.color("texts.secondary")}
-            onClick={add}
-          />
-        </Row>
+      <Row
+        width={"50px"}
+        style={{ padding: "0 5px", justifyContent: "center" }}
+      >
+        <IconButton
+          icon={access.icon("leftPanel.add")}
+          color={access.color("texts.secondary")}
+          onClick={add}
+        />
+      </Row>
     );
   };
 
@@ -66,8 +73,22 @@ function AddRow({ label, handleAdd }) {
     );
   };
 
+  if (focusItem) {
+    return (
+      <Row>
+        <Center>
+          <Label>{focusItem}</Label>
+        </Center>
+      </Row>
+    );
+  }
+
   return (
-    <ClickAwayListener onClickAway={ ( )=>{setValue("")} }>
+    <ClickAwayListener
+      onClickAway={() => {
+        setValue("");
+      }}
+    >
       <Row style={{ cursor: "pointer" }} onKeyUp={handleOnKeyPrass}>
         {renderInput()}
         {renderAddBtn()}

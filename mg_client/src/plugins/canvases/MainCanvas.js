@@ -6,6 +6,7 @@ import * as access from "../access";
 import { get } from "../requests";
 
 import { move } from "./utils/canvasActions";
+import { setTypes } from "../../tree/actions/types";
 import * as libsActions from "../../tree/actions/libs";
 import * as catsActions from "../../tree/actions/cats";
 import * as itemsActions from "../../tree/actions/items";
@@ -53,7 +54,6 @@ function MainCanvas() {
 
   const handleClickOnItem = label => {
     dispatch(itemsActions.setItemToFocus, label);
-    dispatch(itemsActions.setSelected, label);
   };
 
   const handleAddFromPack = type => {
@@ -81,6 +81,7 @@ function MainCanvas() {
   const getAllType = (canvas, width, height) => {
     get("/getTypesArrangeByGroups").then(res => {
       const data = res.data;
+      dispatch(setTypes, res.data);
       const typesPack = new TypesPack({
         canvas,
         width,

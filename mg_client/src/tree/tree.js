@@ -1,6 +1,7 @@
 import Baobab from 'baobab';
 
 const tree = new Baobab({
+  types: {},
   projectName: "project",
   libs: [],
   cats: [],

@@ -9,6 +9,7 @@ import SearchBar from "../plugins/menuPanel/SearchBar";
 import ListItem from "../plugins/menuPanel/ListItem";
 import AddRow from "../plugins/menuPanel/AddRow";
 import BottomBarMenu from "../plugins/menuPanel/BottomBarMenu";
+import Inspector from "../plugins/menuPanel/inspector/Inspector";
 
 import * as libsActions from "../tree/actions/libs";
 import * as catsActions from "../tree/actions/cats";
@@ -39,9 +40,21 @@ function LeftPanel({ viewKey }) {
   }, []);
 
   const RenderList = () => {
-    let listOf = !focus.lib ? "libs" : "cats";
-    if (focus.lib) {
-      listOf = !focus.cat ? "cats" : "items";
+    
+
+    const getListOf = () => {
+      let listOf = "libs";
+      if(focus.lib){
+        listOf = "cats";
+      }
+      if(focus.cat){
+        listOf = "items";
+      }
+      if(focus.item){
+        listOf = "inspector";
+      }
+    
+      return listOf;
     }
 
     const handleClickOnLib = label => {
@@ -56,7 +69,7 @@ function LeftPanel({ viewKey }) {
     };
 
     const handleClickOnItem = label => {
-      dispatch(itemsActions.setSelected, label);
+      dispatch(itemsActions.setItemToFocus, label);
     };
 
     const handleRemoveLib = label => {
@@ -84,7 +97,7 @@ function LeftPanel({ viewKey }) {
       libraryPack.onEditCategory(focus.lib, oldName, newName);
     };
 
-    switch (listOf) {
+    switch (getListOf()) {
       case "libs":
         return libs.map(label => (
           <ListItem
@@ -116,6 +129,8 @@ function LeftPanel({ viewKey }) {
             handleRemove={handleRemoveItem}
           />
         ));
+      case "inspector":
+        return <Inspector item={items[focus.item]} />
       default:
         return null;
     }
@@ -172,8 +187,11 @@ function LeftPanel({ viewKey }) {
   };
 
   const handleBack = () => {
-    const { lib, cat } = focus;
-    if (cat) {
+    const { lib, cat, item } = focus;
+
+    if(item) {
+      dispatch(itemsActions.setItemToFocus, null);
+    } else if (cat) {
       dispatch(catsActions.setCatToFocus, null);
       libraryPack.onBack(lib);
     } else if (lib) {

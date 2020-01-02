@@ -48,11 +48,14 @@ const fixedTypes = {
         name: "Fixed Value",
         generate: (el)=>{
             if(!el.value) return translate("missing value");
-            return el.value;
+            if(!el.value["fixed value"]) return translate("missing fixed value");
+            return el.value["fixed value"];
         },
         renderer: {
-            type: 'string',
-            placeholder: translate('Enter fixed value') 
+            "fixed value": {
+                type: 'string',
+                placeholder: translate('Enter fixed value') 
+            }
         },
         group: 'fixed',
     }

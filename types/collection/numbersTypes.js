@@ -15,14 +15,17 @@ const numberTypes = {
   numberMax: {
     name: "number max",
     renderer: {
-      type: "number",
-      placeholder: translate("enter max value for number")
+      max:{
+        type: "number",
+        placeholder: translate("enter max value for number")
+      }
     },
     generate: element => {
       let { value } = element;
       if(!value) return translate("missing value");
+      if(!value.max) return translate("missing property max");
 
-      value = Number(value);
+      value = Number(value.max);
       if(isNaN(value)) return translate("value is not a number");
       return faker.random.number({ max: value });
     },
@@ -32,14 +35,17 @@ const numberTypes = {
   numberMin: {
     name: "number min",
     renderer: {
-      type: "number",
-      placeholder: translate("enter min value for number")
+      min:{
+        type: "number",
+        placeholder: translate("enter min value for number")
+      }
     },
     generate: element => {
       let { value } = element;
       if(!value) return translate("missing value");
+      if(!value.min) return translate("missing property min");
 
-      value = Number(value);
+      value = Number(value.min);
       if(isNaN(value)) return translate("value is not a number");
       return faker.random.number({ min: value });
     },

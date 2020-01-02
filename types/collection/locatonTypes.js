@@ -10,7 +10,7 @@ const locatonTypes = {
         group: 'location',
     },
     city : {
-        info: "city",
+        name: "city",
         generate: (element)=>{
             return faker.address.city();
         },
@@ -24,21 +24,21 @@ const locatonTypes = {
         group: 'location',
     },
     streetName : {
-        info: "street name",
+        name: "street name",
         generate: (element)=>{
             return faker.address.streetName();
         },
         group: 'location',
     },
     latitude : {
-        info: "latitude",
+        name: "latitude",
         generate: (element)=>{
             return faker.address.latitude();
         },
         group: 'location',
     },
     longitude : {
-        info: "longitude",
+        name: "longitude",
         generate: (element)=>{
             return faker.address.longitude();
         },

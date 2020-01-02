@@ -2,28 +2,47 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useBranch } from "baobab-react/hooks";
 
-import { getGroupFromType, getTypesToSelect } from "../../../tree/actions/types";
+import { getGroupFromType, getTypesToSelect, getTypeByKey } from "../../../tree/actions/types";
 
 import Column from "../../Layouts/Column";
 import Select from "../../inputs/Select";
+import Input from "../../inputs/Input";
 
 import * as access from "../../access";
 
+function getOptionFormat(value,label) {
+  if(typeof label ===  'undefined') label = value; 
+  return { value, label };
+}
+
 function Inspector({item}) {
-  console.log({item})
+
   const g = getGroupFromType(item.type);
   const [group, setGroup] = useState(g);
-  const [type, setType] = useState(item.type);
+
+  let initType = getTypeByKey(item.type) || getOptionFormat('');
+  initType.label = initType.name || initType.label;
+  const [type, setType] = useState(initType);
+
+  const [prefix, setPrefix] = useState(item.prefix || '');
+  const [suffix, setSuffix] = useState(item.suffix || '');
 
   const { types } = useBranch({ types: ["types"] });
-  const groups = Object.keys(types);
-  const typesToSelect = getTypesToSelect(group);
+  const groups = Object.keys(types).map((t)=>{return getOptionFormat(t)});
+  const typesToSelect = getTypesToSelect(group.value);
 
-  const handleOnSelectGroup = (v)=>{
-    if(v !== group){
-      setGroup(v);
-      getTypesToSelect(v);
-      setType('');
+  const handleOnSelectGroup = (groupOption)=>{
+  
+    if(groupOption.value !== group.value){
+      setGroup(groupOption);
+      getTypesToSelect(groupOption.value);
+      setType(getOptionFormat(''));
+    }
+  }
+
+  const renderFromType = ()=>{
+    if(type.renderer){
+      console.log(type.renderer)
     }
   }
 
@@ -31,6 +50,9 @@ function Inspector({item}) {
     <Column flex={1}>
       <Select label={access.translate('group')} options={groups} initValue={group} onSelect={handleOnSelectGroup} />
       <Select label={access.translate('type')} options={typesToSelect} initValue={type} onSelect={setType} />
+      { renderFromType() }
+      <Input  label={access.translate('prefix')} initValue={prefix} onChange={setPrefix}/>
+      <Input  label={access.translate('suffix')} initValue={suffix} onChange={setSuffix}/>
     </Column>
   );
 }

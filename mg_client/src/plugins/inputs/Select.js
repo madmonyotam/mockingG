@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { find } from "lodash";
 
 import * as access from "../access";
 
@@ -17,9 +18,19 @@ function Select({ options, label, onSelect, initValue }) {
     setValue(initValue);
   }, [initValue]);
 
+  const findInOptions = (v) => {
+    const selection = find(options, o => {
+      return o.label === v;
+    });
+
+    return selection;
+  }
+
   const renderInput = () => {
     const onBlur = () => {
-      if (!options.includes(value)) {
+      const selection = findInOptions(value);
+
+      if (!selection) {
         setValue(initValue);
       }
 
@@ -28,16 +39,19 @@ function Select({ options, label, onSelect, initValue }) {
       }, 200);
     };
 
-    const onChange = value => {
-      setValue(value);
-      if (options.includes(value)) {
-        onSelect(value);
+    const onChange = v => {
+      setValue(v);
+
+      const selection = findInOptions(v);
+
+      if (selection) {
+        onSelect(selection);
       }
     };
 
     return (
       <Input
-      initValue={value}
+        initValue={value.label || ''}
         onFocus={() => { setOnFocus(true) }}
         onBlur={onBlur}
         label={label}
@@ -58,7 +72,7 @@ function Select({ options, label, onSelect, initValue }) {
       return options.map(o => {
         return (
           <Row
-            key={o}
+            key={o.value}
             style={{
               boxShadow: "unset",
               borderBottom: `1px solid ${access.color("backgrounds.secondary")}`
@@ -69,7 +83,7 @@ function Select({ options, label, onSelect, initValue }) {
               handleSelect(o);
             }}
           >
-            <Label>{o}</Label>
+            <Label>{o.label}</Label>
           </Row>
         );
       });
@@ -93,14 +107,14 @@ function Select({ options, label, onSelect, initValue }) {
 }
 
 Select.defaultProps = {
-  initValue: "",
+  initValue: {value:"",label:""},
   options: [],
   label: "lebel",
   onSelect: () => {}
 };
 
 Select.propTypes = {
-  initValue: PropTypes.string,
+  initValue: PropTypes.object,
   options: PropTypes.array,
   label: PropTypes.string,
   onSelect: PropTypes.func

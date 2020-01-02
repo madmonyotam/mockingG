@@ -74,11 +74,12 @@ types.addTypes(newTypes);
 
 ```
 
-### coming soon
+### beta for you to check
 
 - create schemes with a great ui program on port 5588
 - see your schemes as well
 - see all types, inclues yours, on the program
 
-- please check the library after 1.1.2020.
-- thanks for your patience :)
+### coming soon
+
+- edit item in scheme in the inspector.

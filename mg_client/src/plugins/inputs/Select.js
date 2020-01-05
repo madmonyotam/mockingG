@@ -18,13 +18,13 @@ function Select({ options, label, onSelect, initValue }) {
     setValue(initValue);
   }, [initValue]);
 
-  const findInOptions = (v) => {
+  const findInOptions = v => {
     const selection = find(options, o => {
       return o.label === v;
     });
 
     return selection;
-  }
+  };
 
   const renderInput = () => {
     const onBlur = () => {
@@ -34,9 +34,9 @@ function Select({ options, label, onSelect, initValue }) {
         setValue(initValue);
       }
 
-      setTimeout(() => {
+     setTimeout(() => {
         setOnFocus(false);
-      }, 200);
+     }, 200);
     };
 
     const onChange = v => {
@@ -51,8 +51,10 @@ function Select({ options, label, onSelect, initValue }) {
 
     return (
       <Input
-        initValue={value.label || ''}
-        onFocus={() => { setOnFocus(true) }}
+        initValue={value.label || ""}
+        onFocus={() => {
+          setOnFocus(true);
+        }}
         onBlur={onBlur}
         label={label}
         onChange={onChange}
@@ -107,7 +109,7 @@ function Select({ options, label, onSelect, initValue }) {
 }
 
 Select.defaultProps = {
-  initValue: {value:"",label:""},
+  initValue: { value: "", label: "" },
   options: [],
   label: "lebel",
   onSelect: () => {}

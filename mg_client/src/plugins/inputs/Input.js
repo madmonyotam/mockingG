@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { TextField } from "@material-ui/core";
 
-function Input({ onFocus, onBlur, onChange, label, initValue }) {
+function Input({ onFocus, onBlur, onChange, label, initValue, ...rest }) {
   const [value, setValue] = useState(initValue);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ function Input({ onFocus, onBlur, onChange, label, initValue }) {
       onBlur={onBlur}
       value={value}
       fullWidth
+      {...rest}
     />
   );
 }

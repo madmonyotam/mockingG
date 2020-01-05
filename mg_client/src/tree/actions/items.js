@@ -33,7 +33,7 @@ function replaceScheme(tree, items) {
     });
 }
 
-export function onEditorChange(tree, items) {
+export function onSchemeChange(tree, items) {
   generate(tree, { items, amount: 1 });
   replaceScheme(tree, items);
 }
@@ -83,7 +83,7 @@ export function onAddFromPack(tree, type) {
       ...additionalFields
     };
 
-    onEditorChange(tree, items);
+    onSchemeChange(tree, items);
   });
 }
 

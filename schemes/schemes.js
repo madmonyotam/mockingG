@@ -193,6 +193,20 @@ class Schemes {
       this.replaceScheme(library, category, JSON.parse(scheme));
       res.send(this.getScheme(library, category));
     });
+
+    app.get("/mocking_G/addItem", (req, res) => {
+      const { query } = req;
+      const { library, category, field } = query;
+
+      if (!library || !category || !field) {
+        res.status(400).json({
+          message: "missing library,category or field"
+        });
+      }
+
+      this.addToScheme(library, category, JSON.parse(field));
+      res.send(this.getScheme(library, category));
+    });
   }
 
   writeSchemesToFile() {
@@ -243,7 +257,7 @@ class Schemes {
 
     this.schemes[library][category] = {
       ...this.schemes[library][category],
-      field
+      ...field
     };
 
     this.writeSchemesToFile();

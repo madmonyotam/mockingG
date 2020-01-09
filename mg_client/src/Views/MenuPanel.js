@@ -97,6 +97,11 @@ function LeftPanel({ viewKey }) {
       libraryPack.onEditCategory(focus.lib, oldName, newName);
     };
 
+    const handleEditItem = (oldName, newName) => {
+      // dispatch(catsActions.editCategory, { oldName, newName });
+      // libraryPack.onEditCategory(focus.lib,focus.cat, oldName, newName);
+    }
+
     switch (getListOf()) {
       case "libs":
         return libs.map(label => (
@@ -127,6 +132,7 @@ function LeftPanel({ viewKey }) {
             label={label}
             handleRowClick={handleClickOnItem}
             handleRemove={handleRemoveItem}
+            // handleEdit={handleEditItem}
           />
         ));
       case "inspector":
@@ -154,9 +160,10 @@ function LeftPanel({ viewKey }) {
       libraryPack.onAddCategory(focus.lib, value);
     };
 
-    //TODO: add item
     const handleAddItem = value => {
       value = value.trim();
+      libraryPack.onAddItem(focus.lib,focus.cat, value);
+      dispatch(itemsActions.addItem, value);
     };
 
     switch (addTo) {

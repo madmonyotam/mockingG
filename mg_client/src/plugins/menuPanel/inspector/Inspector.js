@@ -19,6 +19,7 @@ import { onSchemeChange, tempGenerate } from "../../../tree/actions/items";
 
 import Column from "../../Layouts/Column";
 import Row from "../../Layouts/Row";
+import Absolute from "../../Layouts/Absolute";
 import Select from "../../inputs/Select";
 import Input from "../../inputs/Input";
 import Mask from "../../tools/Mask";
@@ -177,15 +178,15 @@ function Inspector({ item }) {
 
   const renderEditor = () => {
     const style = {
-      height: "200px",
+      height: "400px",
       width: "100%"
     };
 
     const code = JSON.stringify(tempData, null, 2);
 
     return (
-      <Row height={"200px"}>
-        <Mask opacity={0.9}>
+      <Row height={"400px"}>
+        <Mask opacity={0.8}>
           <AceEditor
             style={style}
             placeholder="Placeholder Text"
@@ -198,6 +199,7 @@ function Inspector({ item }) {
             highlightActiveLine={true}
             value={code}
           />
+          <Absolute/>
         </Mask>
       </Row>
     );

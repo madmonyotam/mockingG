@@ -152,6 +152,21 @@ export default class LibraryPack extends Pack {
     this.createPack(library);
   }
 
+  onAddItem(lib,cat,newItem) {
+    const library = this.findLibrary(lib);
+    const category = this.findCategory(library, cat);
+
+    category.children.push({
+      name: newItem,
+      value: 1,
+      children: [],
+      id: v4(),
+      level: 2
+    });
+    
+    this.createPack(category);
+  }
+
   onBack(lib) {
     const { mainData } = this;
 

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import styled from "styled-components";
 
 import Start from "../tools/Start";
 import { useBranch } from "baobab-react/hooks";
@@ -25,10 +26,23 @@ import {
 } from "./paint/Frames";
 import Tag from "../canvases/paint/Tag";
 
+import Absolute from "../Layouts/Absolute";
+
 import "./style.css";
+
+const Logo = styled.img`
+    width:60px; 
+    height:60px; 
+    margin:15px;
+    border-radius: 50%;
+    transform: rotate(${props=> props.rotate*180}deg);
+    transition: all 250ms; 
+    box-shadow: 0px 0px 11px 4px #a1b1cf3b;
+`;
 
 function MainCanvas() {
   const { viewKey, dispatch } = useBranch({ viewKey: ["viewKey"] });
+  const [rotate, setRotate] = useState(0);
 
   const getFlex = () => {
     const schemePanelSize = access.dim("flexViews.schemePanel");
@@ -198,6 +212,9 @@ function MainCanvas() {
   return (
     <div style={{ flex: getFlex(), zIndex: zIndex, width: "100%", userSelect: "none" }}>
       {renderStart()}
+      <Absolute left={'unset'} top={'unset'}> 
+        <Logo alt={'logo'} src={process.env.PUBLIC_URL + "/gen_icon.png"} onClick={()=>{ setRotate(rotate+1) }} rotate={rotate}/>
+      </Absolute>
     </div>
   );
 }

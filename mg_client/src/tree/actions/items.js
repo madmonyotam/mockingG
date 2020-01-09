@@ -104,6 +104,21 @@ export function setSelected(tree, item) {
   tree.set(["selected"], `${cat}:${item}`);
 }
 
+export function addItem(tree, value) {
+  const library = tree.get(["focus", "lib"]);
+  const category = tree.get(["focus", "cat"]);
+
+  const field = JSON.stringify({[value]:{}}, null, 2)
+
+  get("/addItem", { library, category, field })
+    .then(res => {
+      tree.set("items", res.data);
+    })
+    .catch(err => {
+      console.log(err.response.data.message);
+    });
+}
+
 export function removeItem(tree, field) {
   const focus = tree.get(["focus"]);
   const library = focus.lib;

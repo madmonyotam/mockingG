@@ -53,7 +53,7 @@ export default class Pack {
     this.createPack(this.mainData,true);
   }
 
-  normalizeData(data, newData,projectName = "Project") {
+  normalizeData(data, newData,projectName = "Gen") {
     if (!newData)
       newData = {
         name: projectName,

@@ -1,20 +1,37 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useBranch } from "baobab-react/hooks";
 import { debounce } from "lodash";
+import AceEditor from "react-ace";
+import { Button } from "@material-ui/core";
+import styled from "styled-components";
+
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-xcode";
 
 import {
   getGroupFromType,
   getTypesToSelect,
   getTypeByKey
 } from "../../../tree/actions/types";
-import { onSchemeChange } from "../../../tree/actions/items";
+import { onSchemeChange, tempGenerate } from "../../../tree/actions/items";
 
 import Column from "../../Layouts/Column";
+import Row from "../../Layouts/Row";
 import Select from "../../inputs/Select";
 import Input from "../../inputs/Input";
+import Mask from "../../tools/Mask";
 
 import * as access from "../../access";
+
+const ButtonsRow = styled(Row)`
+  display: flex;
+  justify-content: space-around;
+  height: ${props => (props.show ? "50px" : "0px")};
+  min-height: ${props => (props.show ? "50px" : "0px")};
+  transition: all 500ms;
+`;
 
 function getOptionFormat(value, label) {
   if (typeof label === "undefined") label = value;
@@ -28,6 +45,10 @@ function Inspector({ item }) {
   let initType = getTypeByKey(item.type) || getOptionFormat("");
   initType.label = initType.name || initType.label;
   const [type, setType] = useState(initType);
+
+  const [tempItem, setTempItem] = useState(item);
+  const [tempData, setTempData] = useState({});
+  const [showButtons, setShowButtons] = useState(false);
 
   const [prefix, setPrefix] = useState(item.prefix || "");
   const [suffix, setSuffix] = useState(item.suffix || "");
@@ -43,33 +64,61 @@ function Inspector({ item }) {
   const { focusedItem } = useBranch({ focusedItem: ["focus", "item"] });
   const { items, dispatch } = useBranch({ items: ["items"] });
 
+  const revertChanges = () => {
+    setTempItem(item);
+    setPrefix(item.prefix);
+    setSuffix(item.suffix);
+    setType(initType);
+    setGroup(g);
+  }
+
+  useEffect(() => {
+    console.log({prefix})
+    compareItem();
+  }, [type,prefix,suffix,additionalValues])
+
+  const compareItem = () => {
+    let theSame = true;
+
+    tempGenerate({[focusedItem]:tempItem}).then((res)=>{
+      setTempData(res.data[0]);
+    });
+
+    if (item.type !== type.type) theSame = false;
+    else if (Boolean(item.prefix || prefix) && item.prefix !== prefix) theSame = false;
+    else if (Boolean(item.suffix || suffix) && item.suffix !== suffix) theSame = false;
+    else if (JSON.stringify(item.value) !== JSON.stringify(additionalValues))
+      theSame = false;
+
+    if (!theSame) {
+      setShowButtons(true);
+    } else if (showButtons) {
+      setShowButtons(false);
+    }
+  };
+
   const changeTypeInScheme = selectedItem => {
-    setType(selectedItem);
-    changeSchemeByField("type", selectedItem.type);
+    setType(selectedItem)
+    changeTempItem("type", selectedItem.type);
   };
 
   const changePrefix = value => {
     setPrefix(value);
-    changeSchemeByField("prefix", value);
+    changeTempItem("prefix", value);
   };
 
   const changeSuffix = value => {
     setSuffix(value);
-    changeSchemeByField("suffix", value);
+    changeTempItem("suffix", value);
   };
 
   const changeAdditionalValues = value => {
     setAdditionalValues(value);
-    changeSchemeByField("value",value);
-  }
+    changeTempItem("value",value);
+  };
 
-  const debouncePrefix = debounce(changePrefix, 1500);
-  const debounceSuffix = debounce(changeSuffix, 1500);
-  const debounceAdditionalValue = debounce(changeAdditionalValues, 1500);
-
-  const changeSchemeByField = (field, value) => {
-    let newItems = { ...items };
-    let newItem = { ...item };
+  const changeTempItem = (field, value) => {
+    let newItem = { ...tempItem };
 
     if (value === "") {
       delete newItem[field];
@@ -77,7 +126,13 @@ function Inspector({ item }) {
       newItem[field] = value;
     }
 
-    newItems[focusedItem] = newItem;
+    setTempItem(newItem);
+  }
+
+  const changeScheme = () => {
+    let newItems = { ...items };
+
+    newItems[focusedItem] = tempItem;
     dispatch(onSchemeChange, newItems);
   };
 
@@ -104,7 +159,7 @@ function Inspector({ item }) {
               initValue={item.value[label]}
               placeholder={placeholder}
               onChange={value =>
-                debounceAdditionalValue({ ...additionalValues, [label]: value })
+                changeAdditionalValues({ ...additionalValues, [label]: value })
               }
             />
           );
@@ -118,6 +173,51 @@ function Inspector({ item }) {
       const renderers = Object.entries(type.renderer);
       return renderers.map(getRightRender);
     }
+  };
+
+  const renderEditor = () => {
+    const style = {
+      height: "200px",
+      width: "100%"
+    };
+
+    const code = JSON.stringify(tempData, null, 2);
+
+    return (
+      <Row height={"200px"}>
+        <Mask opacity={0.9}>
+          <AceEditor
+            style={style}
+            placeholder="Placeholder Text"
+            mode="json"
+            theme="monokai"
+            name="example"
+            fontSize={14}
+            showPrintMargin={true}
+            showGutter={true}
+            highlightActiveLine={true}
+            value={code}
+          />
+        </Mask>
+      </Row>
+    );
+  };
+
+  const renderButtons = () => {
+    return (
+      <ButtonsRow show={showButtons}>
+        <Button variant="outlined" color="secondary" onClick={revertChanges}>
+          {access.translate("Cancel")}
+        </Button>
+        <Button variant="outlined" color="secondary" onClick={changeScheme}>
+          {access.translate("Save")}
+        </Button>
+      </ButtonsRow>
+    );
+  };
+
+  const Placeholder = () => {
+    return <div style={{ flex: 1 }}></div>;
   };
 
   return (
@@ -138,13 +238,16 @@ function Inspector({ item }) {
       <Input
         label={access.translate("prefix")}
         initValue={prefix}
-        onChange={debouncePrefix}
+        onChange={changePrefix}
       />
       <Input
         label={access.translate("suffix")}
         initValue={suffix}
-        onChange={debounceSuffix}
+        onChange={changeSuffix}
       />
+      <Placeholder />
+      {renderEditor()}
+      {renderButtons()}
     </Column>
   );
 }

@@ -17,6 +17,10 @@ export function generate(tree, { items, amount = 1 }) {
     });
 }
 
+export function tempGenerate(items) {
+  return get("/generate", { scheme: items, amount:1 })
+}
+
 function replaceScheme(tree, items) {
   const library = tree.get("selectedLibrary");
   const category = tree.get("selectedCategory");

@@ -13,7 +13,7 @@ class Schemes {
 
   getFirstFilePath() {
     const fileName = this.getFilesNames()[0];
-    if(!fileName) return 'mockingG';
+    if(!fileName) return 'Gen';
     return fileName;
   }
 

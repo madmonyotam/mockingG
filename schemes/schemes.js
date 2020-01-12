@@ -207,6 +207,26 @@ class Schemes {
       this.addToScheme(library, category, JSON.parse(field));
       res.send(this.getScheme(library, category));
     });
+
+    app.get("/mocking_G/editItem", (req, res) => {
+      const { query } = req;
+      const { oldName, newName, library, category } = query;
+
+      if (!library) {
+        res.status(400).send("missing library name");
+      }
+
+      if (!category) {
+        res.status(400).send("missing category name");
+      }
+      
+      if (!oldName || !newName) {
+        res.status(400).send("missing category new or old name");
+      }
+
+      this.editItem(library, category, oldName, newName);
+      res.send(this.getScheme(library,category));
+    });
   }
 
   writeSchemesToFile() {
@@ -300,6 +320,16 @@ class Schemes {
       throw Error(`library ${library} all ready exist`);
     }
     this.schemes[name] = {};
+    this.writeSchemesToFile();
+  }
+
+  editItem(library, category, oldName, newName){
+    if (!this.schemes[library]) throw Error(`library ${library} does not exist`);
+    if (!this.schemes[library][category]) throw Error(`category ${category} does not exist`);
+    if (this.schemes[library][newName]) throw Error(`category ${newName} all ready exist`);
+
+    this.schemes[library][category][newName] = this.schemes[library][category][oldName];
+    delete this.schemes[library][category][oldName];
     this.writeSchemesToFile();
   }
 

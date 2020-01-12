@@ -43,9 +43,6 @@ function Editor({ width, isData }) {
   };
 
   const options = {
-    enableBasicAutocompletion: true,
-    enableLiveAutocompletion: false,
-    enableSnippets: false,
     showLineNumbers: true,
     tabSize: 2
   };

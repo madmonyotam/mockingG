@@ -104,6 +104,17 @@ export function setSelected(tree, item) {
   tree.set(["selected"], `${cat}:${item}`);
 }
 
+export function editItem(tree, data) {
+  const library = tree.get(["focus", "lib"]);
+  const category = tree.get(["focus", "cat"]);
+
+  const {oldName, newName} = data;
+
+  get("/editItem", {library, category, oldName, newName }).then(res => {
+    tree.set("items", res.data);
+  });
+}
+
 export function addItem(tree, value) {
   const library = tree.get(["focus", "lib"]);
   const category = tree.get(["focus", "cat"]);

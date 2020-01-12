@@ -51,16 +51,6 @@ export default class LibraryPack extends Pack {
     this.createPack(item);
   }
 
-  onRemoveLibrary(lib) {
-    const { mainData } = this;
-
-    mainData.children = mainData.children.filter(l => {
-      return l.name !== lib;
-    });
-
-    this.createPack(mainData);
-  }
-
   onEditLibrary(oldName, newName) {
     const { mainData } = this;
 
@@ -87,6 +77,30 @@ export default class LibraryPack extends Pack {
     this.createPack(library);
   }
 
+  onEditItem(lib, cat, oldName, newName) {
+    const library = this.findLibrary(lib);
+    const category = this.findCategory(library, cat);
+
+    category.children = category.children.map(i => {
+      if (i.name === oldName) {
+        i.name = newName;
+      }
+      return i;
+    });
+    
+    this.createPack(category);
+  }
+
+  onRemoveLibrary(lib) {
+    const { mainData } = this;
+
+    mainData.children = mainData.children.filter(l => {
+      return l.name !== lib;
+    });
+
+    this.createPack(mainData);
+  }
+
   onRemoveCategory(lib, cat) {
     const library = this.findLibrary(lib);
     library.children = library.children.filter(l => l.name !== cat);
@@ -98,29 +112,6 @@ export default class LibraryPack extends Pack {
     const category = this.findCategory(library, cat);
 
     category.children = category.children.filter(l => l.name !== it);
-    this.createPack(category);
-  }
-
-  onChangeFromEditor(lib, cat, editorData) {
-    const { mainData } = this;
-
-    const library = this.findLibrary(lib);
-    let category = this.findCategory(library, cat);
-
-    const root = {
-      name: category.name,
-      value: 1,
-      children: [],
-      id: category.id,
-      level: 2
-    };
-
-    category = this.normalizeData(editorData, root);
-
-    const libIndex = findIndex(mainData.children, ["name", lib]);
-    const catIndex = findIndex(library.children, ["name", cat]);
-
-    mainData.children[libIndex].children[catIndex] = category;
     this.createPack(category);
   }
 
@@ -164,6 +155,29 @@ export default class LibraryPack extends Pack {
       level: 2
     });
     
+    this.createPack(category);
+  }
+
+  onChangeFromEditor(lib, cat, editorData) {
+    const { mainData } = this;
+
+    const library = this.findLibrary(lib);
+    let category = this.findCategory(library, cat);
+
+    const root = {
+      name: category.name,
+      value: 1,
+      children: [],
+      id: category.id,
+      level: 2
+    };
+
+    category = this.normalizeData(editorData, root);
+
+    const libIndex = findIndex(mainData.children, ["name", lib]);
+    const catIndex = findIndex(library.children, ["name", cat]);
+
+    mainData.children[libIndex].children[catIndex] = category;
     this.createPack(category);
   }
 

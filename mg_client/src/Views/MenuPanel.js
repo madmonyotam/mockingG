@@ -98,8 +98,8 @@ function LeftPanel({ viewKey }) {
     };
 
     const handleEditItem = (oldName, newName) => {
-      // dispatch(catsActions.editCategory, { oldName, newName });
-      // libraryPack.onEditCategory(focus.lib,focus.cat, oldName, newName);
+      dispatch(itemsActions.editItem, { oldName, newName });
+      libraryPack.onEditItem(focus.lib, focus.cat, oldName, newName);
     }
 
     switch (getListOf()) {
@@ -132,7 +132,7 @@ function LeftPanel({ viewKey }) {
             label={label}
             handleRowClick={handleClickOnItem}
             handleRemove={handleRemoveItem}
-            // handleEdit={handleEditItem}
+            handleEdit={handleEditItem}
           />
         ));
       case "inspector":

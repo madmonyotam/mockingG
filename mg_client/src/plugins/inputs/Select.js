@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { find } from "lodash";
+import { ClickAwayListener } from "@material-ui/core";
 
 import * as access from "../access";
 
@@ -28,19 +29,13 @@ function Select({ options, label, onSelect, initValue }) {
 
   const renderInput = () => {
     const onBlur = () => {
-      const selection = findInOptions(value);
-
-      if (!selection) {
-        setValue(initValue);
-      }
-
-     setTimeout(() => {
+      setTimeout(() => {
         setOnFocus(false);
-     }, 200);
+      }, 200);
     };
 
     const onChange = v => {
-      setValue(v);
+      setValue({ value: v, label: v });
 
       const selection = findInOptions(v);
 
@@ -66,12 +61,14 @@ function Select({ options, label, onSelect, initValue }) {
     if (!onFocus) return null;
 
     const handleSelect = o => {
-      onSelect(o);
       setValue(o);
+      onSelect(o);
     };
 
     const list = () => {
-      return options.map(o => {
+      const filtered = options.filter(o => o.label.indexOf(value.label) !== -1);
+
+      return filtered.map(o => {
         return (
           <Row
             key={o.value}
@@ -100,11 +97,21 @@ function Select({ options, label, onSelect, initValue }) {
     );
   };
 
+  const checkSelection = () => {
+    const selection = findInOptions(value.label);
+
+    if (!selection) {
+      setValue(initValue);
+    }
+  };
+
   return (
-    <div style={{ position: "relative" }}>
-      {renderInput()}
-      {renderList()}
-    </div>
+    <ClickAwayListener onClickAway={checkSelection}>
+      <div style={{ position: "relative" }}>
+        {renderInput()}
+        {renderList()}
+      </div>
+    </ClickAwayListener>
   );
 }
 

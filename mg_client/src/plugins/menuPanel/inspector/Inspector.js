@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useBranch } from "baobab-react/hooks";
-import { debounce } from "lodash";
 import AceEditor from "react-ace";
 import { Button } from "@material-ui/core";
 import styled from "styled-components";
@@ -74,7 +73,6 @@ function Inspector({ item }) {
   }
 
   useEffect(() => {
-    console.log({prefix})
     compareItem();
   }, [type,prefix,suffix,additionalValues])
 
@@ -151,16 +149,18 @@ function Inspector({ item }) {
       const rendererType = ren[1].type;
       const placeholder = ren[1].placeholder;
 
+      const value = item.value ? item.value[label] : '';
+
       switch (rendererType) {
         case "string":
           return (
             <Input
               key={i}
               label={access.translate(label)}
-              initValue={item.value[label]}
+              initValue={value}
               placeholder={placeholder}
-              onChange={value =>
-                changeAdditionalValues({ ...additionalValues, [label]: value })
+              onChange={v =>
+                changeAdditionalValues({ ...additionalValues, [label]: v })
               }
             />
           );

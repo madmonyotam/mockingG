@@ -18,6 +18,7 @@ export default class TypesPack extends Pack {
       in: "light-text-types"
     }
 
+    this.fillOpacity = 0.5;
     this.limitByLevel = 2;
     this.dragCircle = null;
     this.dragText = null;

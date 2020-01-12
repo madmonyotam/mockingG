@@ -28,7 +28,7 @@ function Main() {
   if (loading) {
     return (
       <InitMask opacity={1} mask={access.color("backgrounds.secondary")}>
-        <img src={process.env.PUBLIC_URL + "/gen_logo.png"} />
+        <img alt='logo' src={process.env.PUBLIC_URL + "/gen_logo.png"} />
         <div style={{ width: 400 }}>
           <LinearProgress value={50} color={"primary"} />
         </div>

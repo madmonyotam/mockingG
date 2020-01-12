@@ -13,6 +13,7 @@ export default class Pack {
     this.marginRight = get(params,'marginRight',22);
     this.showMainCircle = get(params,'showMainCircle',true);
     this.limitByLevel = get(params,'limitByLevel',10);
+    this.fillOpacity = get(params,'fillOpacity' , 1)
 
     this.moveOnCircleColor = get(params,'moveOnCircleColor',access.color("canvases.moveOnCircle"));
     this.moveOnTextColor = get(params,'moveOnTextColor',access.color("canvases.moveOnText"));
@@ -152,7 +153,7 @@ export default class Pack {
         .attr("id", d => `circle-${d.data.id}`)
         .attr("r", 0)
         .attr("transform", this.getTranslate)
-        .attr("fill-opacity", 0.5)
+        .attr("fill-opacity", this.fillOpacity)
         .transition()
         .duration(2000)
         .attr("fill", d => colorScale(d.data.value))

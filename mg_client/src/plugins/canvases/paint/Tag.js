@@ -53,8 +53,8 @@ export default class Tag {
     this.paintTag();
     this.paintText();
 
-    const tags = this.mainGroup.selectAll("rect");
-    const texts = this.mainGroup.selectAll("text");
+    // const tags = this.mainGroup.selectAll("rect");
+    // const texts = this.mainGroup.selectAll("text");
 
     // dropCircles(
     //   this.mainGroup,

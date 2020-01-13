@@ -12,7 +12,7 @@ export default class Pack {
     this.marginRight = get(params, "marginRight", 22);
     this.showMainCircle = get(params, "showMainCircle", true);
     this.limitByLevel = get(params, "limitByLevel", 10);
-    this.fillOpacity = get(params, "fillOpacity", 1);
+    this.fillOpacity = get(params, "fillOpacity", 0.8);
 
     this.moveOnCircleColor = get(
       params,

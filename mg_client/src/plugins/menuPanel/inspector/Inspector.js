@@ -100,7 +100,7 @@ function Inspector({ item }) {
 
   const changeTypeInScheme = selectedItem => {
     setType(selectedItem);
-    changeTempItem("type", selectedItem.type);
+    setTempItem({"type":selectedItem.type});
   };
 
   const changePrefix = value => {

@@ -53,7 +53,7 @@ const numberTypes = {
   },
 
   numberBetween: {
-    name: "number Between",
+    name: "number between",
     renderer: {
       min: {
         type: "number",
@@ -81,7 +81,24 @@ const numberTypes = {
       return Math.floor(Math.random() * (max - min)) + min;
     },
     group: "number"
-  }
+  },
+
+  formatNumber: {
+    name: "format number",
+    renderer: {
+      format: {
+        type: "string",
+        placeholder: translate("enter format like ###-###-###")
+      },
+    },
+    generate: element => {
+      const { value } = element;
+      if(!value) return translate("missing value");
+      if(!value.format) return translate("missing format property");
+      return faker.phone.phoneNumber(value.format);
+    },
+    group: "number"
+  },
 };
 
 module.exports = numberTypes;

@@ -326,7 +326,7 @@ class Schemes {
   editItem(library, category, oldName, newName){
     if (!this.schemes[library]) throw Error(`library ${library} does not exist`);
     if (!this.schemes[library][category]) throw Error(`category ${category} does not exist`);
-    if (this.schemes[library][newName]) throw Error(`category ${newName} all ready exist`);
+    if (this.schemes[library][category][newName]) throw Error(`item ${newName} all ready exist`);
 
     this.schemes[library][category][newName] = this.schemes[library][category][oldName];
     delete this.schemes[library][category][oldName];

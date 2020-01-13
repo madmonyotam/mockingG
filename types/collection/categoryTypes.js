@@ -11,7 +11,7 @@ const categoryTypes = gen => {
           options: gen.schemes.getAllCategoriesPath(),
           placeholder: translate("choose category from list")
         },
-        size: {
+        amount: {
           type: "number",
           placeholder: translate("enter amount")
         }
@@ -23,13 +23,13 @@ const categoryTypes = gen => {
           return translate("missing property categoryPath");
 
         const [lib, cat] = el.value.categoryPath.split(".");
-        const size = el.value.size;
+        const amount = el.value.amount;
         const scheme = gen.schemes.getScheme(lib, cat);
         if (typeof scheme === "undefined")
           return translate(`can't find scheme ${lib}.${cat}`);
 
-        if (size) {
-          const newObject = gen.generate(scheme, size);
+        if (amount) {
+          const newObject = gen.generate(scheme, amount);
           return newObject;
         }
 

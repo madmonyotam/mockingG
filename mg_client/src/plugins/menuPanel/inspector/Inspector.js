@@ -52,6 +52,7 @@ function Inspector({ item }) {
 
   const [prefix, setPrefix] = useState(item.prefix || "");
   const [suffix, setSuffix] = useState(item.suffix || "");
+  const [size, setSize] = useState(item.size);
 
   const [additionalValues, setAdditionalValues] = useState(item.value);
 
@@ -62,10 +63,12 @@ function Inspector({ item }) {
   const typesToSelect = getTypesToSelect(group.value);
 
   const { focusedItem } = useBranch({ focusedItem: ["focus", "item"] });
+  const { focused } = useBranch({ focused: ["focus"] });
   const { items, dispatch } = useBranch({ items: ["items"] });
 
   const revertChanges = () => {
     setTempItem(item);
+    setSize(item.size);
     setPrefix(item.prefix);
     setSuffix(item.suffix);
     setType(initType);
@@ -74,7 +77,7 @@ function Inspector({ item }) {
 
   useEffect(() => {
     compareItem();
-  }, [type, prefix, suffix, additionalValues]);
+  }, [type, size, prefix, suffix, additionalValues]);
 
   const compareItem = () => {
     let theSame = true;
@@ -84,6 +87,7 @@ function Inspector({ item }) {
     });
 
     if (item.type !== type.type) theSame = false;
+    else if (Boolean(item.size || size) && item.size !== size) theSame = false;
     else if (Boolean(item.prefix || prefix) && item.prefix !== prefix)
       theSame = false;
     else if (Boolean(item.suffix || suffix) && item.suffix !== suffix)
@@ -100,7 +104,12 @@ function Inspector({ item }) {
 
   const changeTypeInScheme = selectedItem => {
     setType(selectedItem);
-    setTempItem({"type":selectedItem.type});
+    setTempItem({ type: selectedItem.type });
+  };
+
+  const changeSize = value => {
+    setSize(value);
+    changeTempItem("size", value);
   };
 
   const changePrefix = value => {
@@ -169,18 +178,27 @@ function Inspector({ item }) {
           );
 
         case "autocomplete":
-
-          const options = ren[1].options.map((o)=>{
+          let options = ren[1].options.map(o => {
             return getOptionFormat(o);
           });
-           
+
+          options = options.filter(o => {
+            return o.value !== `${focused.lib}.${focused.cat}`;
+          });
+
           return (
             <Select
-            key={i}
-            label={access.translate(label)}
-            options={options}
-            initValue={getOptionFormat(value)}
-            onSelect={v => changeAdditionalValues({ ...additionalValues, [label]: v.value })} />
+              key={i}
+              label={access.translate(label)}
+              options={options}
+              initValue={getOptionFormat(value)}
+              onSelect={v =>
+                changeAdditionalValues({
+                  ...additionalValues,
+                  [label]: v.value
+                })
+              }
+            />
           );
 
         case "string":
@@ -248,7 +266,7 @@ function Inspector({ item }) {
   };
 
   const renderPrefixSuffix = () => {
-    if(type.pure) return null;
+    if (type.pure) return null;
 
     return (
       <Fragment>
@@ -284,6 +302,13 @@ function Inspector({ item }) {
         initValue={type}
         onSelect={changeTypeInScheme}
       />
+      <Input
+        label={access.translate("size")}
+        initValue={size}
+        type={"number"}
+        onChange={changeSize}
+      />
+
       {renderFromType()}
       {renderPrefixSuffix()}
       <Placeholder />

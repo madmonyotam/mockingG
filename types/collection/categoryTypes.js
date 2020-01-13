@@ -4,6 +4,7 @@ const categoryTypes = gen => {
   return {
     category: {
       name: "category",
+      pure: true,
       renderer: {
         categoryPath: {
           type: "autocomplete",
@@ -40,6 +41,7 @@ const categoryTypes = gen => {
 
     categoryGroup: {
       name: "category Group",
+      pure: true,
       renderer: {
         categories: {
           type: "autocompleteArray",

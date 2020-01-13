@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { useBranch } from "baobab-react/hooks";
 import AceEditor from "react-ace";
@@ -70,22 +70,24 @@ function Inspector({ item }) {
     setSuffix(item.suffix);
     setType(initType);
     setGroup(g);
-  }
+  };
 
   useEffect(() => {
     compareItem();
-  }, [type,prefix,suffix,additionalValues])
+  }, [type, prefix, suffix, additionalValues]);
 
   const compareItem = () => {
     let theSame = true;
 
-    tempGenerate({[focusedItem]:tempItem}).then((res)=>{
+    tempGenerate({ [focusedItem]: tempItem }).then(res => {
       setTempData(res.data[0]);
     });
 
     if (item.type !== type.type) theSame = false;
-    else if (Boolean(item.prefix || prefix) && item.prefix !== prefix) theSame = false;
-    else if (Boolean(item.suffix || suffix) && item.suffix !== suffix) theSame = false;
+    else if (Boolean(item.prefix || prefix) && item.prefix !== prefix)
+      theSame = false;
+    else if (Boolean(item.suffix || suffix) && item.suffix !== suffix)
+      theSame = false;
     else if (JSON.stringify(item.value) !== JSON.stringify(additionalValues))
       theSame = false;
 
@@ -97,7 +99,7 @@ function Inspector({ item }) {
   };
 
   const changeTypeInScheme = selectedItem => {
-    setType(selectedItem)
+    setType(selectedItem);
     changeTempItem("type", selectedItem.type);
   };
 
@@ -113,7 +115,7 @@ function Inspector({ item }) {
 
   const changeAdditionalValues = value => {
     setAdditionalValues(value);
-    changeTempItem("value",value);
+    changeTempItem("value", value);
   };
 
   const changeTempItem = (field, value) => {
@@ -126,7 +128,7 @@ function Inspector({ item }) {
     }
 
     setTempItem(newItem);
-  }
+  };
 
   const changeScheme = () => {
     let newItems = { ...items };
@@ -149,10 +151,40 @@ function Inspector({ item }) {
       const rendererType = ren[1].type;
       const placeholder = ren[1].placeholder;
 
-      const value = item.value ? item.value[label] : '';
+      const value = tempItem.value ? tempItem.value[label] : "";
 
       switch (rendererType) {
+        case "number":
+          return (
+            <Input
+              key={i}
+              label={access.translate(label)}
+              initValue={value}
+              type={"number"}
+              placeholder={placeholder}
+              onChange={v =>
+                changeAdditionalValues({ ...additionalValues, [label]: v })
+              }
+            />
+          );
+
+        case "autocomplete":
+
+          const options = ren[1].options.map((o)=>{
+            return getOptionFormat(o);
+          });
+           
+          return (
+            <Select
+            key={i}
+            label={access.translate(label)}
+            options={options}
+            initValue={getOptionFormat(value)}
+            onSelect={v => changeAdditionalValues({ ...additionalValues, [label]: v.value })} />
+          );
+
         case "string":
+        default:
           return (
             <Input
               key={i}
@@ -164,9 +196,6 @@ function Inspector({ item }) {
               }
             />
           );
-
-        default:
-          return null;
       }
     };
 
@@ -199,7 +228,7 @@ function Inspector({ item }) {
             highlightActiveLine={true}
             value={code}
           />
-          <Absolute/>
+          <Absolute />
         </Mask>
       </Row>
     );
@@ -215,6 +244,25 @@ function Inspector({ item }) {
           {access.translate("Save")}
         </Button>
       </ButtonsRow>
+    );
+  };
+
+  const renderPrefixSuffix = () => {
+    if(type.pure) return null;
+
+    return (
+      <Fragment>
+        <Input
+          label={access.translate("prefix")}
+          initValue={prefix}
+          onChange={changePrefix}
+        />
+        <Input
+          label={access.translate("suffix")}
+          initValue={suffix}
+          onChange={changeSuffix}
+        />
+      </Fragment>
     );
   };
 
@@ -237,16 +285,7 @@ function Inspector({ item }) {
         onSelect={changeTypeInScheme}
       />
       {renderFromType()}
-      <Input
-        label={access.translate("prefix")}
-        initValue={prefix}
-        onChange={changePrefix}
-      />
-      <Input
-        label={access.translate("suffix")}
-        initValue={suffix}
-        onChange={changeSuffix}
-      />
+      {renderPrefixSuffix()}
       <Placeholder />
       {renderEditor()}
       {renderButtons()}

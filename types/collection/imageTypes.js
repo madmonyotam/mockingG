@@ -8,6 +8,7 @@ const imageTypes = {
             return faker.image.image();
         },
         group: 'images',
+        pure: true
     },
     avatar : {
         name: "avatar",
@@ -15,6 +16,7 @@ const imageTypes = {
             return faker.image.avatar();
         },
         group: 'images',
+        pure: true
     },
     abstract : {
         name: "abstract image",
@@ -23,6 +25,7 @@ const imageTypes = {
             return faker.image.abstract(width, height);
         },
         group: 'images',
+        pure: true
     },
     animals : {
         name: "animals image",
@@ -31,6 +34,7 @@ const imageTypes = {
             return faker.image.animals(width, height);
         },
         group: 'images',
+        pure: true
     },
     business : {
         name: "business image",
@@ -39,6 +43,7 @@ const imageTypes = {
             return faker.image.business(width, height);
         },
         group: 'images',
+        pure: true
     },
     city : {
         name: "city image",
@@ -47,6 +52,7 @@ const imageTypes = {
             return faker.image.city(width, height);
         },
         group: 'images',
+        pure: true
     },
     food : {
         name: "food image",
@@ -55,6 +61,7 @@ const imageTypes = {
             return faker.image.food(width, height);
         },
         group: 'images',
+        pure: true
     },
     nightlife : {
         name: "nightlife image",
@@ -63,6 +70,7 @@ const imageTypes = {
             return faker.image.nightlife(width, height);
         },
         group: 'images',
+        pure: true
     },
     fashion : {
         name: "fashion image",
@@ -71,6 +79,7 @@ const imageTypes = {
             return faker.image.fashion(width, height);
         },
         group: 'images',
+        pure: true
     },
     people : {
         name: "people image",
@@ -79,6 +88,7 @@ const imageTypes = {
             return faker.image.people(width, height);
         },
         group: 'images',
+        pure: true
     },
     nature : {
         name: "nature image",
@@ -87,6 +97,7 @@ const imageTypes = {
             return faker.image.nature(width, height);
         },
         group: 'images',
+        pure: true
     },
     sports : {
         name: "sports image",
@@ -95,6 +106,7 @@ const imageTypes = {
             return faker.image.sports(width, height);
         },
         group: 'images',
+        pure: true
     },
     technics : {
         name: "technics image",
@@ -103,6 +115,7 @@ const imageTypes = {
             return faker.image.technics(width, height);
         },
         group: 'images',
+        pure: true
     },
     transport : {
         name: "transport image",
@@ -111,6 +124,7 @@ const imageTypes = {
             return faker.image.transport(width, height);
         },
         group: 'images',
+        pure: true
     }
 };
 

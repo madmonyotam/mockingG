@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { TextField } from "@material-ui/core";
 
-function Input({ onFocus, onBlur, onChange, label, initValue, ...rest }) {
+function Input({ onFocus, onBlur, onChange, label, initValue, type, ...rest }) {
   const [value, setValue] = useState(initValue);
 
   useEffect(() => {
@@ -22,6 +22,7 @@ function Input({ onFocus, onBlur, onChange, label, initValue, ...rest }) {
       onFocus={onFocus}
       onBlur={onBlur}
       value={value}
+      type={type}
       fullWidth
       {...rest}
     />
@@ -33,15 +34,17 @@ Input.defaultProps = {
   onFocus: ()=>{},
   onBlur: ()=>{},
   onChange: ()=>{}, 
-  label: 'label'
+  label: 'label',
+  type: 'string'
 };
 
 Input.propTypes = {
-  initValue: PropTypes.string,
+  initValue: PropTypes.oneOfType([PropTypes.string,PropTypes.number]),
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func, 
-  label: PropTypes.string
+  label: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default Input;

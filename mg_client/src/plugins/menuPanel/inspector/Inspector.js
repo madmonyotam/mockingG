@@ -236,7 +236,6 @@ function Inspector({ item }) {
         <Mask opacity={0.8}>
           <AceEditor
             style={style}
-            placeholder="Placeholder Text"
             mode="json"
             theme="monokai"
             name="example"

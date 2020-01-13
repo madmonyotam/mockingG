@@ -6,17 +6,24 @@ import { move } from "../utils/canvasActions";
 
 export default class Pack {
   constructor(params) {
+    this.circlePadding = get(params, "circlePadding", 30);
+    this.margin = get(params, "margin", 45);
+    this.marginBottom = get(params, "marginBottom", 10);
+    this.marginRight = get(params, "marginRight", 22);
+    this.showMainCircle = get(params, "showMainCircle", true);
+    this.limitByLevel = get(params, "limitByLevel", 10);
+    this.fillOpacity = get(params, "fillOpacity", 1);
 
-    this.circlePadding = get(params,'circlePadding',30);
-    this.margin = get(params,'margin',45);
-    this.marginBottom = get(params,'marginBottom',10);
-    this.marginRight = get(params,'marginRight',22);
-    this.showMainCircle = get(params,'showMainCircle',true);
-    this.limitByLevel = get(params,'limitByLevel',10);
-    this.fillOpacity = get(params,'fillOpacity' , 1)
-
-    this.moveOnCircleColor = get(params,'moveOnCircleColor',access.color("canvases.moveOnCircle"));
-    this.moveOnTextColor = get(params,'moveOnTextColor',access.color("canvases.moveOnText"));
+    this.moveOnCircleColor = get(
+      params,
+      "moveOnCircleColor",
+      access.color("canvases.moveOnCircle")
+    );
+    this.moveOnTextColor = get(
+      params,
+      "moveOnTextColor",
+      access.color("canvases.moveOnText")
+    );
 
     this.getTranslate = this.getTranslate.bind(this);
     this.createPack = this.createPack.bind(this);
@@ -34,27 +41,29 @@ export default class Pack {
       access.color("canvases.packBgEnd")
     ];
 
+    this.clickColor = access.color("canvases.clickColor");
+
     this.textClasses = {
       in: "light-text",
       out: "text"
-    }
+    };
 
     this.init(params);
   }
 
-  init(params){
+  init(params) {
     this.canvas = params.canvas;
     this.width = params.width;
     this.height = params.height;
     this.mainGroup = this.canvas.append("g").attr("class", "pack");
   }
 
-  initWithData(data,projectName){
-    this.mainData = this.normalizeData(data,null,projectName);
-    this.createPack(this.mainData,true);
+  initWithData(data, projectName) {
+    this.mainData = this.normalizeData(data, null, projectName);
+    this.createPack(this.mainData, true);
   }
 
-  normalizeData(data, newData,projectName = "Gen") {
+  normalizeData(data, newData, projectName = "Gen") {
     if (!newData)
       newData = {
         name: projectName,
@@ -81,7 +90,7 @@ export default class Pack {
         level: newData.level + 1
       };
 
-      if(this.limitByLevel  === newData.level + 1){
+      if (this.limitByLevel === newData.level + 1) {
         d.name = data[key].name || key;
       }
 
@@ -95,7 +104,14 @@ export default class Pack {
   }
 
   createPack(data, isMainData) {
-    const { width, height, margin, circlePadding, showMainCircle, limitByLevel } = this;
+    const {
+      width,
+      height,
+      margin,
+      circlePadding,
+      showMainCircle,
+      limitByLevel
+    } = this;
     const size = [width - margin, height - margin];
 
     if (isMainData) this.mainData = data;
@@ -112,7 +128,7 @@ export default class Pack {
     let nodes = treeRoot.descendants();
 
     nodes = nodes.filter(n => {
-      if(n.data.level > limitByLevel) return false;
+      if (n.data.level > limitByLevel) return false;
       if (showMainCircle) return n.depth < 3;
       return n.depth > 0 && n.depth < 3;
     });
@@ -135,9 +151,7 @@ export default class Pack {
     this.handleNodeDrag(circles, texts);
   }
 
-  handleNodeDrag(circles, texts){
-
-  }
+  handleNodeDrag(circles, texts) {}
 
   paintCircles(nodes) {
     const { colorScaleRange, packDomain, mainGroup } = this;
@@ -178,7 +192,7 @@ export default class Pack {
         .attr("r", d => d.r);
     };
 
-    const circles = mainGroup.selectAll("circle").data(nodes,d=>d.data.id);
+    const circles = mainGroup.selectAll("circle").data(nodes, d => d.data.id);
 
     enterCircles(circles);
     exitCircles(circles);
@@ -191,7 +205,11 @@ export default class Pack {
     const { mainGroup, textClasses, limitByLevel } = this;
 
     const childrenScope = d => {
-      return isEmpty(d.data.children) || d.depth === 2 || d.data.level >= limitByLevel;
+      return (
+        isEmpty(d.data.children) ||
+        d.depth === 2 ||
+        d.data.level >= limitByLevel
+      );
     };
 
     const adaptText = d => {
@@ -216,13 +234,11 @@ export default class Pack {
     };
 
     const getFontSize = (d, isChildren) => {
-
-      if(isChildren){
-        
-        return(Math.min(Math.max(d.r, 30)/4,36));
+      if (isChildren) {
+        return Math.min(Math.max(d.r, 30) / 4, 36);
       }
 
-      return(Math.min(d.r, 60)/3);
+      return Math.min(d.r, 60) / 3;
     };
 
     const getTextPosition = d => {
@@ -236,13 +252,15 @@ export default class Pack {
         .attr("id", d => `text-${d.data.id}`)
         .attr("transform", this.getTranslate)
         .attr("y", getTextPosition)
-        .attr("class", d => (childrenScope(d) ? textClasses.in : textClasses.out))
+        .attr("class", d =>
+          childrenScope(d) ? textClasses.in : textClasses.out
+        )
         .attr("text-anchor", "middle")
         .attr("font-size", "0")
         .text(d => adaptText(d))
         .transition()
         .duration(2000)
-        .attr("font-size", d => getFontSize(d,childrenScope(d)));
+        .attr("font-size", d => getFontSize(d, childrenScope(d)));
     };
 
     const exitTexts = t => {
@@ -265,8 +283,10 @@ export default class Pack {
         .duration(1000)
         .text(d => adaptText(d))
         .attr("y", getTextPosition)
-        .attr("class", d => (childrenScope(d) ? textClasses.in : textClasses.out))
-        .attr("font-size", d => getFontSize(d,childrenScope(d)));
+        .attr("class", d =>
+          childrenScope(d) ? textClasses.in : textClasses.out
+        )
+        .attr("font-size", d => getFontSize(d, childrenScope(d)));
     };
 
     const texts = mainGroup.selectAll("text").data(nodes, d => d.data.id);
@@ -278,17 +298,14 @@ export default class Pack {
     return texts;
   }
 
-  navigateBack(data) {
-
-  }
+  navigateBack(data) {}
 
   handleNodeClick(circles, text) {
-
-    const blockButton = () => {
+    const blockButton = (t = 1000) => {
       this.clickIsBlock = true;
       setTimeout(() => {
         this.clickIsBlock = false;
-      }, 1000);
+      }, t);
     };
 
     const clickAction = n => {
@@ -315,12 +332,45 @@ export default class Pack {
           break;
       }
 
-      if(n.data.level < this.limitByLevel){
+      if(n.depth){
+        blink(n.data);
+      }
+
+      if (n.data.level < this.limitByLevel) {
         this._clickAction && this._clickAction();
         this.createPack(n.data);
         blockButton();
-      } 
+      }
     };
+
+    const blink = (data) => {
+      const circle = d3.select(`#circle-${data.id}`);
+      let orininalColor;
+      
+      try {
+        orininalColor = circle.attr("fill");
+      } catch (error) {
+        return null;
+      }
+
+      if(this.lastClickedId === data.id){
+        setTimeout(() => {
+          if(this.lastClickedId === data.id) this.lastClickedId = null;
+        }, 1000)
+        
+        return null;
+      } else {
+        this.lastClickedId = data.id;
+      }
+
+      circle
+        .transition()
+        .duration(200)
+        .attr("fill", this.clickColor)
+        .transition()
+        .duration(600)
+        .attr("fill", orininalColor);
+    }
 
     circles.on("click", n => {
       clickAction(n);
@@ -332,7 +382,9 @@ export default class Pack {
   }
 
   getTranslate(d) {
-    return `translate(${d.x + this.margin - this.marginRight},${d.y + this.margin - this.marginBottom})`;
+    return `translate(${d.x + this.margin - this.marginRight},${d.y +
+      this.margin -
+      this.marginBottom})`;
   }
 
   setLevelClick(level, func) {
@@ -353,18 +405,20 @@ export default class Pack {
     }
   }
 
-  scaleDown(){
+  scaleDown() {
     this.mainGroup
-    .transition()
-    .duration(2000)
-    .attr("transform", `translate(${this.width/2},${this.height/2}), scale(0)`)
+      .transition()
+      .duration(2000)
+      .attr(
+        "transform",
+        `translate(${this.width / 2},${this.height / 2}), scale(0)`
+      );
   }
 
-  scaleUp(){
+  scaleUp() {
     this.mainGroup
-    .transition()
-    .duration(2000)
-    .attr("transform", `translate(0,0), scale(1)`)
+      .transition()
+      .duration(2000)
+      .attr("transform", `translate(0,0), scale(1)`);
   }
 }
-

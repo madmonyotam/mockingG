@@ -13,6 +13,8 @@ export default class TypesPack extends Pack {
       access.color("types.packBgEnd")
     ];
 
+    this.clickColor = access.color("types.clickColor");
+
     this.textClasses = {
       out: "light-text",
       in: "light-text-types"

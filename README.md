@@ -1,15 +1,15 @@
-# Mocking Gen
+# GEN
 
 ### an advence tool for creating mock data for server and client.
 
 #### Installation
 
-- In command line or terminal run `npm i mocking_g` or `npm install mocking_g`
+- In command line or terminal run `npm i mocking_g`
 
 - Mocking Gen will run on [localhost](http://localhost:5588/mocking_G) on port 5588;
 - Then create your schemes with great ui.
 
-## server usage
+## SERVER usage
 
 ```
 
@@ -26,17 +26,6 @@ console.log(persons);
 ```
 
 ### or
-
-```
-const mg = require('mocking_g');
-const testScheme = mg.schemes.getScheme('test','person');
-
-const persons = mg.generate(testScheme,100);
-console.log(persons);
-
-```
-
-### or in short
 
 ```
 const mg = require('mocking_g');
@@ -74,12 +63,33 @@ types.addTypes(newTypes);
 
 ```
 
+## CLIENT usage
+
+- use a standard get request
+
+```
+axios.get("http://localhost:5588/mocking_G/generate", { library:"examples", category:"person", amount:5 }).then((res)=>{
+    console.log(res.data);
+})
+
+```
+
+### or diractly from url
+
+```
+http://localhost:5588/mocking_G/generate?library=examples&category=person&amount=3
+
+```
+
 ### beta for you to check
 
 - create schemes with a great ui program on port 5588
 - see your schemes as well
 - see all types, inclues yours, on the program
+- edit item in scheme in the inspector.
 
 ### coming soon
 
-- edit item in scheme in the inspector.
+- docs and improvments 
+- please leave notes for Gen to improve 
+

@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useCallback } from "react";
 import { useBranch } from "baobab-react/hooks";
 
 import * as access from "../plugins/access";
@@ -33,11 +33,13 @@ function LeftPanel({ viewKey }) {
   const { collapse } = useBranch({ collapse: ["collapse"] });
   const libraryPack = getLibraryPack();
 
+  const stableDispatch = useCallback(dispatch, []) 
+
   useEffect(() => {
     get("/getAllLibraries").then(res => {
-      dispatch(libsActions.setLibs, res.data);
+      stableDispatch(libsActions.setLibs, res.data);
     });
-  }, []);
+  }, [stableDispatch]);
 
   const RenderList = () => {
     

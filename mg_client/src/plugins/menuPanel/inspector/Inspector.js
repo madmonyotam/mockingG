@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import PropTypes from "prop-types";
 import { useBranch } from "baobab-react/hooks";
 import AceEditor from "react-ace";
@@ -75,10 +75,6 @@ function Inspector({ item }) {
     setGroup(g);
   };
 
-  useEffect(() => {
-    compareItem();
-  }, [type, size, prefix, suffix, additionalValues]);
-
   const compareItem = () => {
     let theSame = true;
 
@@ -101,10 +97,18 @@ function Inspector({ item }) {
       setShowButtons(false);
     }
   };
+  
+  const stableCompare = useCallback(compareItem, [type, size, prefix, suffix, additionalValues]) 
+
+  useEffect(() => {
+    stableCompare();
+  }, [type, size, prefix, suffix, additionalValues, stableCompare]);
+
+
 
   const changeTypeInScheme = selectedItem => {
     setType(selectedItem);
-    setTempItem({ type: selectedItem.type });
+    changeTempItem("type", selectedItem.type);
   };
 
   const changeSize = value => {

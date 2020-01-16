@@ -111,16 +111,16 @@ function MainCanvas() {
   };
 
   const createDefs = canvas => {
-    var defs = canvas.append("defs");
+    // var defs = canvas.append("defs");
     // createGradient(defs);
   };
 
   const paintTabs = (canvas, width, height) => {
-    const openMenu = () => {
-      dispatch((tree)=>{
-        tree.set('openMenu',true);
-      })
-    }
+    // const openMenu = () => {
+    //   dispatch((tree)=>{
+    //     tree.set('openMenu',true);
+    //   })
+    // }
 
 
     const onSelect = id => {

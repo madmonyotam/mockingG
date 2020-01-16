@@ -1,6 +1,3 @@
-import * as access from "../../access";
-import { dropCircles } from "../utils/canvasActions";
-
 let tagsContexts = [];
 
 export default class Tag {
@@ -52,23 +49,6 @@ export default class Tag {
 
     this.paintTag();
     this.paintText();
-
-    // const tags = this.mainGroup.selectAll("rect");
-    // const texts = this.mainGroup.selectAll("text");
-
-    // dropCircles(
-    //   this.mainGroup,
-    //   this.height,
-    //   tags,
-    //   access.color("tags.moveOnTag")
-    // );
-    // dropCircles(
-    //   this.mainGroup,
-    //   this.height,
-    //   texts,
-    //   access.color("tags.moveOnText")
-    // );
-
     this.mouseEvents();
   }
 

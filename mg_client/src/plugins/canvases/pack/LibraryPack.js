@@ -118,6 +118,8 @@ export default class LibraryPack extends Pack {
   onAddLibrary(newLib) {
     const { mainData } = this;
 
+    if(find(mainData.children,(c)=>{return c.name === newLib})) return null;
+
     mainData.children.push({
       name: newLib,
       value: 1,
@@ -131,6 +133,8 @@ export default class LibraryPack extends Pack {
 
   onAddCategory(lib, newCat) {
     const library = this.findLibrary(lib);
+
+    if(find(library.children,(c)=>{return c.name === newCat})) return null;
 
     library.children.push({
       name: newCat,
@@ -146,6 +150,8 @@ export default class LibraryPack extends Pack {
   onAddItem(lib,cat,newItem) {
     const library = this.findLibrary(lib);
     const category = this.findCategory(library, cat);
+
+    if(find(category.children,(c)=>{return c.name === newItem})) return null;
 
     category.children.push({
       name: newItem,

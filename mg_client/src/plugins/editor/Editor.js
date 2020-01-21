@@ -50,7 +50,6 @@ function Editor({ width, isData }) {
   const onLoad = () => {};
 
   const onChange = c => {
-    console.log('change')
     setCode(c);
     if (!isData) {
       updateScheme(c);

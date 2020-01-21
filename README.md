@@ -25,25 +25,31 @@ console.log(persons);
 
 ```
 
-### or
+#### now set a path to your schemes and create some using gen
 
 ```
-const mg = require('mocking_g');
 
+mg.schemes.setPath("C:/your/path/to/folder");
+
+```
+
+#### then generate easley from your schemes
+
+```
 const persons = mg.generate('test.person',100);
 const phones = mg.generate(['test','phones'],100);
 console.log({ persons, phones });
 
 ```
 
-### to see all types
+#### to get all types you can run
 
 ```
 mg.types.getTypes();
 
 ```
 
-### to add types
+#### to add types - basic
 
 ```
 
@@ -63,6 +69,8 @@ types.addTypes(newTypes);
 
 ```
 
+more documentation will be added soon
+
 ## CLIENT usage
 
 - use a standard get request
@@ -81,12 +89,13 @@ http://localhost:5588/mocking_G/generate?library=examples&category=person&amount
 
 ```
 
-### beta for you to check
+#### Version 2 is avaliable for you to check
 
 - create schemes with a great ui program on port 5588
 - see your schemes as well
 - see all types, inclues yours, on the program
 - edit item in scheme in the inspector.
+- create data set and live api fest then ever before!
 
 ### coming soon
 

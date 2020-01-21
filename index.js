@@ -23,14 +23,14 @@ app.get("/mocking_G", function(req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.listen(port);
-console.log(`running on port ${port}`);
-
 gen.setApp(app);
 gen.types.setApp(app);
 gen.schemes.setApp(app);
 const catTypes = categoryTypes(gen);
 gen.types.addTypes(catTypes);
+
+app.listen(port);
+console.log(`running on port ${port}`);
 
 
 module.exports = gen;

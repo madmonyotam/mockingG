@@ -3,12 +3,20 @@ const path = require("path");
 
 class Schemes {
   constructor() {
-    this.projectsPath = path.resolve(__dirname, "projects/");
+    this.init();
+  }
+
+  init(userPath) {
+    this.projectsPath = userPath || path.resolve(__dirname, "projects/");
 
     const firstFileName = this.getFirstFilePath();
     this.projectName = firstFileName;
     this.currentPath = path.resolve(this.projectsPath, `${firstFileName}.json`);
     this.setSchemesFromFile();
+  }
+
+  setPath(userPath) {
+    this.init(userPath)
   }
 
   getFirstFilePath() {
@@ -19,6 +27,7 @@ class Schemes {
 
   getFilesNames() {
     let files = fs.readdirSync(this.projectsPath);
+    files = files.filter(f => {return f.split(".")[1] === 'json' ? true : false});
     files = files.map(f => f.split(".")[0]);
     return files;
   }

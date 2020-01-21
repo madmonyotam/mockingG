@@ -1,6 +1,11 @@
 const axios = require("axios");
+let port = 5588;
 
-const rootUrl = "http://localhost:5588/mocking_G";
+function setPort(p) {
+  port=p;
+}
+
+const rootUrl = `http://localhost:${port}/mocking_G`;
 
 function get(path, params) {
   let from = `${rootUrl}${path}`;

@@ -18,11 +18,9 @@ import { onSchemeChange, tempGenerate } from "../../../tree/actions/items";
 
 import Column from "../../Layouts/Column";
 import Row from "../../Layouts/Row";
-import Absolute from "../../Layouts/Absolute";
 import Select from "../../inputs/Select";
 import MultiSelect from "../../inputs/MultiSelect";
 import Input from "../../inputs/Input";
-import Mask from "../../tools/Mask";
 
 import * as access from "../../access";
 
@@ -265,29 +263,29 @@ function Inspector({ item }) {
 
   const renderEditor = () => {
     const style = {
-      height: "400px",
+      height: "100%",
       width: "100%"
+    };
+
+    const options = {
+      showGutter: false,
+      tabSize: 2
     };
 
     const code = JSON.stringify(tempData, null, 2);
 
     return (
-      <Row height={"400px"}>
-        <Mask opacity={0.8}>
+      <div style={{height:"400px", overflow:'auto'}}>
           <AceEditor
             style={style}
             mode="json"
             theme="monokai"
             name="example"
             fontSize={14}
-            showPrintMargin={true}
-            showGutter={true}
-            highlightActiveLine={true}
             value={code}
+            setOptions={options}
           />
-          <Absolute />
-        </Mask>
-      </Row>
+      </div>
     );
   };
 

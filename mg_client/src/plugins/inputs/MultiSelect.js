@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { find } from "lodash";
+import { find, isEmpty } from "lodash";
 import { ClickAwayListener } from "@material-ui/core";
 
 import * as access from "../access";
@@ -9,11 +9,12 @@ import Row from "../../plugins/Layouts/Row";
 import Column from "../../plugins/Layouts/Column";
 import Absolute from "../../plugins/Layouts/Absolute";
 import Label from "../../plugins/tools/Label";
+import Chip from "../../plugins/tools/Chip";
 import Input from "./Input";
 
 function MultiSelect({ options, label, onSelect, initValue }) {
   const [multiValue, setMultiValue] = useState(initValue);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [onFocus, setOnFocus] = useState(false);
 
   useEffect(() => {
@@ -26,6 +27,14 @@ function MultiSelect({ options, label, onSelect, initValue }) {
     });
 
     return selection;
+  };
+
+  const checkSelection = () => {
+    const selection = findInOptions(value.label);
+
+    if (!selection) {
+      setValue(initValue);
+    }
   };
 
   const renderInput = () => {
@@ -62,12 +71,11 @@ function MultiSelect({ options, label, onSelect, initValue }) {
     if (!onFocus) return null;
 
     const handleSelect = o => {
-        setMultiValue([...multiValue, o]);
-        onSelect([...multiValue, o]);
+      setMultiValue([o, ...multiValue]);
+      onSelect([o, ...multiValue]);
     };
 
     const list = () => {
-
       const filtered = options.filter(o => {
         let toReturn = true;
 
@@ -110,23 +118,32 @@ function MultiSelect({ options, label, onSelect, initValue }) {
   };
 
   const renderMultiValue = () => {
-    return multiValue.map((v)=>{return <div> {v.label} </div>})
-  }
+    
+    const handleDelete = value => {
+      const values = multiValue.filter(v => {
+        return v.value !== value.value;
+      });
+      setMultiValue(values);
+      onSelect(values);
+    };
 
-  const checkSelection = () => {
-    const selection = findInOptions(value.label);
-
-    if (!selection) {
-      setValue(initValue);
-    }
+    return multiValue.map(v => {
+      return <Chip key={v.label} value={v} onDelete={handleDelete} />;
+    });
   };
+
+  const renderChips = () => {
+    if(isEmpty(multiValue)) return null;
+    return <Row style={{ overflowX: "auto" }}> {renderMultiValue()} </Row>
+  }
 
   return (
     <ClickAwayListener onClickAway={checkSelection}>
       <div style={{ position: "relative" }}>
-        {renderMultiValue()}
         {renderInput()}
         {renderList()}
+        {renderChips()}
+        
       </div>
     </ClickAwayListener>
   );

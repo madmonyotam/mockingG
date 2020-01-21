@@ -15,6 +15,7 @@ code {
 
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -23,12 +24,12 @@ code {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #aec9e8;
+  background: #496a8c;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #496a8c;
+  background: #1d4b79;
 }
 
 input::-webkit-outer-spin-button,

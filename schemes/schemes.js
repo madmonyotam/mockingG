@@ -63,7 +63,7 @@ class Schemes {
     });
 
     app.get("/mocking_G/getAll", (req, res) => {
-      res.send({data:this.schemes,projectName:this.projectName});
+      res.send({data:this.getAll(),projectName:this.projectName});
     });
 
     app.get("/mocking_G/getAllLibraries", (req, res) => {
@@ -245,6 +245,10 @@ class Schemes {
   getScheme(library, category) {
     if (!this.schemes[library]) return undefined;
     return this.schemes[library][category];
+  }
+
+  getAll() {
+    return this.schemes;
   }
 
   getAllLibraries() {

@@ -1,12 +1,12 @@
 {
   "name": "mocking_g",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "homepage": "https://github.com/madmonyotam/mockingG",
-  "license" : "BSD-3-Clause",
+  "license": "BSD-3-Clause",
   "private": false,
   "author": {
-    "name" : "Yotam Madmon",
-    "email" : "madmonyotam@gmail.com"
+    "name": "Yotam Madmon",
+    "email": "madmonyotam@gmail.com"
   },
   "scripts": {
     "test": "jest"

@@ -20,6 +20,7 @@ import Column from "../../Layouts/Column";
 import Row from "../../Layouts/Row";
 import Absolute from "../../Layouts/Absolute";
 import Select from "../../inputs/Select";
+import MultiSelect from "../../inputs/MultiSelect";
 import Input from "../../inputs/Input";
 import Mask from "../../tools/Mask";
 
@@ -163,62 +164,97 @@ function Inspector({ item }) {
       const label = ren[0];
       const rendererType = ren[1].type;
       const placeholder = ren[1].placeholder;
-
       const value = tempItem.value ? tempItem.value[label] : "";
 
-      switch (rendererType) {
-        case "number":
-          return (
-            <Input
-              key={i}
-              label={access.translate(label)}
-              initValue={value}
-              type={"number"}
-              placeholder={placeholder}
-              onChange={v =>
-                changeAdditionalValues({ ...additionalValues, [label]: v })
-              }
-            />
-          );
-
-        case "autocomplete":
-          let options = ren[1].options.map(o => {
-            return getOptionFormat(o);
-          });
-
-          options = options.filter(o => {
-            return o.value !== `${focused.lib}.${focused.cat}`;
-          });
-
-          return (
-            <Select
-              key={i}
-              label={access.translate(label)}
-              options={options}
-              initValue={getOptionFormat(value)}
-              onSelect={v =>
-                changeAdditionalValues({
-                  ...additionalValues,
-                  [label]: v.value
-                })
-              }
-            />
-          );
-
-        case "string":
-        default:
-          return (
-            <Input
-              key={i}
-              label={access.translate(label)}
-              initValue={value}
-              placeholder={placeholder}
-              onChange={v =>
-                changeAdditionalValues({ ...additionalValues, [label]: v })
-              }
-            />
-          );
+      const renderNumber = () => {
+        return (
+          <Input
+            key={i}
+            label={access.translate(label)}
+            initValue={value}
+            type={"number"}
+            placeholder={placeholder}
+            onChange={v =>
+              changeAdditionalValues({ ...additionalValues, [label]: v })
+            }
+          />
+        );
       }
+
+      const renderString = () => {
+        return (
+          <Input
+            key={i}
+            label={access.translate(label)}
+            initValue={value}
+            placeholder={placeholder}
+            onChange={v =>
+              changeAdditionalValues({ ...additionalValues, [label]: v })
+            }
+          />
+        );
+      }
+
+      const renderAutoComplete = () => {
+        let options = ren[1].options.map(o => {
+          return getOptionFormat(o);
+        });
+
+        options = options.filter(o => {
+          return o.value !== `${focused.lib}.${focused.cat}`;
+        });
+
+        return (
+          <Select
+            key={i}
+            label={access.translate(label)}
+            options={options}
+            initValue={getOptionFormat(value)}
+            onSelect={v =>
+              changeAdditionalValues({
+                ...additionalValues,
+                [label]: v.value
+              })
+            }
+          />
+        );
+      }
+
+      const renderAutoCompleteArray = () => {
+        let options = ren[1].options.map(o => {
+          return getOptionFormat(o);
+        });
+
+        options = options.filter(o => {
+          return o.value !== `${focused.lib}.${focused.cat}`;
+        });
+        
+        const initValue = Array.isArray(value) ? value.map( (v)=> { return getOptionFormat(v) }) : [];
+
+        return (
+          <MultiSelect
+            key={i}
+            label={access.translate(label)}
+            options={options}
+            initValue={initValue}
+            onSelect={val =>
+              changeAdditionalValues({
+                ...additionalValues,
+                [label]: val.map((v)=>{ return v.value})
+              })
+            }
+          />
+        );
+      }
+
+      const renderersDir = {
+        string: renderString,
+        number:renderNumber,
+        autocomplete: renderAutoComplete,
+        autocompleteArray: renderAutoCompleteArray
+      }
+
+      return renderersDir[rendererType] ? renderersDir[rendererType]() : renderString();
     };
 
     if (type.renderer) {

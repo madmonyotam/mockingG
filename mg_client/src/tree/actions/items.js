@@ -49,6 +49,7 @@ function getValueByRendererType(renderer) {
     case "string":
       return renderer.placeholder;
     case "autocompleteArray":
+    case "array":
       return [];
 
     default:

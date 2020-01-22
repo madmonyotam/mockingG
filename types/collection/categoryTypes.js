@@ -1,4 +1,5 @@
 const translate = require("../../translate/getTranslate");
+const faker = require("faker");
 
 const categoryTypes = gen => {
   return {
@@ -48,7 +49,7 @@ const categoryTypes = gen => {
           options: gen.schemes.getAllCategoriesPath(),
           placeholder: translate("choose categories from list")
         },
-        size: {
+        amount: {
           type: "number",
           placeholder: translate("enter amount")
         }
@@ -87,6 +88,23 @@ const categoryTypes = gen => {
         return genRandomScheme();
       },
 
+      group: "categories"
+    },
+    fromArray: {
+      name: "element from array",
+      pure: true,
+      renderer: {
+        dataSet: {
+          type: "array",
+          placeholder: translate("add values")
+        }
+      },
+      generate: el => {
+        const { value } = el;
+        if (!value) return translate("missing value");
+
+        return faker.random.arrayElement(value.dataSet);
+      },
       group: "categories"
     }
   };

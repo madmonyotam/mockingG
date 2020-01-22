@@ -16,14 +16,6 @@
       },
       "parent": {
         "type": "fullName"
-      },
-      "fromArray-69": {
-        "type": "fromArray",
-        "value": {
-          "dataSet": [
-            "5342523"
-          ]
-        }
       }
     },
     "user": {
@@ -50,13 +42,6 @@
       },
       "author name": {
         "type": "fullName"
-      },
-      "category-145": {
-        "type": "category",
-        "value": {
-          "categoryPath": "examples.user",
-          "size": 3
-        }
       }
     }
   }

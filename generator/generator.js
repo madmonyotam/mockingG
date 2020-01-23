@@ -14,6 +14,7 @@ const financeTypes = require("../types/collection/financeTypes");
 const dateTypes = require("../types/collection/dateTypes");
 const imageTypes = require("../types/collection/imageTypes");
 const idTypes = require("../types/collection/idTypes");
+const randomTypes = require("../types/collection/randomTypes");
 
 const types = new typesClass();
 const schemes = new schemesClass();
@@ -29,6 +30,7 @@ types.addTypes(financeTypes);
 types.addTypes(dateTypes);
 types.addTypes(imageTypes);
 types.addTypes(idTypes);
+types.addTypes(randomTypes);
 
 const setApp = app => {
   app.use("/mocking_G/generate", (req, res) => {

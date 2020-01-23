@@ -76,6 +76,12 @@ const generateOneItem = (func, el) => {
   return value;
 };
 
+const getSize = (el) => {
+  if(!el.randomSize) return el.size;
+  const newSize = Math.floor( Math.random()*(Number(el.size)+1) );
+  return newSize;
+}
+
 const generateFromType = el => {
   const allTypes = types.getTypes();
 
@@ -84,7 +90,9 @@ const generateFromType = el => {
 
   if (!_.isUndefined(el.size)) {
     let array = [];
-    for (let i = 0; i < el.size; i++) {
+    const finalSize = getSize(el);
+
+    for (let i = 0; i < finalSize; i++) {
       array.push(generateOneItem(generateFunc, el));
     }
     return array;

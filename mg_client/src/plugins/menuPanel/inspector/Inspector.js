@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, Fragment } from "react";
+import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
 import { useBranch } from "baobab-react/hooks";
 import AceEditor from "react-ace";
-import { Button } from "@material-ui/core";
+import { Button, Checkbox } from "@material-ui/core";
 import styled from "styled-components";
 
 import "ace-builds/src-noconflict/mode-json";
@@ -21,6 +22,7 @@ import Row from "../../Layouts/Row";
 import Select from "../../inputs/Select";
 import MultiSelect from "../../inputs/MultiSelect";
 import Input from "../../inputs/Input";
+import Label from "../../tools/Label";
 
 import * as access from "../../access";
 
@@ -52,6 +54,7 @@ function Inspector({ item }) {
   const [prefix, setPrefix] = useState(item.prefix || "");
   const [suffix, setSuffix] = useState(item.suffix || "");
   const [size, setSize] = useState(item.size);
+  const [randomSize, setRandomSize] = useState(item.randomSize || false);
 
   const [additionalValues, setAdditionalValues] = useState(item.value);
 
@@ -83,6 +86,12 @@ function Inspector({ item }) {
 
     if (item.type !== type.type) theSame = false;
     else if (Boolean(item.size || size) && item.size !== size) theSame = false;
+    else if (
+      (!isUndefined(item.randomSize) || !isUndefined(randomSize)) &&
+      size &&
+      item.randomSize !== randomSize
+    )
+      theSame = false;
     else if (Boolean(item.prefix || prefix) && item.prefix !== prefix)
       theSame = false;
     else if (Boolean(item.suffix || suffix) && item.suffix !== suffix)
@@ -96,14 +105,19 @@ function Inspector({ item }) {
       setShowButtons(false);
     }
   };
-  
-  const stableCompare = useCallback(compareItem, [type, size, prefix, suffix, additionalValues]) 
+
+  const stableCompare = useCallback(compareItem, [
+    type,
+    size,
+    prefix,
+    suffix,
+    additionalValues,
+    randomSize
+  ]);
 
   useEffect(() => {
     stableCompare();
-  }, [type, size, prefix, suffix, additionalValues, stableCompare]);
-
-
+  }, [type, size, prefix, suffix, additionalValues, randomSize, stableCompare]);
 
   const changeTypeInScheme = selectedItem => {
     setType(selectedItem);
@@ -113,6 +127,11 @@ function Inspector({ item }) {
   const changeSize = value => {
     setSize(value);
     changeTempItem("size", value);
+  };
+
+  const changeRandomSize = () => {
+    setRandomSize(!randomSize);
+    changeTempItem("randomSize", !randomSize);
   };
 
   const changePrefix = value => {
@@ -177,7 +196,7 @@ function Inspector({ item }) {
             }
           />
         );
-      }
+      };
 
       const renderString = () => {
         return (
@@ -191,7 +210,7 @@ function Inspector({ item }) {
             }
           />
         );
-      }
+      };
 
       const renderAutoComplete = () => {
         let options = ren[1].options.map(o => {
@@ -216,7 +235,7 @@ function Inspector({ item }) {
             }
           />
         );
-      }
+      };
 
       const renderAutoCompleteArray = () => {
         let options = ren[1].options.map(o => {
@@ -226,8 +245,12 @@ function Inspector({ item }) {
         options = options.filter(o => {
           return o.value !== `${focused.lib}.${focused.cat}`;
         });
-        
-        const initValue = Array.isArray(value) ? value.map( (v)=> { return getOptionFormat(v) }) : [];
+
+        const initValue = Array.isArray(value)
+          ? value.map(v => {
+              return getOptionFormat(v);
+            })
+          : [];
 
         return (
           <MultiSelect
@@ -238,21 +261,25 @@ function Inspector({ item }) {
             onSelect={val =>
               changeAdditionalValues({
                 ...additionalValues,
-                [label]: val.map((v)=>{ return v.value})
+                [label]: val.map(v => {
+                  return v.value;
+                })
               })
             }
           />
         );
-      }
+      };
 
       const renderersDir = {
         string: renderString,
-        number:renderNumber,
+        number: renderNumber,
         autocomplete: renderAutoComplete,
         autocompleteArray: renderAutoCompleteArray
-      }
+      };
 
-      return renderersDir[rendererType] ? renderersDir[rendererType]() : renderString();
+      return renderersDir[rendererType]
+        ? renderersDir[rendererType]()
+        : renderString();
     };
 
     if (type.renderer) {
@@ -275,16 +302,16 @@ function Inspector({ item }) {
     const code = JSON.stringify(tempData, null, 2);
 
     return (
-      <div style={{height:"400px", overflow:'auto'}}>
-          <AceEditor
-            style={style}
-            mode="json"
-            theme="monokai"
-            name="example"
-            fontSize={14}
-            value={code}
-            setOptions={options}
-          />
+      <div style={{ height: "400px", overflow: "auto" }}>
+        <AceEditor
+          style={style}
+          mode="json"
+          theme="monokai"
+          name="example"
+          fontSize={14}
+          value={code}
+          setOptions={options}
+        />
       </div>
     );
   };
@@ -325,6 +352,37 @@ function Inspector({ item }) {
     return <div style={{ flex: 1 }}></div>;
   };
 
+  const renderSize = () => {
+    return (
+      <Row
+        style={{
+          boxShadow: "unset",
+          borderBottom: "1px solid rgba(0, 0, 0, 0.42)"
+        }}
+      >
+        <Input
+          label={access.translate("size")}
+          initValue={size}
+          type={"number"}
+          onChange={changeSize}
+        />
+
+        <Label width={"140px"} fontSize={"13px"}>
+          {access.translate("Random Size:")}
+        </Label>
+
+        <Checkbox
+          style={{marginRight: 5}}
+          checked={randomSize}
+          onChange={changeRandomSize}
+          size="small"
+          value="primary"
+          disabled={!size}
+        />
+      </Row>
+    );
+  };
+
   return (
     <Column flex={1}>
       <Select
@@ -339,13 +397,8 @@ function Inspector({ item }) {
         initValue={type}
         onSelect={changeTypeInScheme}
       />
-      <Input
-        label={access.translate("size")}
-        initValue={size}
-        type={"number"}
-        onChange={changeSize}
-      />
 
+      {renderSize()}
       {renderFromType()}
       {renderPrefixSuffix()}
       <Placeholder />

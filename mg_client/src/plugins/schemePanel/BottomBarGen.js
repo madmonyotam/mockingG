@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useBranch } from "baobab-react/hooks";
 
-import { generate } from "../../tree/actions/items";
-import * as access from "../access";
+import { generate } from "tree/actions/items";
+import * as access from "plugins/access";
 
 import styled from "styled-components";
-import IconButton from "../icons/IconButton";
-import Row from "../Layouts/Row";
-import BarButtons from "./BarButtons";
+import IconButton from "plugins/icons/IconButton";
+import Row from "plugins/Layouts/Row";
+import BarButtons from "plugins/schemePanel/BarButtons";
 
 const BottomBar = styled(Row)`
   justify-content: flex-end;

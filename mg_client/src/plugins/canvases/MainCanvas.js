@@ -1,34 +1,36 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Start from "../tools/Start";
+import Start from "plugins/tools/Start";
 import { useBranch } from "baobab-react/hooks";
-import * as access from "../access";
-import { get } from "../requests";
+import * as access from "plugins/access";
+import { get } from "plugins/requests";
 
-import { move } from "./utils/canvasActions";
-import { setTypes } from "../../tree/actions/types";
-import * as libsActions from "../../tree/actions/libs";
-import * as catsActions from "../../tree/actions/cats";
-import * as itemsActions from "../../tree/actions/items";
-import LibraryPack from "../canvases/pack/LibraryPack";
-import TypesPack from "../canvases/pack/TypesPack";
+import { move } from "plugins/canvases/utils/canvasActions";
+
+import { setTypes } from "tree/actions/types";
+import * as libsActions from "tree/actions/libs";
+import * as catsActions from "tree/actions/cats";
+import * as itemsActions from "tree/actions/items";
+
+import LibraryPack from "plugins/canvases/pack/LibraryPack";
+import TypesPack from "plugins/canvases/pack/TypesPack";
 import {
   setLibraryPack,
   getLibraryPack,
   getTypesPack,
   setTypesPack
-} from "../canvases/utils/packUtils";
+} from "plugins/canvases/utils/packUtils";
 
 import {
   paintFrame,
   fillFrame,
-} from "./paint/Frames";
-import Tag from "../canvases/paint/Tag";
+} from "plugins/canvases/paint/Frames";
+import Tag from "plugins/canvases/paint/Tag";
 
-import Absolute from "../Layouts/Absolute";
+import Absolute from "plugins/Layouts/Absolute";
 
-import "./style.css";
+import "plugins/canvases/style.css";
 
 const Logo = styled.img`
     width:60px; 

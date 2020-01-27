@@ -14,18 +14,18 @@ import {
   getGroupFromType,
   getTypesToSelect,
   getTypeByKey
-} from "../../../tree/actions/types";
-import { onSchemeChange, tempGenerate } from "../../../tree/actions/items";
-import { get } from "../../requests";
+} from "tree/actions/types";
+import { onSchemeChange, tempGenerate } from "tree/actions/items";
+import { get } from "plugins/requests";
 
-import Column from "../../Layouts/Column";
-import Row from "../../Layouts/Row";
-import Select from "../../inputs/Select";
-import MultiSelect from "../../inputs/MultiSelect";
-import Input from "../../inputs/Input";
-import Label from "../../tools/Label";
+import Column from "plugins/Layouts/Column";
+import Row from "plugins/Layouts/Row";
+import Select from "plugins/inputs/Select";
+import MultiSelect from "plugins/inputs/MultiSelect";
+import Input from "plugins/inputs/Input";
+import Label from "plugins/tools/Label";
 
-import * as access from "../../access";
+import * as access from "plugins/access";
 
 const ButtonsRow = styled(Row)`
   display: flex;

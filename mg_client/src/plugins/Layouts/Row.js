@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from "prop-types";
-import { color } from "../access";
+import { color } from "plugins/access";
 
 const Row = styled.div`  
   z-index: ${props => props.zIndex};

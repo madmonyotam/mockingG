@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useBranch } from "baobab-react/hooks";
-
-import { SpaceAround } from "../Layouts/Spaces";
-
-import { Tab, Tabs } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Tab, Tabs } from "@material-ui/core";
 
-import * as access from "../access";
+import * as access from "plugins/access";
+
+import { SpaceAround } from "plugins/Layouts/Spaces";
+
 
 const SwitchButtonCont = styled(SpaceAround)`
 margin-right: 5px;

@@ -1,4 +1,4 @@
-import { get } from "../../plugins/requests";
+import { get } from "plugins/requests";
 
 export function generate(focus,amount) {
     const library = focus.lib;

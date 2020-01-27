@@ -1,10 +1,10 @@
 import React from "react";
 
-import * as access from "../access";
+import * as access from "plugins/access";
 
-import Row from "../Layouts/Row";
-import Label from "../tools/Label";
-import IconButton from "../icons/IconButton";
+import Row from "plugins/Layouts/Row";
+import Label from "plugins/tools/Label";
+import IconButton from "plugins/icons/IconButton";
 
 function SearchBar({ label, nested, onBack }) {
   const renderBack = () => {

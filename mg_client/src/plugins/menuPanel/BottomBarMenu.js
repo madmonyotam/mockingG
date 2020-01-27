@@ -1,11 +1,11 @@
 import React from "react";
 
-import * as access from "../access";
+import * as access from "plugins/access";
 import { useBranch } from "baobab-react/hooks";
 
 import styled from "styled-components";
-import Row from "../Layouts/Row";
-import IconButton from "../icons/IconButton";
+import Row from "plugins/Layouts/Row";
+import IconButton from "plugins/icons/IconButton";
 
 const BottomBar = styled(Row)`
   justify-content: flex-end;

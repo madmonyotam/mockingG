@@ -1,5 +1,5 @@
-import { getLibraryPack } from "../../plugins/canvases/utils/packUtils";
-import { get } from "../../plugins/requests";
+import { getLibraryPack } from "plugins/canvases/utils/packUtils";
+import { get } from "plugins/requests";
 
 function setCatToSelected(tree,cat) {
   tree.set(["selectedCategory"], cat);

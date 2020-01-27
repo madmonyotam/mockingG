@@ -1,5 +1,5 @@
-import { get } from "../../plugins/requests";
-import { getLibraryPack } from "../../plugins/canvases/utils/packUtils";
+import { get } from "plugins/requests";
+import { getLibraryPack } from "plugins/canvases/utils/packUtils";
 
 export function setItems(tree, items) {
   tree.set(["items"], items);

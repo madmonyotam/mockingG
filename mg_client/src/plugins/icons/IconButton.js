@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Icon, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import * as access from "../access";
+import * as access from "plugins/access";
 
 const IconBtn = ({ iconSize, iconPadding, color, onClick, icon, iconStyle, btnStyle, ...rest }) => {
 

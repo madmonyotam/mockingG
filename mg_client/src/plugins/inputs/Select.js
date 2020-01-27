@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { find } from "lodash";
 import { ClickAwayListener } from "@material-ui/core";
 
-import * as access from "../access";
+import * as access from "plugins/access";
 
-import Row from "../../plugins/Layouts/Row";
-import Column from "../../plugins/Layouts/Column";
-import Absolute from "../../plugins/Layouts/Absolute";
-import Label from "../../plugins/tools/Label";
-import Input from "./Input";
+import Row from "plugins/Layouts/Row";
+import Column from "plugins/Layouts/Column";
+import Absolute from "plugins/Layouts/Absolute";
+import Label from "plugins/tools/Label";
+import Input from "plugins/inputs/Input";
 
 function Select({ options, label, onSelect, initValue }) {
   const [value, setValue] = useState(initValue);

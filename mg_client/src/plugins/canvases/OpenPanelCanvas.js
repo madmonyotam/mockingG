@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Start from "../tools/Start";
 import { useBranch } from "baobab-react/hooks";
-import * as access from "../access";
 
-import { dropCircles } from "./utils/canvasActions";
+import * as access from "plugins/access";
 
-import "./style.css";
+import Start from "plugins/tools/Start";
+import { dropCircles } from "plugins/canvases/utils/canvasActions";
+import "plugins/canvases/style.css";
 
 function OpenPanelCanvas() {
     const { viewKey } = useBranch({ viewKey: ["viewKey"] });

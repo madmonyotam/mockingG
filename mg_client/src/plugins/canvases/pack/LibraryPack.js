@@ -1,6 +1,6 @@
 import { v4 } from "node-uuid";
 import { find, findIndex } from "lodash";
-import Pack from "./Pack";
+import Pack from "plugins/canvases/pack/Pack";
 
 export default class LibraryPack extends Pack {
   constructor(params) {

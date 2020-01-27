@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { TextField, ClickAwayListener } from "@material-ui/core";
 import { useBranch } from "baobab-react/hooks";
 
-import * as access from "../access";
+import * as access from "plugins/access";
 
-import Row from "../Layouts/Row";
-import Center from "../Layouts/Center";
-import Label from "../tools/Label";
-import IconButton from "../icons/IconButton";
+import Row from "plugins/Layouts/Row";
+import Center from "plugins/Layouts/Center";
+import Label from "plugins/tools/Label";
+import IconButton from "plugins/icons/IconButton";
 
 let open = false;
 

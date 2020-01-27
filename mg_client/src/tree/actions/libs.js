@@ -1,4 +1,4 @@
-import { get } from "../../plugins/requests";
+import { get } from "plugins/requests";
 
 function setLibToSelected(tree,lib) {
   tree.set(["selectedLibrary"], lib);

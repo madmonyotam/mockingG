@@ -1,19 +1,20 @@
 import React, { useState, useRef } from "react";
 import { useBranch } from "baobab-react/hooks";
 
-import * as access from "../plugins/access";
-
 import styled from "styled-components";
-import Row from "../plugins/Layouts/Row";
-import Column from "../plugins/Layouts/Column";
-import Center from "../plugins/Layouts/Center";
-import Label from "../plugins/tools/Label";
-import Editor from "../plugins/editor/Editor";
-import SwitchEditorBtn from "../plugins/schemePanel/SwitchEditorBtn";
-import BottomBarGen from "../plugins/schemePanel/BottomBarGen";
-import BottomBarScheme from "../plugins/schemePanel/BottomBarScheme";
-import DragMask from "../plugins/schemePanel/DragMask";
-import OpenPanelCanvas from "../plugins/canvases/OpenPanelCanvas";
+
+import * as access from "plugins/access";
+
+import Row from "plugins/Layouts/Row";
+import Column from "plugins/Layouts/Column";
+import Center from "plugins/Layouts/Center";
+import Label from "plugins/tools/Label";
+import Editor from "plugins/editor/Editor";
+import SwitchEditorBtn from "plugins/schemePanel/SwitchEditorBtn";
+import BottomBarGen from "plugins/schemePanel/BottomBarGen";
+import BottomBarScheme from "plugins/schemePanel/BottomBarScheme";
+import DragMask from "plugins/schemePanel/DragMask";
+import OpenPanelCanvas from "plugins/canvases/OpenPanelCanvas";
 
 const Placeholder = styled('div')`
   flex:1

@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import { isEmpty, get } from "lodash";
-import * as access from "../../access";
+import * as access from "plugins/access";
 
-import { move } from "../utils/canvasActions";
+import { move } from "plugins/canvases/utils/canvasActions";
 
 export default class Pack {
   constructor(params) {

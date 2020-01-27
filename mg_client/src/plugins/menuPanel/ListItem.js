@@ -4,12 +4,12 @@ import { useBranch } from "baobab-react/hooks";
 
 import { TextField, ClickAwayListener } from "@material-ui/core";
 
-import * as access from "../access";
+import * as access from "plugins/access";
 
-import Row from "../Layouts/Row";
-import Label from "../tools/Label";
-import { SpaceAround } from "../Layouts/Spaces";
-import IconButton from "../icons/IconButton";
+import Row from "plugins/Layouts/Row";
+import Label from "plugins/tools/Label";
+import { SpaceAround } from "plugins/Layouts/Spaces";
+import IconButton from "plugins/icons/IconButton";
 
 const Srow = styled(Row)`
   justify-content: space-between;

@@ -1,8 +1,8 @@
 import * as d3 from "d3";
-import Pack from "./Pack";
-import * as access from "../../access";
+import Pack from "plugins/canvases/pack/Pack";
+import * as access from "plugins/access";
 import { isEmpty } from "lodash";
-import Tag from "../paint/Tag";
+import Tag from "plugins/canvases/paint/Tag";
 
 export default class TypesPack extends Pack {
   constructor(params) {

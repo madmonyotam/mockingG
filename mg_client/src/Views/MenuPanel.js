@@ -1,22 +1,22 @@
 import React, { useEffect, Fragment, useCallback } from "react";
 import { useBranch } from "baobab-react/hooks";
 
-import * as access from "../plugins/access";
+import * as access from "plugins/access";
 import styled from "styled-components";
 
-import Column from "../plugins/Layouts/Column";
-import SearchBar from "../plugins/menuPanel/SearchBar";
-import ListItem from "../plugins/menuPanel/ListItem";
-import AddRow from "../plugins/menuPanel/AddRow";
-import BottomBarMenu from "../plugins/menuPanel/BottomBarMenu";
-import Inspector from "../plugins/menuPanel/inspector/Inspector";
+import Column from "plugins/Layouts/Column";
+import SearchBar from "plugins/menuPanel/SearchBar";
+import ListItem from "plugins/menuPanel/ListItem";
+import AddRow from "plugins/menuPanel/AddRow";
+import BottomBarMenu from "plugins/menuPanel/BottomBarMenu";
+import Inspector from "plugins/menuPanel/inspector/Inspector";
 
-import * as libsActions from "../tree/actions/libs";
-import * as catsActions from "../tree/actions/cats";
-import * as itemsActions from "../tree/actions/items";
+import * as libsActions from "tree/actions/libs";
+import * as catsActions from "tree/actions/cats";
+import * as itemsActions from "tree/actions/items";
 
-import { getLibraryPack } from "../plugins/canvases/utils/packUtils";
-import { get } from "../plugins/requests";
+import { getLibraryPack } from "plugins/canvases/utils/packUtils";
+import { get } from "plugins/requests";
 
 const CollapseColumn = styled(Column)`
   min-width: 50px;

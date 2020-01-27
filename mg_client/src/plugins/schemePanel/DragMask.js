@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import * as access from "../access";
+import * as access from "plugins/access";
 import styled from "styled-components";
 
 
-import Center from "../Layouts/Center";
-import Label from "../tools/Label";
-import Mask from "../tools/Mask";
+import Center from "plugins/Layouts/Center";
+import Label from "plugins/tools/Label";
+import Mask from "plugins/tools/Mask";
 
 const RoundWrapper = styled('div')`
   width: ${p => !p.open ? '0px' : '285px'};

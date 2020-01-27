@@ -2,13 +2,13 @@ import React, { Fragment, useState } from "react";
 import { useBranch } from "baobab-react/hooks";
 import { Modal, ClickAwayListener } from "@material-ui/core";
 
-import Center from "../Layouts/Center";
-import Row from "../Layouts/Row";
-import Column from "../Layouts/Column";
-import Label from "../tools/Label";
-import IconButton from "../icons/IconButton";
+import * as access from "plugins/access";
 
-import * as access from "../access";
+import Center from "plugins/Layouts/Center";
+import Row from "plugins/Layouts/Row";
+import Column from "plugins/Layouts/Column";
+import Label from "plugins/tools/Label";
+import IconButton from "plugins/icons/IconButton";
 
 function Menu(params) {
   const { openMenu, dispatch } = useBranch({ openMenu: ["openMenu"] });

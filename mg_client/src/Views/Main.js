@@ -3,13 +3,13 @@ import { useBranch } from "baobab-react/hooks";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styled from "styled-components";
 
-import * as access from "../plugins/access";
+import * as access from "plugins/access";
 
-import Mask from "../plugins/tools/Mask";
-import MenuPanel from "./MenuPanel";
-import SchemePanel from "./SchemePanel";
-import MainCanvas from "../plugins/canvases/MainCanvas";
-import Menu from "../plugins/menuModal/Menu";
+import MenuPanel from "Views/MenuPanel";
+import SchemePanel from "Views/SchemePanel";
+import Mask from "plugins/tools/Mask";
+import MainCanvas from "plugins/canvases/MainCanvas";
+import Menu from "plugins/menuModal/Menu";
 
 const InitMask = styled(Mask)`
   display: flex;

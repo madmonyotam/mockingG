@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types'
 
-import Composer from "./Composer";
+import Composer from "plugins/tools/Composer";
 
 
 function FileDownloader({content, fileName, fileExtension, disabled, children, onClick, ...rest}) {

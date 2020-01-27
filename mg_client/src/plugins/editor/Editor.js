@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-xcode";
 
-import { onSchemeChange } from "../../tree/actions/items";
+import { onSchemeChange } from "tree/actions/items";
 
 function Editor({ width, isData }) {
   const editorRef = useRef();

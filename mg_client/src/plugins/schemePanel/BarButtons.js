@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import * as access from "../access";
+import * as access from "plugins/access";
 
 import styled from "styled-components";
-import Row from "../Layouts/Row";
-import FileDownloader from "../tools/FileDownloader";
-import CopyToClipBoard from "../tools/CopyToClipBoard";
+import Row from "plugins/Layouts/Row";
+import FileDownloader from "plugins/tools/FileDownloader";
+import CopyToClipBoard from "plugins/tools/CopyToClipBoard";
 
-import IconButton from "../icons/IconButton";
+import IconButton from "plugins/icons/IconButton";
 
 const ButtonsCont = styled(Row)`
   padding-left: 10px;

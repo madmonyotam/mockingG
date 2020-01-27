@@ -1,8 +1,8 @@
 
-import colors from "../config/colors";
-import icons from "../config/icons";
-import dimensions from "../config/dimensions";
-import timeings from "../config/time";
+import colors from "plugins/config/colors";
+import icons from "plugins/config/icons";
+import dimensions from "plugins/config/dimensions";
+import timeings from "plugins/config/time";
 
 function get(collection, path) {
     if(!path) return collection;

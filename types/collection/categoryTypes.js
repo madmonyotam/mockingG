@@ -57,7 +57,7 @@ const categoryTypes = gen => {
       generate: el => {
         const { value } = el;
         if (!value) return translate("missing value");
-        const { categories, size } = value;
+        const { categories, amount } = value;
 
         if (!categories) return translate("missing property categories");
         if (!Array.isArray(categories))
@@ -74,10 +74,10 @@ const categoryTypes = gen => {
           return newObject[0];
         };
 
-        if (size) {
+        if (amount) {
           const data = [];
 
-          for (let i = 0; i < size; i++) {
+          for (let i = 0; i < amount; i++) {
             const element = genRandomScheme();
             data.push(element);
           }

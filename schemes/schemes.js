@@ -236,6 +236,10 @@ class Schemes {
       this.editItem(library, category, oldName, newName);
       res.send(this.getScheme(library,category));
     });
+
+    app.get("/mocking_G/getAllCategoriesPath", (req, res) => {
+      res.send(this.getAllCategoriesPath());
+    });
   }
 
   writeSchemesToFile() {

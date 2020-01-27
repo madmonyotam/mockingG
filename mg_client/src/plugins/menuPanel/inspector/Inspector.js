@@ -16,6 +16,7 @@ import {
   getTypeByKey
 } from "../../../tree/actions/types";
 import { onSchemeChange, tempGenerate } from "../../../tree/actions/items";
+import { get } from "../../requests";
 
 import Column from "../../Layouts/Column";
 import Row from "../../Layouts/Row";
@@ -40,6 +41,7 @@ function getOptionFormat(value, label) {
 }
 
 function Inspector({ item }) {
+
   const g = getGroupFromType(item.type);
   const [group, setGroup] = useState(g);
 
@@ -62,11 +64,19 @@ function Inspector({ item }) {
   const groups = Object.keys(types).map(t => {
     return getOptionFormat(t);
   });
+
   const typesToSelect = getTypesToSelect(group.value);
 
   const { focusedItem } = useBranch({ focusedItem: ["focus", "item"] });
   const { focused } = useBranch({ focused: ["focus"] });
   const { items, dispatch } = useBranch({ items: ["items"] });
+
+  const [categoriesPath, setCategoriesPath] = useState([]);
+  useEffect(() => {
+    get("/getAllCategoriesPath").then(({data}) => {
+      setCategoriesPath(data);
+    });
+  }, []);
 
   const revertChanges = () => {
     setTempItem(item);
@@ -183,6 +193,14 @@ function Inspector({ item }) {
       const placeholder = ren[1].placeholder;
       const value = tempItem.value ? tempItem.value[label] : "";
 
+      const updateOptions = (typeOptions = []) => {
+        if(!Array.isArray(typeOptions) && typeOptions === "getAllCategoriesPath"){
+          typeOptions = categoriesPath;
+        }
+
+        return typeOptions;
+      }
+
       const renderNumber = () => {
         return (
           <Input
@@ -213,7 +231,7 @@ function Inspector({ item }) {
       };
 
       const renderAutoComplete = () => {
-        let options = ren[1].options.map(o => {
+        let options = updateOptions(ren[1].options).map(o => {
           return getOptionFormat(o);
         });
 
@@ -238,7 +256,8 @@ function Inspector({ item }) {
       };
 
       const renderAutoCompleteArray = () => {
-        let options = ren[1].options.map(o => {
+
+        let options = updateOptions(ren[1].options).map(o => {
           return getOptionFormat(o);
         });
 

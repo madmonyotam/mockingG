@@ -9,7 +9,7 @@ const categoryTypes = gen => {
       renderer: {
         categoryPath: {
           type: "autocomplete",
-          options: gen.schemes.getAllCategoriesPath(),
+          options: "getAllCategoriesPath",
           placeholder: translate("choose category from list")
         },
         amount: {
@@ -46,7 +46,7 @@ const categoryTypes = gen => {
       renderer: {
         categories: {
           type: "autocompleteArray",
-          options: gen.schemes.getAllCategoriesPath(),
+          options: "getAllCategoriesPath",
           placeholder: translate("choose categories from list")
         },
         amount: {

@@ -58,6 +58,22 @@ const fixedTypes = {
             }
         },
         group: 'fixed',
+    },
+    fixedNumber : {
+        name: "Fixed Number",
+        pure: true,
+        generate: (el)=>{
+            if(!el.value) return translate("missing value");
+            if(!el.value["fixed number"]) return translate("missing fixed number");
+            return Number(el.value["fixed number"]);
+        },
+        renderer: {
+            "fixed number": {
+                type: 'number',
+                placeholder: translate('Enter fixed number') 
+            }
+        },
+        group: 'fixed',
     }
 
 };

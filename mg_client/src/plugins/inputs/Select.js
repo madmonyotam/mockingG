@@ -21,7 +21,7 @@ function Select({ options, label, onSelect, initValue }) {
 
   const findInOptions = v => {
     const selection = find(options, o => {
-      return o.label === v;
+      return o.label.toLowerCase() === v;
     });
 
     return selection;
@@ -66,7 +66,7 @@ function Select({ options, label, onSelect, initValue }) {
     };
 
     const list = () => {
-      const filtered = options.filter(o => o.label.indexOf(value.label) !== -1);
+      const filtered = options.filter(o => o.label.toLowerCase().indexOf(value.label) !== -1);
 
       return filtered.map(o => {
         return (

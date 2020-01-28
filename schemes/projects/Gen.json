@@ -9,7 +9,9 @@
       },
       "age": {
         "type": "numberMax",
-        "value": 100
+        "value": {
+          "max": "100"
+        }
       },
       "email": {
         "type": "email"

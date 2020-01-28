@@ -13,7 +13,7 @@ export function generate(tree, { items, amount = 1 }) {
     .catch(err => {
       //TODO: notify type does not exist
       tree.set("mockData", null);
-      console.log(err.response.data.message);
+      console.error(err.response);
     });
 }
 
@@ -33,7 +33,7 @@ function replaceScheme(tree, items) {
     })
     .catch(err => {
       //TODO: notify type does not exist
-      console.log(err.response.data.message);
+      console.error(err.response);
     });
 }
 
@@ -127,7 +127,7 @@ export function addItem(tree, value) {
       tree.set("items", res.data);
     })
     .catch(err => {
-      console.log(err.response.data.message);
+      console.error(err.response);
     });
 }
 

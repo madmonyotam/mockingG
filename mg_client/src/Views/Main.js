@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useBranch } from "baobab-react/hooks";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styled from "styled-components";
@@ -21,14 +21,20 @@ const InitMask = styled(Mask)`
 function Main() {
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
   const [loading, setLoading] = useState(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 3000);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+    return () => {
+      clearTimeout(t);
+    };
+  }, []);
 
   if (loading) {
     return (
       <InitMask opacity={1} mask={access.color("backgrounds.secondary")}>
-        <img alt='logo' src={process.env.PUBLIC_URL + "/gen_logo.png"} />
+        <img alt="logo" src={process.env.PUBLIC_URL + "/gen_logo.png"} />
         <div style={{ width: 400 }}>
           <LinearProgress value={50} color={"primary"} />
         </div>

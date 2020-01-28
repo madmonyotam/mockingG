@@ -23,7 +23,7 @@ function MultiSelect({ options, label, onSelect, initValue }) {
 
   const findInOptions = v => {
     const selection = find(options, o => {
-      return o.label === v;
+      return o.label.toLowerCase() === v;
     });
 
     return selection;

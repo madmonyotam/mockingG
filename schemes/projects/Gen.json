@@ -1,6 +1,12 @@
 {
   "examples": {
     "person": {
+      "22": {
+        "type": "fixedNumber",
+        "value": {
+          "fixed number": "66"
+        }
+      },
       "firstName": {
         "type": "firstName"
       },

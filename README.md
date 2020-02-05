@@ -177,15 +177,6 @@ Or directly from a url
 http://localhost:5588/mocking_G/generate?library=examples&category=person&amount=3
 ```
 
-## Version 2 is available for you to check
-
-- Create and view schemas with a great UI on port 5588
-- View all types, including yours
-- Edit items in schemas from the inspector
-- Create data-set and live api quickly like never before!
-
-## Coming soon
+#### Coming soon
 
 - Docs and improvements 
- 
-Please leave notes for GEN to improve ;)

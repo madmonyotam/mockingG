@@ -1,23 +1,39 @@
 {
   "examples": {
     "person": {
+      "uuid": {
+        "type": "id"
+      },
       "firstName": {
         "type": "firstName"
       },
       "lastName": {
         "type": "lastName"
       },
-      "age": {
-        "type": "numberMax",
+      "birthDate": {
+        "type": "pastDate",
         "value": {
-          "max": "100"
+          "dateMask": "DD-MM-YYYY",
+          "years": 50
         }
+      },
+      "country": {
+        "type": "country"
+      },
+      "streetName": {
+        "type": "streetName"
+      },
+      "zipCode": {
+        "type": "zipCode"
       },
       "email": {
         "type": "email"
       },
-      "parent": {
-        "type": "fullName"
+      "company": {
+        "type": "company"
+      },
+      "jobTitle": {
+        "type": "jobTitle"
       }
     }
   }

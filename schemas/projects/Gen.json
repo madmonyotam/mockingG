@@ -1,0 +1,24 @@
+{
+  "examples": {
+    "person": {
+      "firstName": {
+        "type": "firstName"
+      },
+      "lastName": {
+        "type": "lastName"
+      },
+      "age": {
+        "type": "numberMax",
+        "value": {
+          "max": "100"
+        }
+      },
+      "email": {
+        "type": "email"
+      },
+      "parent": {
+        "type": "fullName"
+      }
+    }
+  }
+}

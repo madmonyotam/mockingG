@@ -53,8 +53,8 @@
        "add": "icons.add",
        "collapse": "icons.collapse"
     },
-    "schemePanel": {
-        "scheme": "icons.list",
+    "schemaPanel": {
+        "schema": "icons.list",
         "play": "icons.play",
         "download": "icons.download",
         "copy": "icons.copy",

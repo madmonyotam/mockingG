@@ -6,7 +6,7 @@ import styled from "styled-components";
 import * as access from "plugins/access";
 
 import MenuPanel from "Views/MenuPanel";
-import SchemePanel from "Views/SchemePanel";
+import SchemaPanel from "Views/SchemaPanel";
 import Mask from "plugins/tools/Mask";
 import MainCanvas from "plugins/canvases/MainCanvas";
 import Menu from "plugins/menuModal/Menu";
@@ -49,7 +49,7 @@ function Main() {
       style={{ display: "flex" }}
     >
       <MenuPanel viewKey={viewKey} />
-      <SchemePanel />
+      <SchemaPanel />
       <MainCanvas key={viewKey} />
       <Menu />
     </Mask>

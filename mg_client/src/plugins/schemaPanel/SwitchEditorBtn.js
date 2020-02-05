@@ -16,21 +16,21 @@ margin-right: 5px;
     content: "";
     height: 35px;
     margin-right: 5px;
-    border-left: solid 1px ${access.color("schemePanel.divider")};
+    border-left: solid 1px ${access.color("schemaPanel.divider")};
   }
 `;
 
 const useStyles = makeStyles(props => ({
   selectedBtn: {
-    color: access.color("schemePanel.selected"),
+    color: access.color("schemaPanel.selected"),
     fontSize: 11
   },
   btn: {
-    color: access.color("schemePanel.notSelected"),
+    color: access.color("schemaPanel.notSelected"),
     fontSize: 11,
   },
   indicator: {
-    backgroundColor: access.color("schemePanel.selected"),
+    backgroundColor: access.color("schemaPanel.selected"),
   }
 }));
 
@@ -46,15 +46,15 @@ function SwitchEditorBtn({ onSwitch, value }) {
   const disabled = !mockData;
   const classes = useStyles();
   const codeClass = CodeSelected ? classes.selectedBtn : classes.btn;
-  const schemeClass = !CodeSelected ? classes.selectedBtn : classes.btn;
+  const schemaClass = !CodeSelected ? classes.selectedBtn : classes.btn;
 
   return (
     <SwitchButtonCont width={"fit-content"}>
       <Tabs value={value} onChange={handleChange} classes={{indicator: classes.indicator}}>
         <Tab
-          classes={{ root: schemeClass }}
-          label={access.translate("Scheme")}
-          value={"scheme"}
+          classes={{ root: schemaClass }}
+          label={access.translate("schema")}
+          value={"schema"}
         />
         <Tab
           classes={{ root: codeClass }}
@@ -74,7 +74,7 @@ SwitchEditorBtn.defaultProps = {
 
 SwitchEditorBtn.propTypes = {
   onSwitch: PropTypes.func.isRequired,
-  value: PropTypes.oneOf(["code", "scheme"]).isRequired
+  value: PropTypes.oneOf(["code", "schema"]).isRequired
 };
 
 export default SwitchEditorBtn;

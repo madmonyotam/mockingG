@@ -25,7 +25,7 @@ app.get("/mocking_G", function(req, res) {
 
 gen.setApp(app);
 gen.types.setApp(app);
-gen.schemes.setApp(app);
+gen.schemas.setApp(app);
 const catTypes = categoryTypes(gen);
 gen.types.addTypes(catTypes);
 

@@ -67,7 +67,7 @@ export function removeCategory(tree, category) {
 export function getItemsFromCategory(tree, category) {
   const library = tree.get(["focus", "lib"]);
 
-  get("/getScheme", { library, category }).then(res => {
+  get("/getSchema", { library, category }).then(res => {
     tree.set("items", res.data);
     setTimeout(() => {
       tree.set(["focus", "cat"], category);
@@ -77,7 +77,7 @@ export function getItemsFromCategory(tree, category) {
   });
 }
 
-export function setKey(tree, { newKey, schemeName }) {
+export function setKey(tree, { newKey, schemaName }) {
   const viewKey = tree.get('viewKey');
   const lib = tree.get(['focus','lib']);
   
@@ -85,9 +85,9 @@ export function setKey(tree, { newKey, schemeName }) {
     tree.set('viewKey',newKey);
     
     setTimeout(() => {
-        getLibraryPack().onCategorySelected(lib,schemeName);
+        getLibraryPack().onCategorySelected(lib,schemaName);
       }, 200) 
   } else {
-    getLibraryPack().onCategorySelected(lib,schemeName);
+    getLibraryPack().onCategorySelected(lib,schemaName);
   }
 }

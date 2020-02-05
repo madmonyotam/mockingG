@@ -1,15 +1,15 @@
 {
     "flexViews": {
         "leftPanel": 0.2,
-        "schemePanel": 0.3
+        "schemaPanel": 0.3
     },
     "flexCollapse": {
         "leftPanel": 0,
-        "schemePanel": 0.5
+        "schemaPanel": 0.5
     },
     "zIndexViews":{
         "leftPanel": 3,
-        "schemePanel": 2,
+        "schemaPanel": 2,
         "mainCanvas": 1
     }
 }

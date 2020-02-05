@@ -28,12 +28,12 @@ export default class TypesPack extends Pack {
     this.firstMove = true;
     this.panelIsopen = false;
 
-    this.addToScheme = () => {};
+    this.addToSchema = () => {};
     this.setDrag = () => {};
   }
 
-  setAddToScheme(func) {
-    this.addToScheme = func;
+  setAddToSchema(func) {
+    this.addToSchema = func;
   }
 
   setDragState(func) {
@@ -213,8 +213,8 @@ export default class TypesPack extends Pack {
 
     if (x < 0) {
       setTimeout(() => {
-        this.addToScheme(d.data.nameKey);
-      }, access.time("addItemPanel.addToScheme"));
+        this.addToSchema(d.data.nameKey);
+      }, access.time("addItemPanel.addToSchema"));
 
       this.canvas
         .append("circle")
@@ -223,7 +223,7 @@ export default class TypesPack extends Pack {
         .attr("fill", access.color("canvases.fg"))
         .attr("r", 10)
         .transition()
-        .duration(access.time("addItemPanel.addToScheme"))
+        .duration(access.time("addItemPanel.addToSchema"))
         .attr("fill", access.color("canvases.bg"))
         .attr("r", 4)
         .attr("cx", 0)

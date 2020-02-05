@@ -1,5 +1,5 @@
 {
-    "schemePanel": {
+    "schemaPanel": {
         "transition": 2000,
         "showEditor": 2600,
         "removeCanvas": 2500,
@@ -13,6 +13,6 @@
         "openText": 1000,
         "close": 1000,
         "closeText": 1000,
-        "addToScheme": 300
+        "addToSchema": 300
     }
 }

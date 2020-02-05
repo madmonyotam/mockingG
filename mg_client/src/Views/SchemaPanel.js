@@ -10,10 +10,10 @@ import Column from "plugins/Layouts/Column";
 import Center from "plugins/Layouts/Center";
 import Label from "plugins/tools/Label";
 import Editor from "plugins/editor/Editor";
-import SwitchEditorBtn from "plugins/schemePanel/SwitchEditorBtn";
-import BottomBarGen from "plugins/schemePanel/BottomBarGen";
-import BottomBarScheme from "plugins/schemePanel/BottomBarScheme";
-import DragMask from "plugins/schemePanel/DragMask";
+import SwitchEditorBtn from "plugins/schemaPanel/SwitchEditorBtn";
+import BottomBarGen from "plugins/schemaPanel/BottomBarGen";
+import BottomBarschema from "plugins/schemaPanel/BottomBarSchema";
+import DragMask from "plugins/schemaPanel/DragMask";
 import OpenPanelCanvas from "plugins/canvases/OpenPanelCanvas";
 
 const Placeholder = styled('div')`
@@ -22,23 +22,23 @@ const Placeholder = styled('div')`
 
 const Srow = styled(Row)`
   flex: ${props => props.flex};
-  transition: flex ${access.time("schemePanel.collapse")}ms;
+  transition: flex ${access.time("schemaPanel.collapse")}ms;
 `;
 
 const TopBar = styled(Row)`
   justify-content: space-between;
-  border-right: 1px solid ${access.color("schemePanel.border")}
+  border-right: 1px solid ${access.color("schemaPanel.border")}
 `;
 
 const InnerColumn = styled(Column)`
   min-width: 0;
-  transition: flex ${access.time("schemePanel.transition")}ms;
-  border-right: 1px solid ${access.color("schemePanel.border")}
+  transition: flex ${access.time("schemaPanel.transition")}ms;
+  border-right: 1px solid ${access.color("schemaPanel.border")}
   overflow: hidden;
   box-shadow: unset;
 `;
 
-function SchemePanel() {
+function SchemaPanel() {
 
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
   const { dragState } = useBranch({ dragState: ["drag"] });
@@ -49,7 +49,7 @@ function SchemePanel() {
 
   const editorWrapper = useRef();
   const [editorWidth, setEditorWidth] = useState(0);
-  const [editorToRender, setEditorToRender] = useState("scheme");
+  const [editorToRender, setEditorToRender] = useState("schema");
 
   const handleSwitchEditor = v => {
     setEditorToRender(v);
@@ -83,7 +83,7 @@ function SchemePanel() {
         if (editorWrapper.current) {
           setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
         }
-      }, access.time("schemePanel.showEditor"));
+      }, access.time("schemaPanel.showEditor"));
     }
 
     if (editorWidth === 0) return <Placeholder/>;
@@ -107,8 +107,8 @@ function SchemePanel() {
   };
 
   const RenderBottomBar = () => {
-    if (editorToRender === "scheme") {
-      return <BottomBarScheme />;
+    if (editorToRender === "schema") {
+      return <BottomBarschema />;
     }
 
     return <BottomBarGen />;
@@ -118,10 +118,10 @@ function SchemePanel() {
     if (viewKey !== "initKey"){
 
       if(collapse){
-        return access.dim("flexCollapse.schemePanel");
+        return access.dim("flexCollapse.schemaPanel");
       }
 
-      return access.dim("flexViews.schemePanel");
+      return access.dim("flexViews.schemaPanel");
     } 
     return 0;
   };
@@ -134,7 +134,7 @@ function SchemePanel() {
   const flex = getFlex();
   const InnerFlex = getInnerFlex();
 
-  const zIndex = access.dim("zIndexViews.schemePanel");
+  const zIndex = access.dim("zIndexViews.schemaPanel");
 
   return (
     <Srow
@@ -145,7 +145,7 @@ function SchemePanel() {
       height={"100%"}
       shadowColor={"none"}
     >
-      <InnerColumn flex={InnerFlex} background={access.color("schemePanel.bg")}>
+      <InnerColumn flex={InnerFlex} background={access.color("schemaPanel.bg")}>
         <RenderActionBar />
         {openPanelCanvas()}
         {renderEditor()}
@@ -156,4 +156,4 @@ function SchemePanel() {
   );
 }
 
-export default SchemePanel;
+export default SchemaPanel;

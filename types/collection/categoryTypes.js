@@ -25,16 +25,16 @@ const categoryTypes = gen => {
 
         const [lib, cat] = el.value.categoryPath.split(".");
         const amount = el.value.amount;
-        const scheme = gen.schemes.getScheme(lib, cat);
-        if (typeof scheme === "undefined")
-          return translate(`can't find scheme ${lib}.${cat}`);
+        const schema = gen.schemas.getSchema(lib, cat);
+        if (typeof schema === "undefined")
+          return translate(`can't find schema ${lib}.${cat}`);
 
         if (amount) {
-          const newObject = gen.generate(scheme, amount);
+          const newObject = gen.generate(schema, amount);
           return newObject;
         }
 
-        const newObject = gen.generate(scheme, 1);
+        const newObject = gen.generate(schema, 1);
         return newObject[0];
       },
       group: "categories"
@@ -63,14 +63,14 @@ const categoryTypes = gen => {
         if (!Array.isArray(categories))
           return translate("property categories expects Array");
 
-        const genRandomScheme = () => {
+        const genRandomSchema = () => {
           const length = categories.length;
           const index = Math.floor(Math.random() * length);
           const [lib, cat] = categories[index].split(".");
-          const scheme = gen.schemes.getScheme(lib, cat);
-          if (typeof scheme === "undefined")
-            return translate(`can't find scheme ${lib}.${cat}`);
-          const newObject = gen.generate(scheme, 1);
+          const schema = gen.schemas.getSchema(lib, cat);
+          if (typeof schema === "undefined")
+            return translate(`can't find schema ${lib}.${cat}`);
+          const newObject = gen.generate(schema, 1);
           return newObject[0];
         };
 
@@ -78,14 +78,14 @@ const categoryTypes = gen => {
           const data = [];
 
           for (let i = 0; i < amount; i++) {
-            const element = genRandomScheme();
+            const element = genRandomSchema();
             data.push(element);
           }
 
           return data;
         }
 
-        return genRandomScheme();
+        return genRandomSchema();
       },
 
       group: "categories"

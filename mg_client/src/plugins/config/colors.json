@@ -37,7 +37,7 @@
         "fg": "texts.primary",
         "outline": "colors.blueLight01"
     },
-    "schemePanel": {
+    "schemaPanel": {
         "bg": "colors.white",
         "divider": "colors.blue02",
         "selected": "texts.primary",

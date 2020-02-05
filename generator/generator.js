@@ -1,6 +1,6 @@
 const _ = require("lodash");
 
-const schemesClass = require("../schemes/schemes");
+const schemasClass = require("../schemas/schemas");
 const typesClass = require("../types/types");
 
 const nameTypes = require("../types/collection/nameTypes");
@@ -17,7 +17,7 @@ const idTypes = require("../types/collection/idTypes");
 const randomTypes = require("../types/collection/randomTypes");
 
 const types = new typesClass();
-const schemes = new schemesClass();
+const schemas = new schemasClass();
 
 types.addTypes(nameTypes);
 types.addTypes(fixedTypes);
@@ -35,11 +35,11 @@ types.addTypes(randomTypes);
 const setApp = app => {
   app.use("/mocking_G/generate", (req, res) => {
     const { query } = req;
-    const { scheme, library, category, amount } = query;
+    const { schema, library, category, amount } = query;
 
-    if (scheme) {
+    if (schema) {
       try {
-        res.send(generate(JSON.parse(scheme), amount));
+        res.send(generate(JSON.parse(schema), amount));
       } catch (error) {
         res.status(400).json({
           message: "can't generate"
@@ -103,35 +103,35 @@ const generateFromType = el => {
   return generateOneItem(generateFunc, el);
 };
 
-const modelator = scheme => {
+const modelator = schema => {
   let newData = {};
 
-  for (const field in scheme) {
-    const el = scheme[field];
+  for (const field in schema) {
+    const el = schema[field];
     newData[field] = generateFromType(el);
   }
 
   return newData;
 };
 
-const generate = (scheme, amount = 10) => {
-  if (!scheme) return "can't find scheme";
+const generate = (schema, amount = 10) => {
+  if (!schema) return "can't find schema";
   if (amount > 10000) amount = 10000;
 
-  if (typeof scheme === "string") {
-    scheme = scheme.split(/[.,]/);
+  if (typeof schema === "string") {
+    schema = schema.split(/[.,]/);
   }
 
-  if (Array.isArray(scheme)) {
-    scheme = schemes.getScheme(scheme[0], scheme[1]);
+  if (Array.isArray(schema)) {
+    schema = schemas.getSchema(schema[0], schema[1]);
   }
 
   let mockList = [];
   for (let i = 0; i < amount; i++) {
-    mockList.push(modelator(scheme));
+    mockList.push(modelator(schema));
   }
 
   return mockList;
 };
 
-module.exports = { setApp, generate, types, schemes, generateFromType };
+module.exports = { setApp, generate, types, schemes: schemas, schemas, generateFromType };

@@ -15,7 +15,7 @@ import {
   getTypesToSelect,
   getTypeByKey
 } from "tree/actions/types";
-import { onSchemeChange, tempGenerate } from "tree/actions/items";
+import { onSchemaChange, tempGenerate } from "tree/actions/items";
 import { get } from "plugins/requests";
 
 import Column from "plugins/Layouts/Column";
@@ -129,7 +129,7 @@ function Inspector({ item }) {
     stableCompare();
   }, [type, size, prefix, suffix, additionalValues, randomSize, stableCompare]);
 
-  const changeTypeInScheme = selectedItem => {
+  const changeTypeInschema = selectedItem => {
     setType(selectedItem);
     changeTempItem("type", selectedItem.type);
   };
@@ -171,11 +171,11 @@ function Inspector({ item }) {
     setTempItem(newItem);
   };
 
-  const changeScheme = () => {
+  const changeSchema = () => {
     let newItems = { ...items };
 
     newItems[focusedItem] = tempItem;
-    dispatch(onSchemeChange, newItems);
+    dispatch(onSchemaChange, newItems);
   };
 
   const handleOnSelectGroup = groupOption => {
@@ -341,7 +341,7 @@ function Inspector({ item }) {
         <Button variant="outlined" color="secondary" onClick={revertChanges}>
           {access.translate("Cancel")}
         </Button>
-        <Button variant="outlined" color="secondary" onClick={changeScheme}>
+        <Button variant="outlined" color="secondary" onClick={changeSchema}>
           {access.translate("Save")}
         </Button>
       </ButtonsRow>
@@ -414,7 +414,7 @@ function Inspector({ item }) {
         label={access.translate("type")}
         options={typesToSelect}
         initValue={type}
-        onSelect={changeTypeInScheme}
+        onSelect={changeTypeInschema}
       />
 
       {renderSize()}

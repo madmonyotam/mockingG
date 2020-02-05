@@ -47,9 +47,9 @@ function MainCanvas() {
   const [rotate, setRotate] = useState(0);
 
   const getFlex = () => {
-    const schemePanelSize = access.dim("flexViews.schemePanel");
+    const schemaPanelSize = access.dim("flexViews.schemaPanel");
     const leftPanelSize = access.dim("flexViews.leftPanel");
-    const size = leftPanelSize + schemePanelSize;
+    const size = leftPanelSize + schemaPanelSize;
     if (viewKey !== "initKey") return 1 - size;
     return 1 - leftPanelSize;
   };
@@ -65,7 +65,7 @@ function MainCanvas() {
 
   const getItemsFromCategory = cat => {
     dispatch(catsActions.getItemsFromCategory, cat);
-    dispatch(catsActions.setKey, { newKey: "showScheme", schemeName: cat });
+    dispatch(catsActions.setKey, { newKey: "showSchema", schemaName: cat });
   };
 
   const handleClickOnItem = label => {
@@ -104,7 +104,7 @@ function MainCanvas() {
         height,
         showMainCircle: false
       });
-      typesPack.setAddToScheme(handleAddFromPack);
+      typesPack.setAddToSchema(handleAddFromPack);
       typesPack.setDragState(handleDragState);
       typesPack.initWithData(data);
       typesPack.scaleDown();
@@ -209,7 +209,7 @@ function MainCanvas() {
     return <Start canvasReady={onCanvasReady} margin={margin} />;
   };
 
-  const zIndex = access.dim("zIndexViews.schemePanel"); // check
+  const zIndex = access.dim("zIndexViews.schemaPanel"); // check
 
   return (
     <div style={{ flex: getFlex(), zIndex: zIndex, width: "100%", userSelect: "none" }}>

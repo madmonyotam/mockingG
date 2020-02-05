@@ -1,59 +1,141 @@
 # GEN
 
-### an advence tool for creating mock data for server and client.
+## Intro
 
-#### Installation
+### In Short
+<b>An advanced tool for creating mocked data for server and client.</b>
 
-- In command line or terminal run `npm i mocking_g`
+### In Several More Words
 
-- Mocking Gen will run on [localhost](http://localhost:5588/mocking_G) on port 5588;
-- Then create your schemes with great ui.
+A very powerful and flexible framework that allows defining and generating mocked data easily and quickly. The framework is a generic one, and can be extended programmatically with new types. It is used by firstly creating a schema for our data, and then generating as many instances from that schema as needed.
 
-## SERVER usage
+## Installation
 
+        npm i mocking_g
+
+## Usage
+
+- Just include the library in your project:
+
+        const gen = require('mocking_g');
+
+- Mocking GEN UI will run on [localhost](http://localhost:5588/mocking_G) on port 5588
+
+- Generate your data like so:
+```
+const library = 'examples';
+const schema = 'Person';
+const persons = gen.generate([library,schema], 10);
+```
+Or just
+```
+const persons = gen.generate('examples.Person', 10);
 ```
 
-const mg = require('mocking_g');
+## Terminology
 
-const scheme = {
-    name: { type:'firstName' },
-    age: { type:'number' }
+* <b>Library</b> - a logical layer for separation of schemas.
+* <b>Schema</b> - a JSON schema that describes our data. We can create schemas using the UI or programmatically as shown below.
+* <b>Type</b> - Schemas are consisted from types. There are built-in types in the library, but we can define new types as shown below as well.
+
+## Examples
+
+An example for a <b>Person</b> schema can be something like that: 
+
+```
+{
+  "uuid": {
+    "type": "id"
+  },
+  "firstName": {
+    "type": "firstName"
+  },
+  "lastName": {
+    "type": "lastName"
+  },
+  "birthDate": {
+    "type": "pastDate",
+    "value": {
+      "dateMask": "DD-MM-YYYY",
+      "years": 50
+    }
+  },
+  "country": {
+    "type": "country"
+  },
+  "streetName": {
+    "type": "streetName"
+  },
+  "zipCode": {
+    "type": "zipCode"
+  },
+  "email": {
+    "type": "email"
+  },
+  "company": {
+    "type": "company"
+  },
+  "jobTitle": {
+    "type": "jobTitle"
+  }
+}
+```
+
+While the generated data can be something like this: 
+
+```
+{
+    "uuid": "7f30a631-12c9-42a1-ad2d-a641b85a5647",
+    "firstName": "Scot",
+    "lastName": "Goodwin",
+    "birthDate": "11-01-2008",
+    "country": "Palau",
+    "streetName": "O'Connell River",
+    "zipCode": "66932-6018",
+    "email": "Marlon.Marquardt@example.org",
+    "company": "Altenwerth, Waelchi and Ledner",
+    "jobTitle": "Lead Markets Analyst"
+  }
+```
+
+## Features
+
+* <b>Generate</b><br>
+
+It is possible to generate data from a schema created programmatically:
+```
+const schema = {
+    name: { type: 'firstName' },
+    age: { type: 'number' }
 }
 
-const persons = mg.generate(scheme,100);
-console.log(persons);
+const generated = gen.generate(schema, 10);
+```
+Or use the intuitive GEN UI and create schemas effortlessly.<br>
+Then, just reference the schema and generate your data:
+```
+gen.generate('examples.Person', 10);
+```
+You can set the path on which GEN will save your schemas.
+In addition, GEN will use this path to load the schemas on startup.
+```
+gen.schemes.setPath("C:/your/path/to/folder");
 
 ```
 
-#### now set a path to your schemes and create some using gen
+* <b>Types</b><br>
 
+Get existing types by:
 ```
-
-mg.schemes.setPath("C:/your/path/to/folder");
-
+gen.types.getTypes()
 ```
-
-#### then generate easley from your schemes
-
+Or
 ```
-const persons = mg.generate('test.person',100);
-const phones = mg.generate(['test','phones'],100);
-console.log({ persons, phones });
-
+gen.types.getTypesArrangeByGroups() // types belong in a "group"
 ```
-
-#### to get all types you can run
-
+You can also create your own types programmatically:
 ```
-mg.types.getTypes();
-
-```
-
-#### to add types - basic
-
-```
-
-const newTypes = {
+const myRandomNumberType = {
     {
         randomNumber:{
             name: "Random Number",
@@ -65,40 +147,45 @@ const newTypes = {
     }
 }
 
-types.addTypes(newTypes);
-
+types.addTypes(myRandomNumberType);
 ```
 
-more documentation will be added soon
+* <b>Libraries</b><br>
+
+As explained earlier, libraries are just logical layers that can contain your schemas. GEN supports various CRUD operations on libraries, few of them are: 
+
+```
+gen.schemes.getAllLibraries();
+gen.schemes.removeLibrary(libraryName);
+gen.schemes.addLibrary(libraryName);
+```
 
 ## CLIENT usage
 
-- use a standard get request
+- Use a standard get request
 
 ```
-axios.get("http://localhost:5588/mocking_G/generate", { library:"examples", category:"person", amount:5 }).then((res)=>{
+axios.get("http://localhost:5588/mocking_G/generate", { library: "examples", category: "Person", amount: 5 }).then((res)=>{
     console.log(res.data);
 })
 
 ```
 
-### or diractly from url
+Or directly from a url
 
 ```
-http://localhost:5588/mocking_G/generate?library=examples&category=person&amount=3
-
+http://localhost:5588/mocking_G/generate?library=examples&category=Person&amount=3
 ```
 
-#### Version 2 is avaliable for you to check
+## Version 2 is available for you to check
 
-- create schemes with a great ui program on port 5588
-- see your schemes as well
-- see all types, inclues yours, on the program
-- edit item in scheme in the inspector.
-- create data set and live api fest then ever before!
+- Create and view schemas with a great UI on port 5588
+- View all types, including yours
+- Edit items in schemas from the inspector
+- Create data-set and live api quickly like never before!
 
-### coming soon
+## Coming soon
 
-- docs and improvments 
-- please leave notes for Gen to improve 
-
+- Docs and improvements 
+ 
+Please leave notes for GEN to improve ;)

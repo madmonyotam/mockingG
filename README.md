@@ -136,18 +136,16 @@ gen.types.getTypesArrangeByGroups() // types belong in a "group"
 You can also create your own types programmatically:
 ```
 const myRandomNumberType = {
-    {
-        randomNumber:{
-            name: 'Random Number',
-            generate: (element)=>{
-                return Math.random();
-            },
-            group: 'new group'
-        }
+    randomNumber: {
+        name: "Random Number",
+        generate: (element) => {
+            return Math.random();
+        },
+        group: 'new group'
     }
 }
 
-types.addTypes(myRandomNumberType);
+gen.types.addTypes(myRandomNumberType);
 ```
 
 * <b>Libraries</b><br>

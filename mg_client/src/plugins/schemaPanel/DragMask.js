@@ -47,7 +47,7 @@ function DragMask({ text }) {
   return (
     <Mask
       opacity={0.8}
-      mask={access.color("schemePanel.bg")}
+      mask={access.color("schemaPanel.bg")}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
       style={{ transition: `background 250ms` }}

@@ -24,12 +24,12 @@ A very powerful and flexible framework that allows defining and generating mocke
 - Generate your data like so:
 ```
 const library = 'examples';
-const schema = 'Person';
+const schema = 'person';
 const persons = gen.generate([library,schema], 10);
 ```
 Or just
 ```
-const persons = gen.generate('examples.Person', 10);
+const persons = gen.generate('examples.person', 10);
 ```
 
 ## Terminology
@@ -40,7 +40,7 @@ const persons = gen.generate('examples.Person', 10);
 
 ## Examples
 
-An example for a <b>Person</b> schema can be something like that: 
+An example for a <b>person</b> schema can be something like that: 
 
 ```
 {
@@ -114,12 +114,12 @@ const generated = gen.generate(schema, 10);
 Or use the intuitive GEN UI and create schemas effortlessly.<br>
 Then, just reference the schema and generate your data:
 ```
-gen.generate('examples.Person', 10);
+gen.generate('examples.person', 10);
 ```
 You can set the path on which GEN will save your schemas.
 In addition, GEN will use this path to load the schemas on startup.
 ```
-gen.schemes.setPath("C:/your/path/to/folder");
+gen.schemas.setPath('C:/your/path/to/folder');
 
 ```
 
@@ -136,12 +136,14 @@ gen.types.getTypesArrangeByGroups() // types belong in a "group"
 You can also create your own types programmatically:
 ```
 const myRandomNumberType = {
-    randomNumber: {
-        name: "Random Number",
-        generate: (element) => {
-            return Math.random();
-        },
-        group: 'new group'
+    {
+        randomNumber:{
+            name: 'Random Number',
+            generate: (element)=>{
+                return Math.random();
+            },
+            group: 'new group'
+        }
     }
 }
 
@@ -153,9 +155,9 @@ gen.types.addTypes(myRandomNumberType);
 As explained earlier, libraries are just logical layers that can contain your schemas. GEN supports various CRUD operations on libraries, few of them are: 
 
 ```
-gen.schemes.getAllLibraries();
-gen.schemes.removeLibrary(libraryName);
-gen.schemes.addLibrary(libraryName);
+gen.schemas.getAllLibraries();
+gen.schemas.removeLibrary(libraryName);
+gen.schemas.addLibrary(libraryName);
 ```
 
 ## CLIENT usage
@@ -163,7 +165,7 @@ gen.schemes.addLibrary(libraryName);
 - Use a standard get request
 
 ```
-axios.get("http://localhost:5588/mocking_G/generate", { library: "examples", category: "Person", amount: 5 }).then((res)=>{
+axios.get('http://localhost:5588/mocking_G/generate', { library: 'examples', category: 'person', amount: 5 }).then((res)=>{
     console.log(res.data);
 })
 
@@ -172,18 +174,9 @@ axios.get("http://localhost:5588/mocking_G/generate", { library: "examples", cat
 Or directly from a url
 
 ```
-http://localhost:5588/mocking_G/generate?library=examples&category=Person&amount=3
+http://localhost:5588/mocking_G/generate?library=examples&category=person&amount=3
 ```
 
-## Version 2 is available for you to check
-
-- Create and view schemas with a great UI on port 5588
-- View all types, including yours
-- Edit items in schemas from the inspector
-- Create data-set and live api quickly like never before!
-
-## Coming soon
+#### Coming soon
 
 - Docs and improvements 
- 
-Please leave notes for GEN to improve ;)

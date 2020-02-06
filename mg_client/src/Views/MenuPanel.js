@@ -20,7 +20,7 @@ import { get } from "plugins/requests";
 
 const CollapseColumn = styled(Column)`
   min-width: 50px;
-  transition: flex ${access.time("schemePanel.collapse")}ms;
+  transition: flex ${access.time("schemaPanel.collapse")}ms;
   overflow-x: hidden;
 `;
 
@@ -67,7 +67,7 @@ function LeftPanel({ viewKey }) {
     const handleClickOnCat = label => {
       dispatch(catsActions.getItemsFromCategory, label);
       libraryPack.onCategorySelected(focus.lib, label);
-      dispatch(catsActions.setKey, { newKey: "showScheme", schemeName: label });
+      dispatch(catsActions.setKey, { newKey: "showSchema", schemaName: label });
     };
 
     const handleClickOnItem = label => {
@@ -179,7 +179,7 @@ function LeftPanel({ viewKey }) {
       case "cats":
         return (
           <AddRow
-            label={access.translate("Add Category")}
+            label={access.translate("Add Schema")}
             handleAdd={handleAddCat}
           />
         );

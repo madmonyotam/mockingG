@@ -16,7 +16,7 @@ function OpenPanelCanvas() {
     if(viewKey !== "initKey"){
         setTimeout(() => {
             setclose(true);
-        }, access.time('schemePanel.removeCanvas'));
+        }, access.time('schemaPanel.removeCanvas'));
     }
 
     const createFrame = (canvas, width, height) => {
@@ -28,7 +28,7 @@ function OpenPanelCanvas() {
 
 
         frame.transition()
-          .duration(access.time('schemePanel.removeCanvas'))          
+          .duration(access.time('schemaPanel.removeCanvas'))          
           .attr("fill", "transparent");
 
     

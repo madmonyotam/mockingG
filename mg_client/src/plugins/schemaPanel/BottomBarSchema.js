@@ -5,16 +5,16 @@ import { useBranch } from "baobab-react/hooks";
 
 import styled from "styled-components";
 import Row from "plugins/Layouts/Row";
-import BarButtons from "plugins/schemePanel/BarButtons";
+import BarButtons from "plugins/schemaPanel/BarButtons";
 
 const BottomBar = styled(Row)`
-  border-right: 1px solid ${access.color("schemePanel.border")}
+  border-right: 1px solid ${access.color("schemaPanel.border")}
 `;
 
-function BottomBarScheme(params) {
+function BottomBarschema(params) {
   const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
-  const fileName = `${focus.lib}_${focus.cat}_scheme`;
+  const fileName = `${focus.lib}_${focus.cat}_schema`;
 
   return (
     <BottomBar background={access.color("bottomBar.bg")}>
@@ -23,4 +23,4 @@ function BottomBarScheme(params) {
   );
 }
 
-export default BottomBarScheme;
+export default BottomBarschema;

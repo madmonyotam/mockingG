@@ -6,7 +6,7 @@ export function setItems(tree, items) {
 }
 
 export function generate(tree, { items, amount = 1 }) {
-  get("/generate", { scheme: items, amount })
+  get("/generate", { schema: items, amount })
     .then(res => {
       tree.set("mockData", res.data);
     })
@@ -18,15 +18,15 @@ export function generate(tree, { items, amount = 1 }) {
 }
 
 export function tempGenerate(items) {
-  return get("/generate", { scheme: items, amount:1 })
+  return get("/generate", { schema: items, amount:1 })
 }
 
-function replaceScheme(tree, items) {
+function replaceSchema(tree, items) {
   const library = tree.get("selectedLibrary");
   const category = tree.get("selectedCategory");
   const libraryPack = getLibraryPack();
 
-  get("/replaceScheme", { scheme: items, library, category })
+  get("/replaceSchema", { schema: items, library, category })
     .then(res => {
       tree.set("items", res.data);
       libraryPack.onChangeFromEditor(library, category, res.data);
@@ -37,9 +37,9 @@ function replaceScheme(tree, items) {
     });
 }
 
-export function onSchemeChange(tree, items) {
+export function onSchemaChange(tree, items) {
   generate(tree, { items, amount: 1 });
-  replaceScheme(tree, items);
+  replaceSchema(tree, items);
 }
 
 function getValueByRendererType(renderer) {
@@ -88,7 +88,7 @@ export function onAddFromPack(tree, type) {
       ...additionalFields
     };
 
-    onSchemeChange(tree, items);
+    onSchemaChange(tree, items);
   });
 }
 
@@ -136,7 +136,7 @@ export function removeItem(tree, field) {
   const library = focus.lib;
   const category = focus.cat;
 
-  get("/removeFromScheme", { library, category, field }).then(res => {
+  get("/removeFromSchema", { library, category, field }).then(res => {
     tree.set("items", res.data);
     generate(tree, { items: res.data, amount: 1 });
   });

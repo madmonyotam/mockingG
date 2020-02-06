@@ -20,7 +20,7 @@ function BarButtons({ content, filename }) {
     return (
       <CopyToClipBoard content={content}>
         <IconButton
-          icon={access.icon("schemePanel.copy")}
+          icon={access.icon("schemaPanel.copy")}
           color={access.color("bottomBar.fg")}
           iconPadding={8}
           iconSize={18}
@@ -37,7 +37,7 @@ function BarButtons({ content, filename }) {
         fileExtension={"json"}
       >
         <IconButton
-          icon={access.icon("schemePanel.download")}
+          icon={access.icon("schemaPanel.download")}
           color={access.color("bottomBar.fg")}
           iconPadding={8}
           iconSize={18}

@@ -2,51 +2,51 @@ const gen = require("./generator");
 
 describe("generate function", () => {
   it("should generate 10 items", () => {
-    const scheme = {
+    const schema = {
       name: { type: "firstName" }
     };
 
-    const data = gen.generate(scheme);
+    const data = gen.generate(schema);
 
     expect(data.length).toEqual(10);
   });
 
   it("should generate 100 items", () => {
-    const scheme = {
+    const schema = {
       name: { type: "firstName" }
     };
 
-    const data = gen.generate(scheme, 100);
+    const data = gen.generate(schema, 100);
 
     expect(data.length).toEqual(100);
   });
 
   it("should generate 10000 items as max", () => {
-    const scheme = {
+    const schema = {
       name: { type: "firstName" }
     };
 
-    const data = gen.generate(scheme, 10005);
+    const data = gen.generate(schema, 10005);
 
     expect(data.length).toEqual(10000);
   });
 
-  it("should generate by scheme", () => {
-    gen.schemes.addScheme("myFirst", "test", {
+  it("should generate by schema", () => {
+    gen.schemas.addschema("myFirst", "test", {
       name: { type: "firstName" },
       gender: { type: "fixedValue", value: "male" }
     });
 
-    const schemes = gen.schemes.getScheme("myFirst", "test");
-    const data = gen.generate(schemes, 30);
+    const schemas = gen.schemas.getSchema("myFirst", "test");
+    const data = gen.generate(schemas, 30);
 
     expect(data.length).toEqual(30);
     expect(Object.keys(data[0])).toEqual(["name", "gender"]);
     expect(data[10].gender).toEqual("male");
   });
 
-  it("should generate by scheme code array", () => {
-    gen.schemes.addScheme("myFirstCode", "test", {
+  it("should generate by schema code array", () => {
+    gen.schemas.addschema("myFirstCode", "test", {
       name: { type: "firstName" },
       gender: { type: "fixedValue", value: "male" }
     });
@@ -58,8 +58,8 @@ describe("generate function", () => {
     expect(data[10].gender).toEqual("male");
   });
 
-  it("should generate by scheme code string", () => {
-    gen.schemes.addScheme("myFirstCodeString", "test", {
+  it("should generate by schema code string", () => {
+    gen.schemas.addschema("myFirstCodeString", "test", {
       name: { type: "firstName" },
       gender: { type: "fixedValue", value: "male" }
     });
@@ -71,27 +71,27 @@ describe("generate function", () => {
     expect(data[10].gender).toEqual("male");
   });
 
-  it("should generate array by scheme", () => {
-    gen.schemes.addScheme("second", "test", {
+  it("should generate array by schema", () => {
+    gen.schemas.addschema("second", "test", {
       name: { type: "firstName", size: 10 },
       gender: { type: "fixedValue", value: "male" }
     });
 
-    const schemes = gen.schemes.getScheme("second", "test");
-    const data = gen.generate(schemes, 2);
+    const schemas = gen.schemas.getSchema("second", "test");
+    const data = gen.generate(schemas, 2);
 
     expect(data.length).toEqual(2);
     expect(Object.keys(data[0])).toEqual(["name", "gender"]);
     expect(data[1].name.length).toEqual(10);
   });
 
-  it("should generate empty array by scheme", () => {
-    gen.schemes.addScheme("second", "test2", {
+  it("should generate empty array by schema", () => {
+    gen.schemas.addschema("second", "test2", {
       name: { type: "firstName", size: 0 }
     });
 
-    const schemes = gen.schemes.getScheme("second", "test2");
-    const data = gen.generate(schemes, 1);
+    const schemas = gen.schemas.getSchema("second", "test2");
+    const data = gen.generate(schemas, 1);
 
     expect(data[0].name.length).toEqual(0);
   });

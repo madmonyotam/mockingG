@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-xcode";
 
-import { onSchemeChange } from "tree/actions/items";
+import { onSchemaChange } from "tree/actions/items";
 
 function Editor({ width, isData }) {
   const editorRef = useRef();
@@ -36,10 +36,10 @@ function Editor({ width, isData }) {
     setCode(codeFromProps);
   }
 
-  const updateScheme = newCode => {
+  const updateschema = newCode => {
     try {
       newCode = JSON.parse(newCode);
-      dispatch(onSchemeChange, newCode);
+      dispatch(onSchemaChange, newCode);
     } catch (error) {
       dispatch((tree) => {
         tree.set("mockData", null);
@@ -52,7 +52,7 @@ function Editor({ width, isData }) {
   const onChange = c => {
     setCode(c);
     if (!isData) {
-      updateScheme(c);
+      updateschema(c);
     }
   };
 

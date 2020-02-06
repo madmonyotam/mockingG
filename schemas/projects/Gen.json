@@ -1,0 +1,40 @@
+{
+  "examples": {
+    "person": {
+      "uuid": {
+        "type": "id"
+      },
+      "firstName": {
+        "type": "firstName"
+      },
+      "lastName": {
+        "type": "lastName"
+      },
+      "birthDate": {
+        "type": "pastDate",
+        "value": {
+          "dateMask": "DD-MM-YYYY",
+          "years": 50
+        }
+      },
+      "country": {
+        "type": "country"
+      },
+      "streetName": {
+        "type": "streetName"
+      },
+      "zipCode": {
+        "type": "zipCode"
+      },
+      "email": {
+        "type": "email"
+      },
+      "company": {
+        "type": "company"
+      },
+      "jobTitle": {
+        "type": "jobTitle"
+      }
+    }
+  }
+}

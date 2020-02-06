@@ -7,11 +7,11 @@ import * as access from "plugins/access";
 import styled from "styled-components";
 import IconButton from "plugins/icons/IconButton";
 import Row from "plugins/Layouts/Row";
-import BarButtons from "plugins/schemePanel/BarButtons";
+import BarButtons from "plugins/schemaPanel/BarButtons";
 
 const BottomBar = styled(Row)`
   justify-content: flex-end;
-  border-right: 1px solid ${access.color("schemePanel.border")};
+  border-right: 1px solid ${access.color("schemaPanel.border")};
 `;
 
 const AmountInput = styled("input")`
@@ -39,7 +39,7 @@ function BottomBarGen(params) {
 
     return (
       <IconButton
-        icon={access.icon("schemePanel.play")}
+        icon={access.icon("schemaPanel.play")}
         color={access.color("bottomBar.fg")}
         onClick={gen}
         btnStyle={btnStyle}

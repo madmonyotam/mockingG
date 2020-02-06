@@ -14,11 +14,11 @@ import Input from "plugins/inputs/Input";
 
 function MultiSelect({ options, label, onSelect, initValue }) {
   const [multiValue, setMultiValue] = useState(initValue);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState({ value: "", label: "" });
   const [onFocus, setOnFocus] = useState(false);
 
   useEffect(() => {
-    setValue(initValue);
+    setMultiValue(initValue);
   }, [initValue]);
 
   const findInOptions = v => {
@@ -33,14 +33,41 @@ function MultiSelect({ options, label, onSelect, initValue }) {
     const selection = findInOptions(value.label);
 
     if (!selection) {
-      setValue(initValue);
+      setMultiValue(initValue);
     }
   };
+
+  const getFilteredList = () => {
+    let filtered = options.filter(o => {
+      let toReturn = true;
+
+      multiValue.forEach(v => {
+        if (v.value === o.value) {
+          toReturn = false;
+        }
+      });
+
+      return toReturn;
+    });
+
+    filtered = filtered.filter(o => o.label.toLowerCase().indexOf(value.label) !== -1);
+    return filtered;
+  };
+
+  const handleSelect = o => {
+    setMultiValue([o, ...multiValue]);
+    onSelect([o, ...multiValue]);
+  };
+
+  const setInitValue = () => {
+    setValue({ value: "", label: "" });
+  }
 
   const renderInput = () => {
     const onBlur = () => {
       setTimeout(() => {
         setOnFocus(false);
+        setInitValue();
       }, 200);
     };
 
@@ -51,6 +78,24 @@ function MultiSelect({ options, label, onSelect, initValue }) {
 
       if (selection) {
         onSelect(selection);
+        setInitValue();
+      }
+    };
+
+    const handleOnKeyPrass = e => {
+      switch (e.key) {
+        case "Escape":
+          setOnFocus(false);
+          setInitValue();
+          break;
+        case "Enter":
+          const firstValue = getFilteredList()[0];
+          if(firstValue) handleSelect(getFilteredList()[0]);
+          setOnFocus(false);
+          setInitValue();
+          break;
+        default:
+          break;
       }
     };
 
@@ -61,6 +106,7 @@ function MultiSelect({ options, label, onSelect, initValue }) {
           setOnFocus(true);
         }}
         onBlur={onBlur}
+        onKeyUp={handleOnKeyPrass}
         label={label}
         onChange={onChange}
       />
@@ -70,23 +116,8 @@ function MultiSelect({ options, label, onSelect, initValue }) {
   const renderList = () => {
     if (!onFocus) return null;
 
-    const handleSelect = o => {
-      setMultiValue([o, ...multiValue]);
-      onSelect([o, ...multiValue]);
-    };
-
     const list = () => {
-      const filtered = options.filter(o => {
-        let toReturn = true;
-
-        multiValue.forEach(v => {
-          if (v.value === o.value) {
-            toReturn = false;
-          }
-        });
-
-        return toReturn;
-      });
+      const filtered = getFilteredList();
 
       return filtered.map(o => {
         return (
@@ -118,7 +149,6 @@ function MultiSelect({ options, label, onSelect, initValue }) {
   };
 
   const renderMultiValue = () => {
-    
     const handleDelete = value => {
       const values = multiValue.filter(v => {
         return v.value !== value.value;
@@ -133,9 +163,9 @@ function MultiSelect({ options, label, onSelect, initValue }) {
   };
 
   const renderChips = () => {
-    if(isEmpty(multiValue)) return null;
-    return <Row style={{ overflowX: "auto" }}> {renderMultiValue()} </Row>
-  }
+    if (isEmpty(multiValue)) return null;
+    return <Row style={{ overflowX: "auto" }}> {renderMultiValue()} </Row>;
+  };
 
   return (
     <ClickAwayListener onClickAway={checkSelection}>
@@ -143,7 +173,6 @@ function MultiSelect({ options, label, onSelect, initValue }) {
         {renderInput()}
         {renderList()}
         {renderChips()}
-        
       </div>
     </ClickAwayListener>
   );

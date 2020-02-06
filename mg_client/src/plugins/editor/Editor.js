@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import AceEditor from "react-ace";
 import { useBranch } from "baobab-react/hooks";
+import { isEqual } from "lodash";
 
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -31,7 +32,6 @@ function Editor({ width, isData }) {
   }, [isData])
 
   if (data !== null && codeFromProps !== initCode) {
-
     setInitCode(codeFromProps);
     setCode(codeFromProps);
   }
@@ -50,6 +50,8 @@ function Editor({ width, isData }) {
   const onLoad = () => {};
 
   const onChange = c => {
+    if(isEqual(c,codeFromProps)) return null;
+
     setCode(c);
     if (!isData) {
       updateschema(c);

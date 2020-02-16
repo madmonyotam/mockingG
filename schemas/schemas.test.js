@@ -5,9 +5,9 @@ describe('types getter tests', () => {
     const schemas = new schemasClass();
     
     it('should add schemas', () => { 
-        schemas.addschema('myFirst','test',{name:{type:'firstName'}, gender:{type:'fixedValue',value:'male'}});
-        schemas.addschema('myFirst','test2',{name:{type:'firstName'}});
-        schemas.addschema('second','test',{name:{type:'lastName'}});
+        schemas.addSchema('myFirst','test',{name:{type:'firstName'}, gender:{type:'fixedValue',value:'male'}});
+        schemas.addSchema('myFirst','test2',{name:{type:'firstName'}});
+        schemas.addSchema('second','test',{name:{type:'lastName'}});
 
         expect(Object.keys(schemas.schemas)).toContain('myFirst'); 
         expect(Object.keys(schemas.schemas)).toContain('second'); 

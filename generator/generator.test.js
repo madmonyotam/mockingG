@@ -32,7 +32,7 @@ describe("generate function", () => {
   });
 
   it("should generate by schema", () => {
-    gen.schemas.addschema("myFirst", "test", {
+    gen.schemas.addSchema("myFirst", "test", {
       name: { type: "firstName" },
       gender: { type: "fixedValue", value: "male" }
     });
@@ -46,7 +46,7 @@ describe("generate function", () => {
   });
 
   it("should generate by schema code array", () => {
-    gen.schemas.addschema("myFirstCode", "test", {
+    gen.schemas.addSchema("myFirstCode", "test", {
       name: { type: "firstName" },
       gender: { type: "fixedValue", value: "male" }
     });
@@ -59,7 +59,7 @@ describe("generate function", () => {
   });
 
   it("should generate by schema code string", () => {
-    gen.schemas.addschema("myFirstCodeString", "test", {
+    gen.schemas.addSchema("myFirstCodeString", "test", {
       name: { type: "firstName" },
       gender: { type: "fixedValue", value: "male" }
     });
@@ -72,7 +72,7 @@ describe("generate function", () => {
   });
 
   it("should generate array by schema", () => {
-    gen.schemas.addschema("second", "test", {
+    gen.schemas.addSchema("second", "test", {
       name: { type: "firstName", size: 10 },
       gender: { type: "fixedValue", value: "male" }
     });
@@ -86,7 +86,7 @@ describe("generate function", () => {
   });
 
   it("should generate empty array by schema", () => {
-    gen.schemas.addschema("second", "test2", {
+    gen.schemas.addSchema("second", "test2", {
       name: { type: "firstName", size: 0 }
     });
 

@@ -113,7 +113,7 @@ const numberTypes = {
         }
     },
     generate: (element) => {
-        const { value, prefix = "", suffix = "" } = element; // TODO if I use defaults it will come as String...
+        const { value } = element;
 
         if (!value) return translate("missing value");
         if (!value.start) return translate("missing property start");
@@ -123,10 +123,8 @@ const numberTypes = {
         let end = Number(value.end);
 
         if (start <= end) {
-            //return Array.from({ length: end - start + 1 }, (v, k) => `${prefix}${start + k}${suffix}`)
             return Array.from({ length: end - start + 1 }, (v, k) => start + k)
         } else {
-            //return Array.from({ length: start - end + 1 }, (v, k) => `${prefix}${start - k}${suffix}`)
             return Array.from({ length: start - end + 1 }, (v, k) => start - k)
         }
     },

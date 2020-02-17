@@ -279,7 +279,7 @@ class schemas {
     return arrayOfCategories;
   }
 
-  addschema(library, category, schema) {
+  addSchema(library, category, schema) {
     if (!this.schemas[library]) this.schemas[library] = {};
 
     if (this.schemas[library][category]) throw Error("schema all ready exist");

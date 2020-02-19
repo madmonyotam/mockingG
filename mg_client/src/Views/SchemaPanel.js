@@ -12,7 +12,7 @@ import Label from "plugins/tools/Label";
 import Editor from "plugins/editor/Editor";
 import SwitchEditorBtn from "plugins/schemaPanel/SwitchEditorBtn";
 import BottomBarGen from "plugins/schemaPanel/BottomBarGen";
-import BottomBarschema from "plugins/schemaPanel/BottomBarSchema";
+import BottomBarSchema from "plugins/schemaPanel/BottomBarSchema";
 import DragMask from "plugins/schemaPanel/DragMask";
 import OpenPanelCanvas from "plugins/canvases/OpenPanelCanvas";
 
@@ -108,7 +108,7 @@ function SchemaPanel() {
 
   const RenderBottomBar = () => {
     if (editorToRender === "schema") {
-      return <BottomBarschema />;
+      return <BottomBarSchema />;
     }
 
     return <BottomBarGen />;

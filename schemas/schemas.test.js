@@ -42,7 +42,7 @@ describe('types getter tests', () => {
     });
 
     it('should remove this category', () => {    
-        schemas.removeschema('myFirst','test2');
+        schemas.removeSchema('myFirst','test2');
         const categories = schemas.getCategoriesFromLibrary('myFirst');
         expect(Object.keys(categories)).not.toContain('test2'); 
     });

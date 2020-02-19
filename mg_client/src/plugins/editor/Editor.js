@@ -36,7 +36,7 @@ function Editor({ width, isData }) {
     setCode(codeFromProps);
   }
 
-  const updateschema = newCode => {
+  const updateSchema = newCode => {
     try {
       newCode = JSON.parse(newCode);
       dispatch(onSchemaChange, newCode);
@@ -54,7 +54,7 @@ function Editor({ width, isData }) {
 
     setCode(c);
     if (!isData) {
-      updateschema(c);
+      updateSchema(c);
     }
   };
 

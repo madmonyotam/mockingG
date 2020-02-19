@@ -11,7 +11,7 @@ const BottomBar = styled(Row)`
   border-right: 1px solid ${access.color("schemaPanel.border")}
 `;
 
-function BottomBarschema(params) {
+function BottomBarSchema(params) {
   const { items } = useBranch({ items: ["items"] });
   const { focus } = useBranch({ focus: ["focus"] });
   const fileName = `${focus.lib}_${focus.cat}_schema`;
@@ -23,4 +23,4 @@ function BottomBarschema(params) {
   );
 }
 
-export default BottomBarschema;
+export default BottomBarSchema;

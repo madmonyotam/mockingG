@@ -32,12 +32,12 @@ describe("generate function", () => {
   });
 
   it("should generate by schema", () => {
-    gen.schemas.addSchema("myFirst", "test", {
+    gen.schemas.addSchema("my_First", "test", {
       name: { type: "firstName" },
-      gender: { type: "fixedValue", value: "male" }
+      gender: { type: "fixedValue", value: {"fixed value":"male"} }
     });
 
-    const schemas = gen.schemas.getSchema("myFirst", "test");
+    const schemas = gen.schemas.getSchema("my_First", "test");
     const data = gen.generate(schemas, 30);
 
     expect(data.length).toEqual(30);
@@ -48,7 +48,7 @@ describe("generate function", () => {
   it("should generate by schema code array", () => {
     gen.schemas.addSchema("myFirstCode", "test", {
       name: { type: "firstName" },
-      gender: { type: "fixedValue", value: "male" }
+      gender: { type: "fixedValue", value: {"fixed value":"male"} }
     });
 
     const data = gen.generate(["myFirstCode","test"], 30);
@@ -61,7 +61,7 @@ describe("generate function", () => {
   it("should generate by schema code string", () => {
     gen.schemas.addSchema("myFirstCodeString", "test", {
       name: { type: "firstName" },
-      gender: { type: "fixedValue", value: "male" }
+      gender: { type: "fixedValue", value: {"fixed value":"male"} }
     });
 
     const data = gen.generate("myFirstCodeString,test", 30);
@@ -74,7 +74,7 @@ describe("generate function", () => {
   it("should generate array by schema", () => {
     gen.schemas.addSchema("second", "test", {
       name: { type: "firstName", size: 10 },
-      gender: { type: "fixedValue", value: "male" }
+      gender: { type: "fixedValue", value: {"fixed value":"male"} }
     });
 
     const schemas = gen.schemas.getSchema("second", "test");

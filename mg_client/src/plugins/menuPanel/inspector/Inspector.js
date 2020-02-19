@@ -129,7 +129,7 @@ function Inspector({ item }) {
     stableCompare();
   }, [type, size, prefix, suffix, additionalValues, randomSize, stableCompare]);
 
-  const changeTypeInschema = selectedItem => {
+  const changeTypeInSchema = selectedItem => {
     setType(selectedItem);
     changeTempItem("type", selectedItem.type);
   };
@@ -414,7 +414,7 @@ function Inspector({ item }) {
         label={access.translate("type")}
         options={typesToSelect}
         initValue={type}
-        onSelect={changeTypeInschema}
+        onSelect={changeTypeInSchema}
       />
 
       {renderSize()}

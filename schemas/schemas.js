@@ -12,7 +12,7 @@ class schemas {
     const firstFileName = this.getFirstFilePath();
     this.projectName = firstFileName;
     this.currentPath = path.resolve(this.projectsPath, `${firstFileName}.json`);
-    this.setschemasFromFile();
+    this.setSchemasFromFile();
   }
 
   setPath(userPath) {
@@ -32,7 +32,7 @@ class schemas {
     return files;
   }
 
-  setschemasFromFile() {
+  setSchemasFromFile() {
     if (!fs.existsSync(this.currentPath)) {
       fs.writeFileSync(this.currentPath, "{}");
       this.schemas = require(this.currentPath);
@@ -169,7 +169,7 @@ class schemas {
         res.status(400).send("missing library or category name");
       }
 
-      this.removeschema(library, category);
+      this.removeSchema(library, category);
       res.send(this.getCategoriesFromLibrary(library));
     });
 
@@ -314,7 +314,7 @@ class schemas {
     this.writeSchemasToFile();
   }
 
-  removeschema(library, category) {
+  removeSchema(library, category) {
     delete this.schemas[library][category];
     this.writeSchemasToFile();
   }

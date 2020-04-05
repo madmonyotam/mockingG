@@ -65,8 +65,8 @@ const setApp = app => {
   });
 };
 
-const generateOneItem = (func, el) => {
-  let value = func(el);
+const generateOneItem = (func, el, field) => {
+  let value = func(el, field);
   if (el.prefix) {
     value = el.prefix + value;
   }
@@ -84,7 +84,7 @@ const getSize = (el) => {
   return newSize;
 }
 
-const generateFromType = el => {
+const generateFromType = (el, field) => {
   const allTypes = types.getTypes();
 
   if (!allTypes[el.type]) return `type ${el.type} does not exist in types`;
@@ -95,12 +95,12 @@ const generateFromType = el => {
     const finalSize = getSize(el);
 
     for (let i = 0; i < finalSize; i++) {
-      array.push(generateOneItem(generateFunc, el));
+      array.push(generateOneItem(generateFunc, el, field));
     }
     return array;
   }
 
-  return generateOneItem(generateFunc, el);
+  return generateOneItem(generateFunc, el, field);
 };
 
 const modelator = schema => {
@@ -108,7 +108,8 @@ const modelator = schema => {
 
   for (const field in schema) {
     const el = schema[field];
-    newData[field] = generateFromType(el);
+
+    newData[field] = generateFromType(el, field);
   }
 
   return newData;

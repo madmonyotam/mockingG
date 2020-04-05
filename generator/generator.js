@@ -67,6 +67,10 @@ const setApp = app => {
 
 const generateOneItem = (func, el, field) => {
   let value = func(el, field);
+  if(el.addEmpty){
+    var random = Math.random();
+    if(random < 0.5) return null;
+  }
   if (el.prefix) {
     value = el.prefix + value;
   }

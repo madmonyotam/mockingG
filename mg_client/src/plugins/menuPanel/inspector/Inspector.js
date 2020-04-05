@@ -56,6 +56,7 @@ function Inspector({ item }) {
   const [prefix, setPrefix] = useState(item.prefix || "");
   const [suffix, setSuffix] = useState(item.suffix || "");
   const [size, setSize] = useState(item.size);
+  const [addEmpty, setAddEmpty] = useState(item.addEmpty || false);
   const [randomSize, setRandomSize] = useState(item.randomSize || false);
 
   const [additionalValues, setAdditionalValues] = useState(item.value);
@@ -84,6 +85,7 @@ function Inspector({ item }) {
     setPrefix(item.prefix);
     setSuffix(item.suffix);
     setType(initType);
+    setAddEmpty(item.addEmpty);
     setGroup(g);
   };
 
@@ -106,6 +108,8 @@ function Inspector({ item }) {
       theSame = false;
     else if (Boolean(item.suffix || suffix) && item.suffix !== suffix)
       theSame = false;
+    else if (Boolean(item.addEmpty || addEmpty) && item.addEmpty !== addEmpty )  
+      theSame = false;  
     else if (JSON.stringify(item.value) !== JSON.stringify(additionalValues))
       theSame = false;
 
@@ -122,16 +126,23 @@ function Inspector({ item }) {
     prefix,
     suffix,
     additionalValues,
-    randomSize
+    randomSize,
+    addEmpty
   ]);
 
   useEffect(() => {
     stableCompare();
-  }, [type, size, prefix, suffix, additionalValues, randomSize, stableCompare]);
+  }, [type, size, addEmpty, prefix, suffix, additionalValues, randomSize, stableCompare]);
 
-  const changeTypeInschema = selectedItem => {
+  const changeTypeInSchema = selectedItem => {
     setType(selectedItem);
     changeTempItem("type", selectedItem.type);
+  };
+
+  const changeAddEmpty = () => {
+    debugger
+    setAddEmpty(!addEmpty);
+    changeTempItem("addEmpty", !addEmpty);
   };
 
   const changeSize = value => {
@@ -402,6 +413,22 @@ function Inspector({ item }) {
     );
   };
 
+  const renderAddEmpty = () => {
+    return(
+      <Row>
+        <Label width={"50%"} fontSize={"13px"}>
+          {access.translate("Add possible empty items:")}
+        </Label>
+        <Checkbox
+          style={{ marginRight: 5 }}
+          checked={addEmpty}
+          onChange={changeAddEmpty}
+          size="small"
+          value="primary" />
+      </Row>
+    );
+  };
+
   return (
     <Column flex={1}>
       <Select
@@ -414,12 +441,13 @@ function Inspector({ item }) {
         label={access.translate("type")}
         options={typesToSelect}
         initValue={type}
-        onSelect={changeTypeInschema}
+        onSelect={changeTypeInSchema}
       />
 
       {renderSize()}
       {renderFromType()}
       {renderPrefixSuffix()}
+      {renderAddEmpty()}
       <Placeholder />
       {renderEditor()}
       {renderButtons()}

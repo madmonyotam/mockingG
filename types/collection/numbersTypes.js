@@ -99,6 +99,37 @@ const numberTypes = {
     },
     group: "number"
   },
+
+  rangedNumbers: {
+    name: 'Ranged Numbers',
+    renderer: {
+        start: {
+            type: "number",
+            placeholder: translate("enter range start number")
+        },
+        end: {
+            type: "number",
+            placeholder: translate("enter range end number")
+        }
+    },
+    generate: (element) => {
+        const { value } = element;
+
+        if (!value) return translate("missing value");
+        if (!value.start) return translate("missing property start");
+        if (!value.end) return translate("missing property end");
+
+        let start = Number(value.start);
+        let end = Number(value.end);
+
+        if (start <= end) {
+            return Array.from({ length: end - start + 1 }, (v, k) => start + k)
+        } else {
+            return Array.from({ length: start - end + 1 }, (v, k) => start - k)
+        }
+    },
+    group: 'number'
+  }
 };
 
 module.exports = numberTypes;

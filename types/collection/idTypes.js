@@ -1,5 +1,5 @@
 const faker = require('faker');
-let counter = 0;
+let counter = {};
 
 
 const idTypes = {
@@ -12,12 +12,13 @@ const idTypes = {
     },
     serialId : {
         name: "serial id",
-        generate: (element)=>{
+        generate: (element, field)=>{
+            if(!counter[field]) counter[field] = 0;
             setTimeout(() => {
-                if(counter) counter = 0;
+                if(counter[field]) counter[field] = 0;
             }, 100)
             
-            return counter++;
+            return counter[field]++;
         },
         group: 'ids',
     }

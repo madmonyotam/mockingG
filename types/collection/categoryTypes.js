@@ -1,5 +1,7 @@
 const translate = require("../../translate/getTranslate");
 const faker = require("faker");
+const counter = {};
+const catCounter = {};
 
 const categoryTypes = gen => {
   return {
@@ -90,6 +92,57 @@ const categoryTypes = gen => {
 
       group: "categories"
     },
+
+    categoryGroupOrder: {
+      name: "categories By Order",
+      pure: true,
+      renderer: {
+        categories: {
+          type: "autocompleteArray",
+          options: "getAllCategoriesPath",
+          placeholder: translate("choose categories from list")
+        }
+      },
+      generate: (el, field)  => {
+        const { value } = el;
+        if (!value) return translate("missing value");
+
+        const { categories } = value;
+
+        if (!categories) return translate("missing property categories");
+        if (!Array.isArray(categories))
+          return translate("property categories expects Array");
+
+        const genSchema = () => {
+          let index = catCounter[field];
+
+          if(typeof categories[index] === 'undefined'){
+            catCounter[field] = 0;
+            index = 0;
+          }
+
+          const [lib, cat] = categories[index].split(".");
+          const schema = gen.schemas.getSchema(lib, cat);
+          if (typeof schema === "undefined")
+            return translate(`can't find schema ${lib}.${cat}`);
+          const newObject = gen.generate(schema, 1);
+          return newObject[0];
+        };
+
+        if (!catCounter[field]) catCounter[field] = 0;
+        const schema = genSchema();
+        catCounter[field]++;
+
+        setTimeout(() => {
+          catCounter[field] = 0;
+        }, 100);
+
+        return schema;
+      },
+
+      group: "categories"
+    },
+    
     fromArray: {
       name: "element from array",
       pure: true,
@@ -106,6 +159,34 @@ const categoryTypes = gen => {
         return faker.random.arrayElement(value.dataSet);
       },
       group: "categories"
+    },
+
+    fromArraySerial: {
+      name: 'from array order',
+      pure: true,
+      renderer: {
+        dataSet: {
+          type: 'array',
+          placeholder: 'add values'
+        }
+      },
+      generate: (el, field) => {
+        const { value } = el;
+  
+        if (!value) return 'missing value';
+        if (!counter[field]) counter[field] = 0;
+  
+        setTimeout(() => {
+          counter[field] = 0;
+        }, 100);
+  
+        const val = value.dataSet[counter[field]];
+  
+        counter[field]++;
+        
+        return val;
+      },
+      group: 'categories'
     }
   };
 };

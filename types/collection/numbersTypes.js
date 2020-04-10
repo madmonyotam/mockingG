@@ -129,7 +129,47 @@ const numberTypes = {
         }
     },
     group: 'number'
-  }
+  },
+  
+  float: {
+    name: 'float',
+    renderer: {
+      min: {
+        type: 'number',
+        placeholder: 'enter min value for number'
+      },
+      max: {
+        type: 'number',
+        placeholder: 'enter max value for number'
+      },
+      decimal: {
+        type: 'number',
+        placeholder: 'after the dot'
+      }
+    },
+    generate: (element) => {
+      const { value } = element;
+
+      if (!value) return 'missing value';
+      if (!value.min) return 'missing property min';
+      if (!value.max) return 'missing property max';
+
+      const decimal = value.decimal ? Number(value.decimal) : 0;
+      const min = Number(value.min);
+      let max = Number(value.max);
+  
+      if (isNaN(min)) return 'min value is not a number';
+      if (isNaN(max)) return 'max value is not a number';
+      if (isNaN(decimal)) return 'decimal value is not a number';
+  
+      if (max <= min) max = min + 1;
+
+      const val = (Math.random() * (max - min)) + min;
+  
+      return Number(val.toFixed(decimal));
+    },
+    group: 'number'
+  },
 };
 
 module.exports = numberTypes;

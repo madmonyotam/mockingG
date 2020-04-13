@@ -107,19 +107,21 @@ const generateFromType = (el, field) => {
   return generateOneItem(generateFunc, el, field);
 };
 
-const modelator = schema => {
+const modelator = (schema, path) => {
   let newData = {};
 
   for (const field in schema) {
     const el = schema[field];
 
-    newData[field] = generateFromType(el, field);
+    newData[field] = generateFromType(el, `${path}-${field}`);
   }
 
   return newData;
 };
 
 const generate = (schema, amount = 10) => {
+  let path = 'path' 
+
   if (!schema) return "can't find schema";
   if (amount > 10000) amount = 10000;
 
@@ -128,12 +130,13 @@ const generate = (schema, amount = 10) => {
   }
 
   if (Array.isArray(schema)) {
+    path = `${path}-${schema[0]}-${schema[1]}`;
     schema = schemas.getSchema(schema[0], schema[1]);
   }
 
   let mockList = [];
   for (let i = 0; i < amount; i++) {
-    mockList.push(modelator(schema));
+    mockList.push(modelator(schema, path));
   }
 
   return mockList;

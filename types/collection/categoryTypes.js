@@ -32,11 +32,11 @@ const categoryTypes = gen => {
           return translate(`can't find schema ${lib}.${cat}`);
 
         if (amount) {
-          const newObject = gen.generate(schema, amount);
+          const newObject = gen.generate([lib, cat], amount);
           return newObject;
         }
 
-        const newObject = gen.generate(schema, 1);
+        const newObject = gen.generate([lib, cat], 1);
         return newObject[0];
       },
       group: "categories"
@@ -72,7 +72,7 @@ const categoryTypes = gen => {
           const schema = gen.schemas.getSchema(lib, cat);
           if (typeof schema === "undefined")
             return translate(`can't find schema ${lib}.${cat}`);
-          const newObject = gen.generate(schema, 1);
+          const newObject = gen.generate([lib, cat], 1);
           return newObject[0];
         };
 
@@ -125,7 +125,8 @@ const categoryTypes = gen => {
           const schema = gen.schemas.getSchema(lib, cat);
           if (typeof schema === "undefined")
             return translate(`can't find schema ${lib}.${cat}`);
-          const newObject = gen.generate(schema, 1);
+
+          const newObject = gen.generate([lib, cat], 1);
           return newObject[0];
         };
 

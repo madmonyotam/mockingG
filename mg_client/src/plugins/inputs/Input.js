@@ -4,6 +4,11 @@ import { TextField } from "@material-ui/core";
 
 function Input({ onFocus, onBlur, onChange, label, initValue, type, ...rest }) {
   const [value, setValue] = useState(initValue);
+  const inputType = type === 'array' ? 'string' : type;
+
+  const getArrayValues = (values) => {
+    return values.split(',');
+  }
 
   useEffect(() => {
     setValue(initValue);
@@ -12,6 +17,11 @@ function Input({ onFocus, onBlur, onChange, label, initValue, type, ...rest }) {
   const handleOnChange = e => {
     setValue(e.target.value);
     onChange(e.target.value);
+
+    if(type === 'array'){
+      const value = getArrayValues(e.target.value);
+      onChange(value);
+    }
   };
 
   return (
@@ -22,7 +32,7 @@ function Input({ onFocus, onBlur, onChange, label, initValue, type, ...rest }) {
       onFocus={onFocus}
       onBlur={onBlur}
       value={value}
-      type={type}
+      type={inputType}
       fullWidth
       {...rest}
     />

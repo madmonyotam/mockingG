@@ -150,7 +150,7 @@ const categoryTypes = gen => {
       renderer: {
         dataSet: {
           type: "array",
-          placeholder: translate("add values")
+          placeholder: translate("add values separated by commas")
         }
       },
       generate: el => {
@@ -184,6 +184,8 @@ const categoryTypes = gen => {
         const val = value.dataSet[counter[field]];
   
         counter[field]++;
+
+        if(counter[field] === value.dataSet.length) counter[field] = 0;
         
         return val;
       },

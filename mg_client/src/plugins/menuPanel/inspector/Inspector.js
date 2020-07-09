@@ -140,7 +140,6 @@ function Inspector({ item }) {
   };
 
   const changeAddEmpty = () => {
-    debugger
     setAddEmpty(!addEmpty);
     changeTempItem("addEmpty", !addEmpty);
   };
@@ -241,6 +240,21 @@ function Inspector({ item }) {
         );
       };
 
+      const renderArray = () => {
+        return (
+          <Input
+            key={i}
+            label={access.translate(label)}
+            type={'array'}
+            initValue={value}
+            placeholder={placeholder}
+            onChange={v =>
+              changeAdditionalValues({ ...additionalValues, [label]: v })
+            }
+          />
+        );
+      }
+
       const renderAutoComplete = () => {
         let options = updateOptions(ren[1].options).map(o => {
           return getOptionFormat(o);
@@ -304,7 +318,8 @@ function Inspector({ item }) {
         string: renderString,
         number: renderNumber,
         autocomplete: renderAutoComplete,
-        autocompleteArray: renderAutoCompleteArray
+        autocompleteArray: renderAutoCompleteArray,
+        array: renderArray
       };
 
       return renderersDir[rendererType]

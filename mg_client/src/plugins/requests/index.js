@@ -5,7 +5,7 @@ let port = 5588;
 //   port=p;
 // }
 
-const rootUrl = `http://localhost:${port}/mocking_G`;
+const rootUrl = `http://${window.location.hostname}:${port}/mocking_G`;
 
 function get(path, params) {
   let from = `${rootUrl}${path}`;

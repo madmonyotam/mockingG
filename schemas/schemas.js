@@ -51,6 +51,18 @@ class schemas {
   setApp(app) {
     this.app = app;
 
+    app.get("/mocking_G/setPath", (req, res) => {
+      const { query } = req;
+
+      if (!query || !query.path) {
+        res.status(400).send("missing path property in query");
+      }
+
+      const { path } = query;
+      this.setPath(path);
+      res.send("This file has been saved!");
+    });
+
     app.get("/mocking_G/saveAs", (req, res) => {
       const { query } = req;
       const { fileName } = query;

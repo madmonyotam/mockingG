@@ -32,7 +32,13 @@ types.addTypes(imageTypes);
 types.addTypes(idTypes);
 types.addTypes(randomTypes);
 
-const setApp = app => {
+let customPort = null;
+let setCustomPort = (port) => {
+  customPort = port;
+};
+const getCustomPort = () => customPort;
+
+const setApp = (app) => {
   app.use("/mocking_G/generate", (req, res) => {
     const { query } = req;
     const { schema, library, category, amount } = query;
@@ -42,7 +48,7 @@ const setApp = app => {
         res.send(generate(JSON.parse(schema), amount));
       } catch (error) {
         res.status(400).json({
-          message: "can't generate"
+          message: "can't generate",
         });
       }
 
@@ -51,7 +57,7 @@ const setApp = app => {
 
     if (!library || !category) {
       res.status(400).json({
-        message: `category ${category} does not exist`
+        message: `category ${category} does not exist`,
       });
     }
 
@@ -59,7 +65,7 @@ const setApp = app => {
       res.send(generate([library, category], amount));
     } catch (error) {
       res.status(400).json({
-        message: "type does not exist in types"
+        message: "type does not exist in types",
       });
     }
   });
@@ -67,9 +73,9 @@ const setApp = app => {
 
 const generateOneItem = (func, el, field) => {
   let value = func(el, field);
-  if(el.addEmpty){
+  if (el.addEmpty) {
     var random = Math.random();
-    if(random < 0.5) return null;
+    if (random < 0.5) return null;
   }
   if (el.prefix) {
     value = el.prefix + value;
@@ -83,10 +89,10 @@ const generateOneItem = (func, el, field) => {
 };
 
 const getSize = (el) => {
-  if(!el.randomSize) return el.size;
-  const newSize = Math.floor( Math.random()*(Number(el.size)+1) );
+  if (!el.randomSize) return el.size;
+  const newSize = Math.floor(Math.random() * (Number(el.size) + 1));
   return newSize;
-}
+};
 
 const generateFromType = (el, field) => {
   const allTypes = types.getTypes();
@@ -120,7 +126,7 @@ const modelator = (schema, path) => {
 };
 
 const generate = (schema, amount = 10) => {
-  let path = 'path' 
+  let path = "path";
 
   if (!schema) return "can't find schema";
   if (amount > 10000) amount = 10000;
@@ -142,4 +148,13 @@ const generate = (schema, amount = 10) => {
   return mockList;
 };
 
-module.exports = { setApp, generate, types, schemes: schemas, schemas, generateFromType };
+module.exports = {
+  setApp,
+  generate,
+  types,
+  schemes: schemas,
+  schemas,
+  generateFromType,
+  setCustomPort,
+  getCustomPort,
+};

@@ -149,6 +149,4 @@ module.exports = {
   schemes: schemas,
   schemas,
   generateFromType,
-  setCustomPort,
-  getCustomPort,
 };

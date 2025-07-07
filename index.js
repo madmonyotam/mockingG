@@ -30,6 +30,6 @@ const catTypes = categoryTypes(gen);
 gen.types.addTypes(catTypes);
 
 app.listen(port);
-console.log(`running on port ${finalPort}`);
+console.log(`running on port ${port}`);
 
 module.exports = gen;

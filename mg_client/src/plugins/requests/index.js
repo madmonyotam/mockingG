@@ -1,7 +1,7 @@
 const axios = require("axios");
-const rootUrl = `http://${window.location.host}/mocking_G`;
 
 function get(path, params) {
+  const rootUrl = `http://${window.location.host}/mocking_G`;
   const from = `${rootUrl}${path}`;
   const query = { params };
 

@@ -16,42 +16,41 @@ import BottomBarSchema from "plugins/schemaPanel/BottomBarSchema";
 import DragMask from "plugins/schemaPanel/DragMask";
 import OpenPanelCanvas from "plugins/canvases/OpenPanelCanvas";
 
-const Placeholder = styled('div')`
-  flex:1
-`
+const Placeholder = styled("div")`
+  flex: 1;
+`;
 
 const Srow = styled(Row)`
-  flex: ${props => props.flex};
+  flex: ${(props) => props.flex};
   transition: flex ${access.time("schemaPanel.collapse")}ms;
 `;
 
 const TopBar = styled(Row)`
   justify-content: space-between;
-  border-right: 1px solid ${access.color("schemaPanel.border")}
+  border-right: 1px solid ${access.color("schemaPanel.border")};
 `;
 
 const InnerColumn = styled(Column)`
   min-width: 0;
   transition: flex ${access.time("schemaPanel.transition")}ms;
-  border-right: 1px solid ${access.color("schemaPanel.border")}
+  border-right: 1px solid ${access.color("schemaPanel.border")};
   overflow: hidden;
   box-shadow: unset;
 `;
 
 function SchemaPanel() {
-
   const { viewKey } = useBranch({ viewKey: ["viewKey"] });
   const { dragState } = useBranch({ dragState: ["drag"] });
   const { collapse } = useBranch({ collapse: ["collapse"] });
   const { selectedCategory } = useBranch({
-    selectedCategory: ["selectedCategory"]
+    selectedCategory: ["selectedCategory"],
   });
 
   const editorWrapper = useRef();
   const [editorWidth, setEditorWidth] = useState(0);
   const [editorToRender, setEditorToRender] = useState("schema");
 
-  const handleSwitchEditor = v => {
+  const handleSwitchEditor = (v) => {
     setEditorToRender(v);
   };
 
@@ -72,7 +71,7 @@ function SchemaPanel() {
 
     if (viewKey === "initKey") {
       return null;
-    } else if(collapse || editorWidth !== 0){
+    } else if (collapse || editorWidth !== 0) {
       setTimeout(() => {
         if (editorWrapper.current) {
           setEditorWidth(editorWrapper.current.getBoundingClientRect().width);
@@ -86,7 +85,7 @@ function SchemaPanel() {
       }, access.time("schemaPanel.showEditor"));
     }
 
-    if (editorWidth === 0) return <Placeholder/>;
+    if (editorWidth === 0) return <Placeholder />;
     const width = editorWidth;
 
     return <Editor isData={isData} width={width} />;
@@ -98,10 +97,7 @@ function SchemaPanel() {
         <Center style={{ minWidth: 50 }} overflow={"hidden"}>
           <Label color={access.color("searchBar.fg")}>{selectedCategory}</Label>
         </Center>
-        <SwitchEditorBtn
-          onSwitch={handleSwitchEditor}
-          value={editorToRender}
-        />
+        <SwitchEditorBtn onSwitch={handleSwitchEditor} value={editorToRender} />
       </TopBar>
     );
   };
@@ -115,14 +111,13 @@ function SchemaPanel() {
   };
 
   const getFlex = () => {
-    if (viewKey !== "initKey"){
-
-      if(collapse){
+    if (viewKey !== "initKey") {
+      if (collapse) {
         return access.dim("flexCollapse.schemaPanel");
       }
 
       return access.dim("flexViews.schemaPanel");
-    } 
+    }
     return 0;
   };
 

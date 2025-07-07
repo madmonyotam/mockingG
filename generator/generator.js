@@ -32,12 +32,6 @@ types.addTypes(imageTypes);
 types.addTypes(idTypes);
 types.addTypes(randomTypes);
 
-let customPort = null;
-let setCustomPort = (port) => {
-  customPort = port;
-};
-const getCustomPort = () => customPort;
-
 const setApp = (app) => {
   app.use("/mocking_G/generate", (req, res) => {
     const { query } = req;

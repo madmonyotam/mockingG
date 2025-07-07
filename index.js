@@ -7,7 +7,6 @@ const app = express();
 
 const gen = require("./generator/generator");
 const categoryTypes = require("./types/collection/categoryTypes");
-const { ge } = require("faker/lib/locales");
 
 app.use(cors());
 
@@ -30,10 +29,7 @@ gen.schemas.setApp(app);
 const catTypes = categoryTypes(gen);
 gen.types.addTypes(catTypes);
 
-const listenPort = gen.getCustomPort();
-const finalPort = listenPort || port;
-
-app.listen(finalPort);
+app.listen(port);
 console.log(`running on port ${finalPort}`);
 
 module.exports = gen;
